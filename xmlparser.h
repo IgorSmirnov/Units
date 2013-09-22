@@ -9,24 +9,24 @@
 namespace TXML 
 {
 
-// Сообщения об ошибках:
+// РЎРѕРѕР±С‰РµРЅРёСЏ РѕР± РѕС€РёР±РєР°С…:
 TCHAR InvChar[];
 TCHAR Ueof[];
 TCHAR SFileOpenError[];
 
 
 #ifndef TXML_OVERRIDE
-#define _BICONNXML_ ///< Двусвязный список
-#define _PARKNWXML_ ///< Запоминать родителя
+#define _BICONNXML_ ///< Р”РІСѓСЃРІСЏР·РЅС‹Р№ СЃРїРёСЃРѕРє
+#define _PARKNWXML_ ///< Р—Р°РїРѕРјРёРЅР°С‚СЊ СЂРѕРґРёС‚РµР»СЏ
 
 #define _ALLOW_VIRTUAL_
 #define TXML_TESTONCREATE
 #define TXML_DYNSTR
 #define TXML_TESTONCREATE
-/* Режим динамических строк: 
-	Все значения FName и FValue создаются с помощью malloc, очищаются с помощью free
-   Режим статических строк:
-    Копируются указатели на строки, не освобождаются
+/* Р РµР¶РёРј РґРёРЅР°РјРёС‡РµСЃРєРёС… СЃС‚СЂРѕРє: 
+	Р’СЃРµ Р·РЅР°С‡РµРЅРёСЏ FName Рё FValue СЃРѕР·РґР°СЋС‚СЃСЏ СЃ РїРѕРјРѕС‰СЊСЋ malloc, РѕС‡РёС‰Р°СЋС‚СЃСЏ СЃ РїРѕРјРѕС‰СЊСЋ free
+   Р РµР¶РёРј СЃС‚Р°С‚РёС‡РµСЃРєРёС… СЃС‚СЂРѕРє:
+    РљРѕРїРёСЂСѓСЋС‚СЃСЏ СѓРєР°Р·Р°С‚РµР»Рё РЅР° СЃС‚СЂРѕРєРё, РЅРµ РѕСЃРІРѕР±РѕР¶РґР°СЋС‚СЃСЏ
 */
 #endif
 
@@ -40,9 +40,9 @@ TCHAR SFileOpenError[];
 
 
 /* 
-Разрешение использования таблиц виртуальных методов для
-1. Всех деструкторов xml_virtual
-2. Статических фунций вывода из парсера (xml_static): 
+Р Р°Р·СЂРµС€РµРЅРёРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ С‚Р°Р±Р»РёС† РІРёСЂС‚СѓР°Р»СЊРЅС‹С… РјРµС‚РѕРґРѕРІ РґР»СЏ
+1. Р’СЃРµС… РґРµСЃС‚СЂСѓРєС‚РѕСЂРѕРІ xml_virtual
+2. РЎС‚Р°С‚РёС‡РµСЃРєРёС… С„СѓРЅС†РёР№ РІС‹РІРѕРґР° РёР· РїР°СЂСЃРµСЂР° (xml_static): 
 	AppendTextFromParser, 
 	ExtractNameFromParser
 	ExtractValueFromParser
@@ -50,7 +50,7 @@ TCHAR SFileOpenError[];
 */
 
 
-///////////////// Символьные сущности //////////////////////////////////////////
+///////////////// РЎРёРјРІРѕР»СЊРЅС‹Рµ СЃСѓС‰РЅРѕСЃС‚Рё //////////////////////////////////////////
 
 char Symbols[];
 
@@ -59,7 +59,7 @@ wchar_t * WNames[];
 
 int SSizes[];
 
-///////////////// Функции обработки строк //////////////////////////////////////
+///////////////// Р¤СѓРЅРєС†РёРё РѕР±СЂР°Р±РѕС‚РєРё СЃС‚СЂРѕРє //////////////////////////////////////
 
 inline int slen(const char    * S) { return strlen(S);}
 inline int slen(const wchar_t * S) { return wcslen(S);}
@@ -130,7 +130,7 @@ int sToXML(_char * Destination, const _char * Source)
 
 
 
-//////////////// Классы и шаблоны //////////////////////////////////////////////////////////////
+//////////////// РљР»Р°СЃСЃС‹ Рё С€Р°Р±Р»РѕРЅС‹ //////////////////////////////////////////////////////////////
 
 /*typedef enum _TEncoding {
 	enNone, enUTF8, enWindows1251, enCP866;
@@ -140,12 +140,12 @@ template <class _char>
 class TProcessingInstruction;
 
 //*************************************************************************************************
-//! Шаблон базового класса для всех тегов, атрибутов и прочих элементов документа XML.
+//! РЁР°Р±Р»РѕРЅ Р±Р°Р·РѕРІРѕРіРѕ РєР»Р°СЃСЃР° РґР»СЏ РІСЃРµС… С‚РµРіРѕРІ, Р°С‚СЂРёР±СѓС‚РѕРІ Рё РїСЂРѕС‡РёС… СЌР»РµРјРµРЅС‚РѕРІ РґРѕРєСѓРјРµРЅС‚Р° XML.
 //*************************************************************************************************
 template <class _char>
 class TNode {
 protected:
-// Статические служебные функции 
+// РЎС‚Р°С‚РёС‡РµСЃРєРёРµ СЃР»СѓР¶РµР±РЅС‹Рµ С„СѓРЅРєС†РёРё 
 	static inline int GetNameSizeFromParser(const _char * Name, const _char * Stop) {return (int)Stop - (int)Name + 1;};
 	static inline void WriteNameFromParser(_char * Dest, const _char * Name, const _char * Stop)
 	{
@@ -189,7 +189,7 @@ protected:
 		return !b;
 	}
 
-/// Вычисляет размер строки при сохранении её в XML
+/// Р’С‹С‡РёСЃР»СЏРµС‚ СЂР°Р·РјРµСЂ СЃС‚СЂРѕРєРё РїСЂРё СЃРѕС…СЂР°РЅРµРЅРёРё РµС‘ РІ XML
 	template <class _char>
 	static int sXMLlen(_char * S) 
 	{
@@ -203,8 +203,8 @@ protected:
 	};
 
 public:
-	_char * FName; ///< Имя узла
-	_char * FValue; ///< Значение узла
+	_char * FName; ///< РРјСЏ СѓР·Р»Р°
+	_char * FValue; ///< Р—РЅР°С‡РµРЅРёРµ СѓР·Р»Р°
 
 #ifdef TXML_DYNSTR
 	inline void put_Value(const _char * Value)
@@ -266,20 +266,20 @@ public:
 
 	inline operator const _char *(void) {return this ? FValue : 0;};
 	inline const _char * operator = (const _char * &a) { _ASSERTE(this); put_Value(a); return a;};
-	TNode * Next; ///< Следующий узел
+	TNode * Next; ///< РЎР»РµРґСѓСЋС‰РёР№ СѓР·РµР»
 	#ifdef _BICONNXML_
-	TNode * Prev; ///< Предыдущий узел
+	TNode * Prev; ///< РџСЂРµРґС‹РґСѓС‰РёР№ СѓР·РµР»
 	#endif
 	#ifdef _PARKNWXML_
-	TNode * Parent; ///< Родительский узел
+	TNode * Parent; ///< Р РѕРґРёС‚РµР»СЊСЃРєРёР№ СѓР·РµР»
 	#endif
 	//inline void set_Name(const _char * Name) { free((void *)this->Name); this->Name = Name; };
 	//inline void set_Value(const _char * Value) { free((void *)this->Value); this->Value = Value; };
-	xml_virtual ~TNode(void) {free((void *)FName); free((void *)FValue);}; //!< Деструктор освобождает строки.
+	xml_virtual ~TNode(void) {free((void *)FName); free((void *)FValue);}; //!< Р”РµСЃС‚СЂСѓРєС‚РѕСЂ РѕСЃРІРѕР±РѕР¶РґР°РµС‚ СЃС‚СЂРѕРєРё.
 };
 
 //*************************************************************************************************
-//! Шаблон класса атрибута элемента документа XML.
+//! РЁР°Р±Р»РѕРЅ РєР»Р°СЃСЃР° Р°С‚СЂРёР±СѓС‚Р° СЌР»РµРјРµРЅС‚Р° РґРѕРєСѓРјРµРЅС‚Р° XML.
 //*************************************************************************************************
 template <class _char>
 class TAttribute: public TNode<_char> 
@@ -297,7 +297,7 @@ public:
 		memset(this, 0, sizeof(*this)); 
 	#endif
 	};
-	xml_virtual ~TAttribute(void) //<! Деструктор извлекает атрибут из родителя
+	xml_virtual ~TAttribute(void) //<! Р”РµСЃС‚СЂСѓРєС‚РѕСЂ РёР·РІР»РµРєР°РµС‚ Р°С‚СЂРёР±СѓС‚ РёР· СЂРѕРґРёС‚РµР»СЏ
 	{
 		if(Next) Next->Prev = Prev;
 		else if(Parent) ((TAttributedNode<_char> *)Parent)->LastAttr = (TAttribute<_char> *)Prev;
@@ -307,7 +307,7 @@ public:
 };
 
 //*************************************************************************************************
-//!  Шаблон базового класса узла с атрибутами документа XML.
+//!  РЁР°Р±Р»РѕРЅ Р±Р°Р·РѕРІРѕРіРѕ РєР»Р°СЃСЃР° СѓР·Р»Р° СЃ Р°С‚СЂРёР±СѓС‚Р°РјРё РґРѕРєСѓРјРµРЅС‚Р° XML.
 //*************************************************************************************************
 template <class _char>
 class TAttributedNode: public TNode<_char> 
@@ -374,12 +374,12 @@ protected:
 	};
 
 public:
-	TAttribute<_char> * FirstAttr; ///< Первый атрибут
+	TAttribute<_char> * FirstAttr; ///< РџРµСЂРІС‹Р№ Р°С‚СЂРёР±СѓС‚
 	#ifdef _BICONNXML_
-	TAttribute<_char> * LastAttr;  ///< Последний атрибут
+	TAttribute<_char> * LastAttr;  ///< РџРѕСЃР»РµРґРЅРёР№ Р°С‚СЂРёР±СѓС‚
 	#endif
 
-/// Метод поиска атрибута узла по имени.
+/// РњРµС‚РѕРґ РїРѕРёСЃРєР° Р°С‚СЂРёР±СѓС‚Р° СѓР·Р»Р° РїРѕ РёРјРµРЅРё.
 	inline TAttribute<_char> * get_Attribute(const _char * Name)
 	{
 		for(TNode<_char> * x = FirstAttr; x; x = x->Next)
@@ -394,7 +394,7 @@ public:
 		return 0;
 	}
 
-/// Метод добавления атрибута к узлу с указанием имени.
+/// РњРµС‚РѕРґ РґРѕР±Р°РІР»РµРЅРёСЏ Р°С‚СЂРёР±СѓС‚Р° Рє СѓР·Р»Сѓ СЃ СѓРєР°Р·Р°РЅРёРµРј РёРјРµРЅРё.
 	xml_virtual TAttribute<_char> * AppendAttribute(const _char * Name)
 	{
 	#ifdef TXML_TESTONCREATE
@@ -424,7 +424,7 @@ public:
 	#endif
 		return Result;
 	}
-	xml_virtual ~TAttributedNode(void) //!< Деструктор уничтожает все атрибуты
+	xml_virtual ~TAttributedNode(void) //!< Р”РµСЃС‚СЂСѓРєС‚РѕСЂ СѓРЅРёС‡С‚РѕР¶Р°РµС‚ РІСЃРµ Р°С‚СЂРёР±СѓС‚С‹
 	{
 		for(TAttribute<_char> * n, * x = FirstAttr; x; x = n)
 		{
@@ -441,20 +441,20 @@ template <class _char>
 class TSchemeElement;
 
 //*************************************************************************************************
-//! Шаблон класса атрибута элемента документа XML
+//! РЁР°Р±Р»РѕРЅ РєР»Р°СЃСЃР° Р°С‚СЂРёР±СѓС‚Р° СЌР»РµРјРµРЅС‚Р° РґРѕРєСѓРјРµРЅС‚Р° XML
 //*************************************************************************************************
 template <class _char>
 class TElement: public TAttributedNode<_char> 
 {
 protected:
-	/// Уведомление о завершении чтения атрибутов
+	/// РЈРІРµРґРѕРјР»РµРЅРёРµ Рѕ Р·Р°РІРµСЂС€РµРЅРёРё С‡С‚РµРЅРёСЏ Р°С‚СЂРёР±СѓС‚РѕРІ
 	xml_virtual TCHAR * AttributesCompleted(TElement<_char> * Element) { return 0;};
 
-	/// Метод записи объекта в предоставленный буфер в формате XML
+	/// РњРµС‚РѕРґ Р·Р°РїРёСЃРё РѕР±СЉРµРєС‚Р° РІ РїСЂРµРґРѕСЃС‚Р°РІР»РµРЅРЅС‹Р№ Р±СѓС„РµСЂ РІ С„РѕСЂРјР°С‚Рµ XML
 	void WriteXML(_char * &Destination, int Level = 0, const _char * Tab = 0)
 	{
-		if(!Name) { Destination += sToXML<_char>(Destination, Value); return; } // Просто текст
-	// Заголовок
+		if(!Name) { Destination += sToXML<_char>(Destination, Value); return; } // РџСЂРѕСЃС‚Рѕ С‚РµРєСЃС‚
+	// Р—Р°РіРѕР»РѕРІРѕРє
 		_char * d = Destination;
 		int tl;
 		if(Tab)
@@ -471,7 +471,7 @@ protected:
 		*(d++) = '<';
 		int nl = slen(Name);
 		memcpy(d, Name, nl * sizeof(_char)); d += nl;
-	// Заливаем атрибуты
+	// Р—Р°Р»РёРІР°РµРј Р°С‚СЂРёР±СѓС‚С‹
 		for(TAttribute<_char> * a = FirstAttr; a; a = (TAttribute<_char> *) a->Next) 
 		{
 			*(d++) = ' ';
@@ -486,7 +486,7 @@ protected:
 		{
 			*(d++) = '>';
 			if(Value) d += sToXML(d, Value);
-			// Рекурсивный алгоритм записи узлов
+			// Р РµРєСѓСЂСЃРёРІРЅС‹Р№ Р°Р»РіРѕСЂРёС‚Рј Р·Р°РїРёСЃРё СѓР·Р»РѕРІ
 			for(TElement * x = FirstChild; x; x = (TElement<_char> *) x->Next) 
 				x->WriteXML(d, Level + 1, Tab);
 			if(Tab && FirstChild)
@@ -512,11 +512,11 @@ protected:
 		Destination = d;
 	};
 
-/// Метод добавления текста в элемент. Дополнительно осуществяет замену сущностей и исключение комментариев
-/// Возвращает элемент, который стал содержать добавленный текст.
+/// РњРµС‚РѕРґ РґРѕР±Р°РІР»РµРЅРёСЏ С‚РµРєСЃС‚Р° РІ СЌР»РµРјРµРЅС‚. Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕ РѕСЃСѓС‰РµСЃС‚РІСЏРµС‚ Р·Р°РјРµРЅСѓ СЃСѓС‰РЅРѕСЃС‚РµР№ Рё РёСЃРєР»СЋС‡РµРЅРёРµ РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ
+/// Р’РѕР·РІСЂР°С‰Р°РµС‚ СЌР»РµРјРµРЅС‚, РєРѕС‚РѕСЂС‹Р№ СЃС‚Р°Р» СЃРѕРґРµСЂР¶Р°С‚СЊ РґРѕР±Р°РІР»РµРЅРЅС‹Р№ С‚РµРєСЃС‚.
 	xml_virtual TElement<_char> * AppendTextFromParser(const _char * Text, const _char * Stop)
 	{
-	// Расчёт длины текста
+	// Р Р°СЃС‡С‘С‚ РґР»РёРЅС‹ С‚РµРєСЃС‚Р°
 		int l = Stop - Text + 1;
 		const _char * b = 0;
 		const _char * x;
@@ -533,18 +533,18 @@ protected:
 	#endif*/
 			return 0;
 		}
-	// Определение принимающего элемента
+	// РћРїСЂРµРґРµР»РµРЅРёРµ РїСЂРёРЅРёРјР°СЋС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р°
 		TElement<_char> * TextElement = this;
 		if(LastChild) 
 		{
 			if(LastChild->FName) TextElement = AppendChild(0);
 			else TextElement = LastChild;
 		} 
-	// Создание строки для текста
+	// РЎРѕР·РґР°РЅРёРµ СЃС‚СЂРѕРєРё РґР»СЏ С‚РµРєСЃС‚Р°
 		int v = TextElement->FValue ? slen(TextElement->FValue) : 0;
 		TextElement->FValue = (_char *) realloc(TextElement->FValue, (l + v) * sizeof(_char));
 		_char * r = (_char *)TextElement->FValue + v;
-	// Заполнение строки
+	// Р—Р°РїРѕР»РЅРµРЅРёРµ СЃС‚СЂРѕРєРё
 		for(x = Text; x < Stop; x++)
 		{
 			if(*x == '<') x = sgetcommentend(x + 4) + 2;
@@ -568,7 +568,7 @@ protected:
 			}
 		}
 		*r = 0;
-		// Проверка и завершение
+		// РџСЂРѕРІРµСЂРєР° Рё Р·Р°РІРµСЂС€РµРЅРёРµ
 /*	#ifdef _DEBUG
 		if(int x = (r - TextElement->Value) - v - l + 1) printf("AppendTextFromParser(): Wrong buffer size: %d\n", x);
 	#endif*/
@@ -576,9 +576,9 @@ protected:
 	};
 
 public:
-	TElement<_char> * FirstChild; ///< Первый дочерний элемент
+	TElement<_char> * FirstChild; ///< РџРµСЂРІС‹Р№ РґРѕС‡РµСЂРЅРёР№ СЌР»РµРјРµРЅС‚
 	#ifdef _BICONNXML_
-	TElement<_char> * LastChild;  ///< Последний дочерний элемент
+	TElement<_char> * LastChild;  ///< РџРѕСЃР»РµРґРЅРёР№ РґРѕС‡РµСЂРЅРёР№ СЌР»РµРјРµРЅС‚
 	#endif
 
 	inline TElement<_char> * get_Child(const _char * Name)
@@ -588,7 +588,7 @@ public:
 		return 0;
 	};
 
-/// Метод добавления дочернего элемента с заданным именем
+/// РњРµС‚РѕРґ РґРѕР±Р°РІР»РµРЅРёСЏ РґРѕС‡РµСЂРЅРµРіРѕ СЌР»РµРјРµРЅС‚Р° СЃ Р·Р°РґР°РЅРЅС‹Рј РёРјРµРЅРµРј
 	xml_virtual TElement<_char> * AppendChild(const _char * Name)
 	{
 		TElement<_char> * Result = new TElement<_char>();
@@ -619,17 +619,17 @@ public:
 		return Result;
 	};
 
-/// Метод добавления текста в элемент. Возвращает элемент, который стал содержать добавленный текст.
+/// РњРµС‚РѕРґ РґРѕР±Р°РІР»РµРЅРёСЏ С‚РµРєСЃС‚Р° РІ СЌР»РµРјРµРЅС‚. Р’РѕР·РІСЂР°С‰Р°РµС‚ СЌР»РµРјРµРЅС‚, РєРѕС‚РѕСЂС‹Р№ СЃС‚Р°Р» СЃРѕРґРµСЂР¶Р°С‚СЊ РґРѕР±Р°РІР»РµРЅРЅС‹Р№ С‚РµРєСЃС‚.
 	TElement<_char> * AppendText(const _char * Text)
 	{
-	// Определение принимающего элемента
+	// РћРїСЂРµРґРµР»РµРЅРёРµ РїСЂРёРЅРёРјР°СЋС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р°
 		TElement<_char> * TextElement = this;
 		if(LastChild) 
 		{
 			if(LastChild->Name) TextElement = AppendChild(0);
 			else TextElement = LastChild;
 		} 
-	// Создание строки для текста
+	// РЎРѕР·РґР°РЅРёРµ СЃС‚СЂРѕРєРё РґР»СЏ С‚РµРєСЃС‚Р°
 		int l = slen(Text) + 1;
 		int v = TextElement->FValue ? slen(TextElement->FValue) : 0;
 		TextElement->FValue = (_char *) realloc(TextElement->FValue, (l + v) * sizeof(_char));
@@ -637,7 +637,7 @@ public:
 		return TextElement;
 	};
 
-/// Метод возвращает объект в формате XML в динамическом буфере
+/// РњРµС‚РѕРґ РІРѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ РІ С„РѕСЂРјР°С‚Рµ XML РІ РґРёРЅР°РјРёС‡РµСЃРєРѕРј Р±СѓС„РµСЂРµ
 	_char * get_XML(void)
 	{
 		int Size = get_XMLSize() + 1;
@@ -648,16 +648,16 @@ public:
 		return Result;
 	};
 
-/// Расчёт размера элемента в символах
+/// Р Р°СЃС‡С‘С‚ СЂР°Р·РјРµСЂР° СЌР»РµРјРµРЅС‚Р° РІ СЃРёРјРІРѕР»Р°С…
 	int get_XMLSize(int Level = 0, int TabLen = 0)
 	{
-		if(!Name) return sXMLlen(Value); // Просто текст
+		if(!Name) return sXMLlen(Value); // РџСЂРѕСЃС‚Рѕ С‚РµРєСЃС‚
 		int Size = slen(Name);
 		if(FirstChild || FValue) Size = Size * 2 + 5 + sXMLlen(Value); // <Name>Value</Name>
 		else Size += 3; // <Name/>
 		for(TNode<_char> * a = FirstAttr; a; a = a->Next)
-			Size += slen(a->Name) + sXMLlen(a->Value) + 4; // Кавычки, =, пробел
-	// Рекурсивный алгоритм
+			Size += slen(a->Name) + sXMLlen(a->Value) + 4; // РљР°РІС‹С‡РєРё, =, РїСЂРѕР±РµР»
+	// Р РµРєСѓСЂСЃРёРІРЅС‹Р№ Р°Р»РіРѕСЂРёС‚Рј
 		for(TElement<_char> * x = FirstChild; x; x = (TElement<_char> *) x->Next) 
 			Size += x->get_XMLSize(Level + TabLen, TabLen);
 		if(TabLen)
@@ -668,7 +668,7 @@ public:
 		return Size;
 	};
 
-/// Конструктор.
+/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
 	TElement(TElement<_char> * Parent, char * Name, char * Value = 0) {
 	#ifdef _ALLOW_VIRTUAL_
 		FirstAttr = 0;
@@ -701,12 +701,12 @@ public:
 	#endif
 	};
 
-/// Метод смены родителя
+/// РњРµС‚РѕРґ СЃРјРµРЅС‹ СЂРѕРґРёС‚РµР»СЏ
 	void SetParent(TElement<_char> * Parent = 0)
 	{
 		if(this->Parent == Parent) return;
 		if(this->Parent)
-		{ // Разрываем список
+		{ // Р Р°Р·СЂС‹РІР°РµРј СЃРїРёСЃРѕРє
 			if(Next) Next->Prev = Prev;
 			else ((TElement<_char> *)this->Parent)->LastChild = (TElement<_char> *)Prev;
 			if(Prev) Prev->Next = Next;
@@ -729,7 +729,7 @@ public:
 		}
 		this->Parent = Parent;
 	}
-/// Метод извлечения значения по пути вида "\элемент\элемент!атрибут"
+/// РњРµС‚РѕРґ РёР·РІР»РµС‡РµРЅРёСЏ Р·РЅР°С‡РµРЅРёСЏ РїРѕ РїСѓС‚Рё РІРёРґР° "\СЌР»РµРјРµРЅС‚\СЌР»РµРјРµРЅС‚!Р°С‚СЂРёР±СѓС‚"
 	TNode<_char> * get_ByPath(const _char * Path)
 	{
 		if(!Path || !*Path) return this;
@@ -761,8 +761,8 @@ public:
 		return 0;
 	}
 
-/// Метод разбора XML
-/// Возвращает 0 или сообщение об ошибке. В LastPos возвращается последнее положение указателя разбора
+/// РњРµС‚РѕРґ СЂР°Р·Р±РѕСЂР° XML
+/// Р’РѕР·РІСЂР°С‰Р°РµС‚ 0 РёР»Рё СЃРѕРѕР±С‰РµРЅРёРµ РѕР± РѕС€РёР±РєРµ. Р’ LastPos РІРѕР·РІСЂР°С‰Р°РµС‚СЃСЏ РїРѕСЃР»РµРґРЅРµРµ РїРѕР»РѕР¶РµРЅРёРµ СѓРєР°Р·Р°С‚РµР»СЏ СЂР°Р·Р±РѕСЂР°
 	TCHAR * loadXML(const _char * XML, const _char * * LastPos = 0, TSchemeElement<_char> * Scheme = 0)
 	//  <Node Param="Value"> Text </Node> <
 	// | |    |    ||      ||      ||
@@ -802,7 +802,7 @@ public:
 					if(unsigned(*s) > ' ')
 					{
 						if(!Current) error(_T("Text not allowed here."));
-						if(!b) b = s; // Левый trim текста
+						if(!b) b = s; // Р›РµРІС‹Р№ trim С‚РµРєСЃС‚Р°
 					}
 				continue;
 			case cltag:
@@ -811,7 +811,7 @@ public:
 				{
 					if((unsigned(*s) <= ' ') || (*s == '>') || (*s == '/')) 
 					{
-						if(Mode == tag) // Открывающий тег
+						if(Mode == tag) // РћС‚РєСЂС‹РІР°СЋС‰РёР№ С‚РµРі
 						{
 							b = ExtractNameFromParser(b, s);
 							if(!b) error(_T("Invalid tag name"));
@@ -831,10 +831,10 @@ public:
 							}
 							Mode = param;
 							b = 0;
-							// Отсюда идём на case param:
+							// РћС‚СЃСЋРґР° РёРґС‘Рј РЅР° case param:
 							goto readpar;
 						}
-						else // Закрывающий тег
+						else // Р—Р°РєСЂС‹РІР°СЋС‰РёР№ С‚РµРі
 						{
 							if(!Current) error(_T("Unexpected end tag."));
 							if(!spcmp(Current->FName, b, s))
@@ -941,7 +941,7 @@ public:
 		#undef error
 		return 0;
 	};
-	xml_virtual ~TElement(void)//! Деструктор уничтожает вложенные элементы и отделяет от родителя.
+	xml_virtual ~TElement(void)//! Р”РµСЃС‚СЂСѓРєС‚РѕСЂ СѓРЅРёС‡С‚РѕР¶Р°РµС‚ РІР»РѕР¶РµРЅРЅС‹Рµ СЌР»РµРјРµРЅС‚С‹ Рё РѕС‚РґРµР»СЏРµС‚ РѕС‚ СЂРѕРґРёС‚РµР»СЏ.
 	{
 		TElement<_char> * n;
 		for(TElement<_char> * x = FirstChild; x; x = n)
@@ -958,7 +958,7 @@ public:
 
 
 //*************************************************************************************************
-//! Шаблон класса документа XML
+//! РЁР°Р±Р»РѕРЅ РєР»Р°СЃСЃР° РґРѕРєСѓРјРµРЅС‚Р° XML
 //*************************************************************************************************
 template <class _char>
 class TDocument: public TElement<_char> {
@@ -966,7 +966,7 @@ public:
 	int ErrorOffset;
 	TProcessingInstruction<_char> * ProcessingInstruction;
 	TDocument(void) {ProcessingInstruction = 0;};
-/// Метод возвращает документ XML в виде текста.
+/// РњРµС‚РѕРґ РІРѕР·РІСЂР°С‰Р°РµС‚ РґРѕРєСѓРјРµРЅС‚ XML РІ РІРёРґРµ С‚РµРєСЃС‚Р°.
 	_char * get_XML(const _char * Tab = 0)
 	{
 		int Size = get_XMLSize(0, Tab ? slen(Tab) : 0) + 1;
@@ -986,7 +986,7 @@ public:
 	#endif
 		return Result;
 	};
-/// Метод осуществляет разбор документа XML из текста.
+/// РњРµС‚РѕРґ РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚ СЂР°Р·Р±РѕСЂ РґРѕРєСѓРјРµРЅС‚Р° XML РёР· С‚РµРєСЃС‚Р°.
 	xml_virtual TCHAR * loadXML(const _char * XML, const _char * * LastPos = 0, TSchemeElement<_char> * Scheme = 0)
 	{
 		if(ProcessingInstruction) delete ProcessingInstruction;
@@ -1038,7 +1038,7 @@ public:
 		}
 		return TElement<_char>::loadXML(s, LastPos, Scheme);
 	};
-/// Метод осуществляет разбор документа XML из файла
+/// РњРµС‚РѕРґ РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚ СЂР°Р·Р±РѕСЂ РґРѕРєСѓРјРµРЅС‚Р° XML РёР· С„Р°Р№Р»Р°
 	TCHAR * LoadFromFile(const TCHAR * FileName, TSchemeElement<_char> * Scheme = 0)
 	{
 		HANDLE f = CreateFile(FileName, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
@@ -1060,7 +1060,7 @@ public:
 		free(s);
 		return Result;
 	};
-/// Метод осуществляет вывод документа XML в файл
+/// РњРµС‚РѕРґ РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚ РІС‹РІРѕРґ РґРѕРєСѓРјРµРЅС‚Р° XML РІ С„Р°Р№Р»
 	TCHAR * SaveToFile(const TCHAR * FileName, const _char * Tab = 0)
 	{
 		int Size = get_XMLSize(0, Tab ? slen(Tab) : 0);
@@ -1086,7 +1086,7 @@ public:
 		free(s);
 		return 0;
 	};
-	xml_virtual ~TDocument(void)//!< Деструктор уничтожает инструкцию.
+	xml_virtual ~TDocument(void)//!< Р”РµСЃС‚СЂСѓРєС‚РѕСЂ СѓРЅРёС‡С‚РѕР¶Р°РµС‚ РёРЅСЃС‚СЂСѓРєС†РёСЋ.
 	{
 		if(ProcessingInstruction) 
 		{
@@ -1107,24 +1107,24 @@ public:
 
 
 //*************************************************************************************************
-//! Шаблон класса инструкции обработки документа XML
+//! РЁР°Р±Р»РѕРЅ РєР»Р°СЃСЃР° РёРЅСЃС‚СЂСѓРєС†РёРё РѕР±СЂР°Р±РѕС‚РєРё РґРѕРєСѓРјРµРЅС‚Р° XML
 //*************************************************************************************************
 template <class _char>
 class TProcessingInstruction: public TAttributedNode<_char> 
 {
 protected:
 	friend TDocument<_char>;
-/// Метод осуществляет вывод текста инструкции в предварительно выделенную строку.
+/// РњРµС‚РѕРґ РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚ РІС‹РІРѕРґ С‚РµРєСЃС‚Р° РёРЅСЃС‚СЂСѓРєС†РёРё РІ РїСЂРµРґРІР°СЂРёС‚РµР»СЊРЅРѕ РІС‹РґРµР»РµРЅРЅСѓСЋ СЃС‚СЂРѕРєСѓ.
 	void WriteXML(_char * &Destination)
 	{
 		if(!Name) return;
-	// Заголовок
+	// Р—Р°РіРѕР»РѕРІРѕРє
 		_char * d = Destination;
 		*(d++) = '<';
 		*(d++) = '?';
 		int l = slen(Name);
 		memcpy(d, Name, l * sizeof(_char)); d += l;
-	// Заливаем атрибуты
+	// Р—Р°Р»РёРІР°РµРј Р°С‚СЂРёР±СѓС‚С‹
 		for(TNode<_char> * a = FirstAttr; a; a = a->Next) 
 		{
 			*(d++) = ' ';
@@ -1153,16 +1153,16 @@ public:
 		this->FName = Name; 
 		this->Parent = Parent;
 	};
-/// Метод осуществляет расчёт размера текста инструкции в символах
+/// РњРµС‚РѕРґ РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚ СЂР°СЃС‡С‘С‚ СЂР°Р·РјРµСЂР° С‚РµРєСЃС‚Р° РёРЅСЃС‚СЂСѓРєС†РёРё РІ СЃРёРјРІРѕР»Р°С…
 	int get_XMLSize(void)
 	{
 		if(!FName) return 0;
 		int Size = slen(FName) + 4; // <?name?>nt
-		for(TNode<_char> * a = FirstAttr; a; a = a->Next) Size += slen(a->FName) + sXMLlen(a->FValue) + 4; // Кавычки, =, пробел
+		for(TNode<_char> * a = FirstAttr; a; a = a->Next) Size += slen(a->FName) + sXMLlen(a->FValue) + 4; // РљР°РІС‹С‡РєРё, =, РїСЂРѕР±РµР»
 		return Size;
 	};
-/// Метод разбора инструкции. 
-/// В случае успеха возвращает 0 и устанавливает XML на конец инструкции
+/// РњРµС‚РѕРґ СЂР°Р·Р±РѕСЂР° РёРЅСЃС‚СЂСѓРєС†РёРё. 
+/// Р’ СЃР»СѓС‡Р°Рµ СѓСЃРїРµС…Р° РІРѕР·РІСЂР°С‰Р°РµС‚ 0 Рё СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ XML РЅР° РєРѕРЅРµС† РёРЅСЃС‚СЂСѓРєС†РёРё
 	TCHAR * loadXML(const _char * &XML)
 	{
 #define error(e) return e
@@ -1201,7 +1201,7 @@ public:
 		error(Ueof);
 #undef error
 	}
-	xml_virtual ~TProcessingInstruction(void) //!< Деструктор отвязывает от родителя.
+	xml_virtual ~TProcessingInstruction(void) //!< Р”РµСЃС‚СЂСѓРєС‚РѕСЂ РѕС‚РІСЏР·С‹РІР°РµС‚ РѕС‚ СЂРѕРґРёС‚РµР»СЏ.
 	{
 		if(Parent) ((TDocument<_char> *) Parent)->ProcessingInstruction = 0;
 	}

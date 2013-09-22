@@ -40,7 +40,7 @@ __declspec(naked) __int64 ReadTSC(void)
 #define PCTRSTOP(proc)
 #endif
 
-/************************ Реализация конструктора и деструктора *************************************************/
+/************************ Р РµР°Р»РёР·Р°С†РёСЏ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР° Рё РґРµСЃС‚СЂСѓРєС‚РѕСЂР° *************************************************/
 
 __declspec(naked) bool GetSSE2Present(void)
 {
@@ -111,7 +111,7 @@ void CNetwork::SetSize(int NodeCount, int BranchCount)
 	if(NodeCount)
 	{
 		_Nodes = Nodes = (CNode *) malloc(NodeCount * sizeof(CNode) + 0x10);
-		Nodes = (CNode *)((0xF + (DWORD)Nodes) & 0xFFFFFFF0); // Для SSE
+		Nodes = (CNode *)((0xF + (DWORD)Nodes) & 0xFFFFFFF0); // Р”Р»СЏ SSE
 		memset(Nodes, 0, NodeCount * sizeof(CNode));
 	}
 	else
@@ -138,9 +138,9 @@ void CNetwork::Clean(void)
 	YList = 0;
 	NodeMap.clear();
 }
-/*************** Реализация методов, формирующих связный список матрицы проводимости ************************************/
+/*************** Р РµР°Р»РёР·Р°С†РёСЏ РјРµС‚РѕРґРѕРІ, С„РѕСЂРјРёСЂСѓСЋС‰РёС… СЃРІСЏР·РЅС‹Р№ СЃРїРёСЃРѕРє РјР°С‚СЂРёС†С‹ РїСЂРѕРІРѕРґРёРјРѕСЃС‚Рё ************************************/
 
-//! Метод создания проводимости между узлами
+//! РњРµС‚РѕРґ СЃРѕР·РґР°РЅРёСЏ РїСЂРѕРІРѕРґРёРјРѕСЃС‚Рё РјРµР¶РґСѓ СѓР·Р»Р°РјРё
 void * CNetwork::CNode::AddBranch(CNode * AdjacentNode, CYList * &Destination)
 {
 	CYList * Last = YList;
@@ -158,12 +158,12 @@ void * CNetwork::CNode::AddBranch(CNode * AdjacentNode, CYList * &Destination)
 	return Destination++;
 }
 
-//! Метод добавления ветви к связному списку Y
+//! РњРµС‚РѕРґ РґРѕР±Р°РІР»РµРЅРёСЏ РІРµС‚РІРё Рє СЃРІСЏР·РЅРѕРјСѓ СЃРїРёСЃРєСѓ Y
 template <bool Add> inline void CNetwork::CBranch::Apply(cplx * Yp, cplx * Yq, cplx * Ypq, cplx * Yqp)
 //inline void CNetwork::CBranch::AddToY(CNode * Nodes, CYList * * Destination)
 {
 	double kt2 = norm(kt);
-	switch(State) // Обработка состояния ветви
+	switch(State) // РћР±СЂР°Р±РѕС‚РєР° СЃРѕСЃС‚РѕСЏРЅРёСЏ РІРµС‚РІРё
 	{
 	case CONN:
 		{
@@ -221,7 +221,7 @@ template <bool Add> inline void CNetwork::CBranch::Apply(cplx * Yp, cplx * Yq, c
 }*/
 
 
-//! Метод формирования матрицы проводимостей Y в виде связного списка Y
+//! РњРµС‚РѕРґ С„РѕСЂРјРёСЂРѕРІР°РЅРёСЏ РјР°С‚СЂРёС†С‹ РїСЂРѕРІРѕРґРёРјРѕСЃС‚РµР№ Y РІ РІРёРґРµ СЃРІСЏР·РЅРѕРіРѕ СЃРїРёСЃРєР° Y
 void CNetwork::PrepareYList(void)
 {
 	free(Y);
@@ -233,7 +233,7 @@ void CNetwork::PrepareYList(void)
 	FreeY = 0;
 	(y++)->Next = 0;
 	CNode * n = Nodes;
-	for(int c = NodeCount; c--; n++) if(n->Type == CNode::USUAL || n->Type == CNode::MISSED) // Заполняем Y из узлов
+	for(int c = NodeCount; c--; n++) if(n->Type == CNode::USUAL || n->Type == CNode::MISSED) // Р—Р°РїРѕР»РЅСЏРµРј Y РёР· СѓР·Р»РѕРІ
 	{
 		n->Type = CNode::USUAL;
 		y->Node = n;
@@ -248,11 +248,11 @@ void CNetwork::PrepareYList(void)
 		n->YList = 0;
 	UsualNodeCount = (int)(y - YList) - 1;
 
-	for(std::map<int, cplx>::iterator i = Shunts.begin(); i != Shunts.end(); i++) // Из шунтов
+	for(std::map<int, cplx>::iterator i = Shunts.begin(); i != Shunts.end(); i++) // РР· С€СѓРЅС‚РѕРІ
 		if(CYList * yl = Nodes[i->first].YList)
 			yl->y -= i->second;
 
-	if(BranchCount)	for(CBranch * b = Branches + BranchCount - 1; b >= Branches; b--)  // Заполняем Y из ветвей
+	if(BranchCount)	for(CBranch * b = Branches + BranchCount - 1; b >= Branches; b--)  // Р—Р°РїРѕР»РЅСЏРµРј Y РёР· РІРµС‚РІРµР№
 	{
 		b->pYpq = 0;
 		b->pYqp = 0;
@@ -302,11 +302,11 @@ void CNetwork::PrepareYList(void)
 	}
 }
 
-//! Метод формирования матрицы проводимостей Y в массиве
+//! РњРµС‚РѕРґ С„РѕСЂРјРёСЂРѕРІР°РЅРёСЏ РјР°С‚СЂРёС†С‹ РїСЂРѕРІРѕРґРёРјРѕСЃС‚РµР№ Y РІ РјР°СЃСЃРёРІРµ
 void CNetwork::PrepareY(void)
 {
 	PCTRSTART(PrepareY);
-	if(UseSXN) for(CNode * n = Nodes + NodeCount - 1; n >= Nodes; n--) // Заполняем Y из узлов
+	if(UseSXN) for(CNode * n = Nodes + NodeCount - 1; n >= Nodes; n--) // Р—Р°РїРѕР»РЅСЏРµРј Y РёР· СѓР·Р»РѕРІ
 	{
 		if(cplx * p = n->pY)
 		{
@@ -314,14 +314,14 @@ void CNetwork::PrepareY(void)
 			if(CSXN * SXN = n->SXN) SXN->ApplyToY(*p, n);
 		}
 	}
-	else for(CNode * n = Nodes + NodeCount - 1; n >= Nodes; n--) // Заполняем Y из узлов
+	else for(CNode * n = Nodes + NodeCount - 1; n >= Nodes; n--) // Р—Р°РїРѕР»РЅСЏРµРј Y РёР· СѓР·Р»РѕРІ
 		if(cplx * p = n->pY) *p = -conj(n->y) - n->y1;
 
 	memset(Y + UsualNodeCount, 0, (YSize - UsualNodeCount) * sizeof(CYArray));
 
-	for(std::map<int, cplx>::iterator i = Shunts.begin(); i != Shunts.end(); i++) // Из шунтов
+	for(std::map<int, cplx>::iterator i = Shunts.begin(); i != Shunts.end(); i++) // РР· С€СѓРЅС‚РѕРІ
 		if(cplx * pY = Nodes[i->first].pY) *pY -= i->second;
-	for(CBranch * b = Branches + BranchCount - 1; b >= Branches; b--) if(b->State != CBranch::DISC)  // Заполняем Y из ветвей
+	for(CBranch * b = Branches + BranchCount - 1; b >= Branches; b--) if(b->State != CBranch::DISC)  // Р—Р°РїРѕР»РЅСЏРµРј Y РёР· РІРµС‚РІРµР№
 	{
 		CNode * p = Nodes + b->ip;
 		CNode * q = Nodes + b->iq;
@@ -335,7 +335,7 @@ void CNetwork::PrepareY(void)
 	PCTRSTOP(PrepareY);
 }
 
-//! Метод инициализации LU
+//! РњРµС‚РѕРґ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё LU
 void CNetwork::ResetLU(CLU * First)
 {
 	PCTRSTART(ResetLU);
@@ -354,9 +354,9 @@ void CNetwork::ResetLU(CLU * First)
 	PCTRSTOP(ResetLU);
 }
 
-/*************** Реализация методов триангуляции ************************************/
+/*************** Р РµР°Р»РёР·Р°С†РёСЏ РјРµС‚РѕРґРѕРІ С‚СЂРёР°РЅРіСѓР»СЏС†РёРё ************************************/
 
-//! Метод исключения узла
+//! РњРµС‚РѕРґ РёСЃРєР»СЋС‡РµРЅРёСЏ СѓР·Р»Р°
 void * CNetwork::ExcludeNode(CNode * Node)
 {
 	int MinBranchCount = Node->BranchCount;
@@ -365,14 +365,14 @@ void * CNetwork::ExcludeNode(CNode * Node)
 	int deb_bc = MinBranchCount;
 #endif
 	CNode * Result = 0;
-	// Выделяем часть триангулированной матрицы, относящуюся к исключаемому узлу
+	// Р’С‹РґРµР»СЏРµРј С‡Р°СЃС‚СЊ С‚СЂРёР°РЅРіСѓР»РёСЂРѕРІР°РЅРЅРѕР№ РјР°С‚СЂРёС†С‹, РѕС‚РЅРѕСЃСЏС‰СѓСЋСЃСЏ Рє РёСЃРєР»СЋС‡Р°РµРјРѕРјСѓ СѓР·Р»Сѓ
 	CLU * lu = LU.Alloc(MinBranchCount + 1);
 	cplx * * plu;
 	if(UseFastTriangulation)
 		plu = pLU.Alloc(MinBranchCount * MinBranchCount);
 	CYList * Yii = Node->YList;
 	cplx Diag = 1.0 / Yii->y;
-	// Отключаем узел от смежных
+	// РћС‚РєР»СЋС‡Р°РµРј СѓР·РµР» РѕС‚ СЃРјРµР¶РЅС‹С…
 	CYList * Prev = Yii;
 	for(CYList * j = Yii->Next; j; j = j->Next, lu++, LUIndex++)
 	{
@@ -401,12 +401,12 @@ void * CNetwork::ExcludeNode(CNode * Node)
 		int f = 1;
 		int deb_bc1 = Node->BranchCount;
 #endif
-		for(CYList * k = jNode->YList; k; k = k->Next) // Идём вокруг j
+		for(CYList * k = jNode->YList; k; k = k->Next) // РРґС‘Рј РІРѕРєСЂСѓРі j
 		{
 			CNode * kNode = k->Node;
 			if(kNode == Node) 
 			{
-				_ASSERTE(f--);// Надо проверять - найден ли этот узел.
+				_ASSERTE(f--);// РќР°РґРѕ РїСЂРѕРІРµСЂСЏС‚СЊ - РЅР°Р№РґРµРЅ Р»Рё СЌС‚РѕС‚ СѓР·РµР».
 				lu->U = Diag * k->y;
 				if(UseFastTriangulation) 
 				{
@@ -421,18 +421,18 @@ void * CNetwork::ExcludeNode(CNode * Node)
 				DeleteNextElement(Prev, FreeY);
 			}
 			else
-			{ // Отмечаем в узле k узел j и связь, приведшую от него в k.
+			{ // РћС‚РјРµС‡Р°РµРј РІ СѓР·Р»Рµ k СѓР·РµР» j Рё СЃРІСЏР·СЊ, РїСЂРёРІРµРґС€СѓСЋ РѕС‚ РЅРµРіРѕ РІ k.
 				kNode->Mark = jNode;
 				kNode->YMark = k;
 				Prev = k;
 			}
 		}
 		_ASSERTE(!f);
-		for(CYList * k = Yii->Next; k; k = k->Next) // Идём вокруг i
+		for(CYList * k = Yii->Next; k; k = k->Next) // РРґС‘Рј РІРѕРєСЂСѓРі i
 		{
 			CNode * kNode = k->Node;
 			CYList * Yjk;
-			if(kNode->Mark != jNode) // Связи Yjk не было, создаём
+			if(kNode->Mark != jNode) // РЎРІСЏР·Рё Yjk РЅРµ Р±С‹Р»Рѕ, СЃРѕР·РґР°С‘Рј
 			{
 				Yjk = NewElement(YList, FreeY);
 				Prev = Prev->Next = Yjk;
@@ -448,12 +448,12 @@ void * CNetwork::ExcludeNode(CNode * Node)
 				Yjk->y -= k->y * lu->U;
 			}
 			_ASSERTE(deb_bc1--);
-			if(UseFastTriangulation) Yjk->AddSource(*(plu++)); // Добавляем plu в список влияющих на Yjk
+			if(UseFastTriangulation) Yjk->AddSource(*(plu++)); // Р”РѕР±Р°РІР»СЏРµРј plu РІ СЃРїРёСЃРѕРє РІР»РёСЏСЋС‰РёС… РЅР° Yjk
 		}
 		_ASSERTE(!deb_bc1);
-		Prev->Next = 0; // Завершаем список ветвей j
+		Prev->Next = 0; // Р—Р°РІРµСЂС€Р°РµРј СЃРїРёСЃРѕРє РІРµС‚РІРµР№ j
 		Prev = j;
-		// Определяем - не стал ли узел оптимальным для следующего исключения
+		// РћРїСЂРµРґРµР»СЏРµРј - РЅРµ СЃС‚Р°Р» Р»Рё СѓР·РµР» РѕРїС‚РёРјР°Р»СЊРЅС‹Рј РґР»СЏ СЃР»РµРґСѓСЋС‰РµРіРѕ РёСЃРєР»СЋС‡РµРЅРёСЏ
 		int bc = jNode->BranchCount;
 		if(MinBranchCount >= bc)
 		{
@@ -474,20 +474,20 @@ void * CNetwork::ExcludeNode(CNode * Node)
 	lu->L = Diag;
 	Node->pY = &lu->Y->Yij;
 	Yii->FillSources(LUIndex++);//&lu->L);
-	// Освобождаем элементы Yij для экономии памяти
+	// РћСЃРІРѕР±РѕР¶РґР°РµРј СЌР»РµРјРµРЅС‚С‹ Yij РґР»СЏ СЌРєРѕРЅРѕРјРёРё РїР°РјСЏС‚Рё
 	Prev->Next = FreeY;
 	FreeY = Yii;
 	return Result;
 }
 
-//! Метод триангуляции матрицы проводимостей Y
+//! РњРµС‚РѕРґ С‚СЂРёР°РЅРіСѓР»СЏС†РёРё РјР°С‚СЂРёС†С‹ РїСЂРѕРІРѕРґРёРјРѕСЃС‚РµР№ Y
 bool CNetwork::TriangulateYList(void)
 {	
 	LU.Reset();
 	LUIndex = 1;
 	pLU.Reset();
 
-	// Инициализируем Sorted/Original, вытаскиваем базовые в конец
+	// РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј Sorted/Original, РІС‹С‚Р°СЃРєРёРІР°РµРј Р±Р°Р·РѕРІС‹Рµ РІ РєРѕРЅРµС†
 	CNode * Base = Nodes + NodeCount;
 	CNode * Usual = Nodes;
 	//for(CNode * Node = Nodes + NodeCount - 1; Node >= Nodes; Node--)
@@ -509,7 +509,7 @@ bool CNetwork::TriangulateYList(void)
 	CNode * OptimalNode = 0;
 	for(CNode::CSorted * Node = &Nodes->SData; (CNode *)Node < Base; (*(CNode * *)&Node)++)
 	{	
-		if(!OptimalNode) // Ищем оптимальный узел
+		if(!OptimalNode) // РС‰РµРј РѕРїС‚РёРјР°Р»СЊРЅС‹Р№ СѓР·РµР»
 		{
 			int MinBC = INT_MAX;
 			if(UseBestDiagonal) 
@@ -555,7 +555,7 @@ bool CNetwork::TriangulateYList(void)
 		}
 		if(!OptimalNode)
 		{
-			ATLTRACE("\nНе найден узел с надёжной диагональю. Осталось исключить %d. Текущий: %d", (CNode *)(&Base->SData) - (CNode *)Node, Node->Original - Nodes);
+			ATLTRACE("\nРќРµ РЅР°Р№РґРµРЅ СѓР·РµР» СЃ РЅР°РґС‘Р¶РЅРѕР№ РґРёР°РіРѕРЅР°Р»СЊСЋ. РћСЃС‚Р°Р»РѕСЃСЊ РёСЃРєР»СЋС‡РёС‚СЊ %d. РўРµРєСѓС‰РёР№: %d", (CNode *)(&Base->SData) - (CNode *)Node, Node->Original - Nodes);
 			this->Base = (CNode *)((char *)Node - ((char *)&Nodes->SData - (char *)Nodes));
 			for(CNode * b = this->Base; b < Base; b++)
 			{
@@ -586,14 +586,14 @@ bool CNetwork::TriangulateYList(void)
 				}
 			}
 			break;
-			/*ATLTRACE("\nНе найден узел с надёжной диагональю. Осталось исключить %d. Текущий: %d", (CNode *)(&Base->SData) - (CNode *)Node, Node->Original - Nodes);
+			/*ATLTRACE("\nРќРµ РЅР°Р№РґРµРЅ СѓР·РµР» СЃ РЅР°РґС‘Р¶РЅРѕР№ РґРёР°РіРѕРЅР°Р»СЊСЋ. РћСЃС‚Р°Р»РѕСЃСЊ РёСЃРєР»СЋС‡РёС‚СЊ %d. РўРµРєСѓС‰РёР№: %d", (CNode *)(&Base->SData) - (CNode *)Node, Node->Original - Nodes);
 			DeleteList(YList);
 			YList = 0;
 			LU.Reset();
 			pLU.Reset();
 			return false;*/
 		}
-		// Ставим оптимальный узел на текущую позицию
+		// РЎС‚Р°РІРёРј РѕРїС‚РёРјР°Р»СЊРЅС‹Р№ СѓР·РµР» РЅР° С‚РµРєСѓС‰СѓСЋ РїРѕР·РёС†РёСЋ
 		CNode * Old = Node->Original;
 		if(Old != OptimalNode)
 		{
@@ -601,7 +601,7 @@ bool CNetwork::TriangulateYList(void)
 			Node->Original = OptimalNode;
 			OptimalNode->Sorted = Node;
 		}
-		// Исключаем узел
+		// РСЃРєР»СЋС‡Р°РµРј СѓР·РµР»
 		Threshold = OptimalNode->BranchCount;
 		OptimalNode = (CNode *)ExcludeNode(OptimalNode);
 	}
@@ -630,7 +630,7 @@ void CNetwork::IdxToPointers(void)
 }
 
 
-//! Метод ускоренной триангуляции матрицы проводимостей Y
+//! РњРµС‚РѕРґ СѓСЃРєРѕСЂРµРЅРЅРѕР№ С‚СЂРёР°РЅРіСѓР»СЏС†РёРё РјР°С‚СЂРёС†С‹ РїСЂРѕРІРѕРґРёРјРѕСЃС‚РµР№ Y
 bool CNetwork::TriangulateLU(void)
 {	
 	PCTRSTART(TriangulateLU);
@@ -705,15 +705,15 @@ bool CNetwork::Prepare(void)
 	return !NeedPrepare;
 }
 
-/*************** Реализация метода решения ************************************/
+/*************** Р РµР°Р»РёР·Р°С†РёСЏ РјРµС‚РѕРґР° СЂРµС€РµРЅРёСЏ ************************************/
 
-//! Метод вычисления напряжений узлов V из задающих токов I по триангулированной матрице
+//! РњРµС‚РѕРґ РІС‹С‡РёСЃР»РµРЅРёСЏ РЅР°РїСЂСЏР¶РµРЅРёР№ СѓР·Р»РѕРІ V РёР· Р·Р°РґР°СЋС‰РёС… С‚РѕРєРѕРІ I РїРѕ С‚СЂРёР°РЅРіСѓР»РёСЂРѕРІР°РЅРЅРѕР№ РјР°С‚СЂРёС†Рµ
 bool CNetwork::Solve(void)
 {
 	PCTRSTART(Solve);
 	PCTRSTART(Solve1);
 	if(!Nodes || !NodeCount) return false;
-	// Скопируем задающие токи, чтобы их не искажать
+	// РЎРєРѕРїРёСЂСѓРµРј Р·Р°РґР°СЋС‰РёРµ С‚РѕРєРё, С‡С‚РѕР±С‹ РёС… РЅРµ РёСЃРєР°Р¶Р°С‚СЊ
 	if(UseSXN) for(CNode * n = Nodes + NodeCount - 1; n >= Nodes; n--)
 	{
 		if(n->Type == CNode::USUAL || n->Type == CNode::MISSED)
@@ -738,7 +738,7 @@ bool CNetwork::Solve(void)
 	if(!LU.Valid())
 		return false;
 	PCTRSTOP(Solve1a);
-	// Прямой ход решения
+	// РџСЂСЏРјРѕР№ С…РѕРґ СЂРµС€РµРЅРёСЏ
 	PCTRSTART(Solve2);
 	CNode::CSorted * Node = &Nodes->SData;
 	CNode * iNode = Node->Original;
@@ -758,7 +758,7 @@ bool CNetwork::Solve(void)
 		if(List == LU.Last) break;
 	}
 	_ASSERTE(Node == &Base->SData);
-	// Обратный ход решения
+	// РћР±СЂР°С‚РЅС‹Р№ С…РѕРґ СЂРµС€РµРЅРёСЏ
 	for(CPFlat<CLU>::CPiece * List = LU.Last; List; List = List->Prev)
 	{
 		CLU * first = List->GetFirst();
@@ -785,7 +785,7 @@ bool CNetwork::Solve(void)
 	if(t > 0.1)
 		return false;
 #endif
-//!!!!!!!!! Тестируем CalcPolarV() !!!!!!!!!!!!!//////////////////////////
+//!!!!!!!!! РўРµСЃС‚РёСЂСѓРµРј CalcPolarV() !!!!!!!!!!!!!//////////////////////////
 	/*{
 		static PCTR Polarx87_, PolarSSE2_;
 		struct tmp{ double Arg, Mod, Arg2, Mod2;} * b = (tmp *)malloc(NodeCount * sizeof(tmp));
@@ -822,7 +822,7 @@ bool CNetwork::Solve(void)
 		free(b);
 	}*/
 
-	// E.M. 25.11.2008 пока для простоты
+	// E.M. 25.11.2008 РїРѕРєР° РґР»СЏ РїСЂРѕСЃС‚РѕС‚С‹
 	CalcPolarV();
 	PCTRSTOP(Solve3);
 	PCTRSTOP(Solve);
@@ -870,7 +870,7 @@ double atan2analog(double Im, double Re)
 
 void CNetwork::CalcPolarV() 
 {
-	// Константы для SSE2
+	// РљРѕРЅСЃС‚Р°РЅС‚С‹ РґР»СЏ SSE2
 	__declspec(align(16)) static struct Ti{unsigned __int64 A, B;} 
 		Sign = {0x8000000000000000, 0x8000000000000000}, nSign = {0x7FFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF},
 		FFF = {0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF};
@@ -885,12 +885,12 @@ void CNetwork::CalcPolarV()
 
 	PCTRSTART(PolarV);
 
-	CNode * Node = Nodes, * StopNode = Nodes + NodeCount; // Область действия функции
+	CNode * Node = Nodes, * StopNode = Nodes + NodeCount; // РћР±Р»Р°СЃС‚СЊ РґРµР№СЃС‚РІРёСЏ С„СѓРЅРєС†РёРё
 	int sz = sizeof(CNode);
 	DWORD MXCSRold, MXCSRnew;
 
 	if(UseSSE2) _asm{
-		// Режим округления - к отрицательной бесконечности
+		// Р РµР¶РёРј РѕРєСЂСѓРіР»РµРЅРёСЏ - Рє РѕС‚СЂРёС†Р°С‚РµР»СЊРЅРѕР№ Р±РµСЃРєРѕРЅРµС‡РЅРѕСЃС‚Рё
 #define s xmm6
 #define d xmm5
 #define Re xmm4
@@ -901,20 +901,20 @@ void CNetwork::CalcPolarV()
 		AND			AH, 0xBF
 		MOV			MXCSRnew, EAX
 		LDMXCSR		MXCSRnew
-		// Инициализация цикла
-		MOV			ECX, sz			// Размер узла
-		MOV			EAX, Node		// Первый узел
-		MOV			ESI, StopNode	// Граничный узел
+		// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ С†РёРєР»Р°
+		MOV			ECX, sz			// Р Р°Р·РјРµСЂ СѓР·Р»Р°
+		MOV			EAX, Node		// РџРµСЂРІС‹Р№ СѓР·РµР»
+		MOV			ESI, StopNode	// Р“СЂР°РЅРёС‡РЅС‹Р№ СѓР·РµР»
 		SUB			EAX, ECX
 		XOR			EBX, EBX
 	CalcPolarCycle:
-		// Ищем первый узел
+		// РС‰РµРј РїРµСЂРІС‹Р№ СѓР·РµР»
 		ADD			EAX, ECX
 		CMP			EAX, ESI
 		JNB			CalcPolarStop
 		CMP			EBX, [EAX + CNode::Type] //CNode::DISABLED = 0
 		JZ			CalcPolarCycle
-		// Ищем второй узел
+		// РС‰РµРј РІС‚РѕСЂРѕР№ СѓР·РµР»
 		MOV			EDX, EAX
 		MOVAPD		Im,		[EAX + CNode::V]
 	FindSecondNode:
@@ -923,9 +923,9 @@ void CNetwork::CalcPolarV()
 		JNB			CalcPolarStop
 		CMP			EBX, [EDX + CNode::Type] //CNode::DISABLED = 0
 		JZ			FindSecondNode
-		// Найденые узлы записаны в регистрах EAX и EDX
+		// РќР°Р№РґРµРЅС‹Рµ СѓР·Р»С‹ Р·Р°РїРёСЃР°РЅС‹ РІ СЂРµРіРёСЃС‚СЂР°С… EAX Рё EDX
 
-		///// Расчёт двух модулей
+		///// Р Р°СЃС‡С‘С‚ РґРІСѓС… РјРѕРґСѓР»РµР№
 		MOVAPD		xmm1,	[EDX + CNode::V]
 		MOVAPD		xmm2, Im
 		UNPCKHPD	Im, xmm1 ; image
@@ -942,7 +942,7 @@ void CNetwork::CalcPolarV()
 		MOVAPD		xmm0, d
 		MOVLPD		[EAX + CNode::ModV], xmm1
 		MOVHPD		[EDX + CNode::ModV], xmm1
-		// Расчёт угла
+		// Р Р°СЃС‡С‘С‚ СѓРіР»Р°
 #define ctg xmm7
 	// double ctg = abs( Re / (Im ? Im : 1.0));
 	//double s = 1.0, d = 0.0;
@@ -955,7 +955,7 @@ void CNetwork::CalcPolarV()
 		MOVAPD		xmm0, s
 		DIVPD		ctg, xmm1
 		ANDPD		xmm0, xmm2 // xmm0 = s & (Im == 0.0)
-		ANDPD		ctg, nSign // Получаем модуль тангенса
+		ANDPD		ctg, nSign // РџРѕР»СѓС‡Р°РµРј РјРѕРґСѓР»СЊ С‚Р°РЅРіРµРЅСЃР°
 	//if(Im == 0)
 	//	s = 0.0;
 		XORPD		s, xmm0			// s = s & (Im != 0.0)
@@ -1049,9 +1049,9 @@ void CNetwork::CalcPolarV()
 		MOVAPD		x2, ctg
 		MOVAPD		xmm4, Two
 		MULPD		x2, x2
-		MOVAPD		Angle, ctg // Первая итерация
+		MOVAPD		Angle, ctg // РџРµСЂРІР°СЏ РёС‚РµСЂР°С†РёСЏ
 		XORPD		x2, Sign // x2 = -x * x
-	// Цикл
+	// Р¦РёРєР»
 		MULPD		ctg, x2 // x *= x2
 		MOVAPD		xmm0, r3
 		MULPD		xmm0, ctg
@@ -1112,7 +1112,7 @@ void CNetwork::CalcPolarV()
 		MOVAPD		xmm0, r31
 		MULPD		xmm0, ctg 
 		ADDPD		Angle, xmm0 // a += x / n
-	// Конец цикла ////////////////////////////////////////////////////////////
+	// РљРѕРЅРµС† С†РёРєР»Р° ////////////////////////////////////////////////////////////
 #undef x2 
 #undef ctg
 	// a = s * a + d;
@@ -1121,7 +1121,7 @@ void CNetwork::CalcPolarV()
 #undef s
 #undef d // = xmm5
 #undef Angle
-	// atan2 окончен, xmm4 - угол //////////////////////////////////////////////////////////
+	// atan2 РѕРєРѕРЅС‡РµРЅ, xmm4 - СѓРіРѕР» //////////////////////////////////////////////////////////
 	
 	// double d = (atan2(n->V.imag(), n->V.real()) - n->ArgV + M_PI) / (2 * M_PI);
 		MOVLPD		xmm0, [EAX + CNode::ArgV]
@@ -1139,14 +1139,14 @@ void CNetwork::CalcPolarV()
 		MOVLPD		[EAX + CNode::ArgV], xmm0
 		MOVHPD		[EDX + CNode::ArgV], xmm0
 
-		MOV			EAX, EDX // Следующий узел
+		MOV			EAX, EDX // РЎР»РµРґСѓСЋС‰РёР№ СѓР·РµР»
 		JMP			CalcPolarCycle
 	CalcPolarStop:
 		MOV			Node, EAX
 		LDMXCSR		MXCSRold
 	}
 	for(; Node < StopNode; Node++) if(Node->Type != CNode::DISABLED) 
-	{ // Доделать то, что не доделала SSE2-реализация
+	{ // Р”РѕРґРµР»Р°С‚СЊ С‚Рѕ, С‡С‚Рѕ РЅРµ РґРѕРґРµР»Р°Р»Р° SSE2-СЂРµР°Р»РёР·Р°С†РёСЏ
 		Node->ModV = sqrt(Node->V.real() * Node->V.real() + Node->V.imag() * Node->V.imag());
 		double d = (atan2(Node->V.imag(), Node->V.real()) - Node->ArgV + M_PI) / (2 * M_PI);
 		Node->ArgV += (d - floor(d)) * 2 * M_PI - M_PI;
@@ -1174,7 +1174,7 @@ void CNetwork::CalcPolarV()
 }*/
 
 
-////////////////////////// СХН ////////////////////////////////
+////////////////////////// РЎРҐРќ ////////////////////////////////
 
 /*void * CNetwork::CSXN::Apply(cplx * Y, cplx &I, const cplx &V, const double &Vnom, const cplx &Snom)
 {
@@ -1326,7 +1326,7 @@ double CNetwork::Test(void)
 	cplx * I = (cplx *)malloc(NodeCount * sizeof(cplx));
 
 	cplx * i = I + NodeCount - 1;
-	for(CNode * n = Nodes + NodeCount - 1; n >= Nodes; n--, i--) // Заполняем Y из узлов
+	for(CNode * n = Nodes + NodeCount - 1; n >= Nodes; n--, i--) // Р—Р°РїРѕР»РЅСЏРµРј Y РёР· СѓР·Р»РѕРІ
 		*i = (-n->y - n->y1) * n->V;
 	i = I + NodeCount - 1;
 	if(UseSXN) for(CNode * n = Nodes + NodeCount - 1; n >= Nodes; n--, i--)
@@ -1338,9 +1338,9 @@ double CNetwork::Test(void)
 			*i += Y * n->V;
 		}
 
-	for(std::map<int, cplx>::iterator it = Shunts.begin(); it != Shunts.end(); it++) // Из шунтов
+	for(std::map<int, cplx>::iterator it = Shunts.begin(); it != Shunts.end(); it++) // РР· С€СѓРЅС‚РѕРІ
 		I[it->first] -= it->second * Nodes[it->first].V;
-	for(CBranch * b = Branches + BranchCount - 1; b >= Branches; b--)  // Заполняем Y из ветвей
+	for(CBranch * b = Branches + BranchCount - 1; b >= Branches; b--)  // Р—Р°РїРѕР»РЅСЏРµРј Y РёР· РІРµС‚РІРµР№
 	{
 		CNode * p = Nodes + b->ip;
 		CNode * q = Nodes + b->iq;
@@ -1358,7 +1358,7 @@ double CNetwork::Test(void)
 	return s;
 }
 
-//////////////////// Уведомления //////////////////////////////////////
+//////////////////// РЈРІРµРґРѕРјР»РµРЅРёСЏ //////////////////////////////////////
 
 void CNetwork::SetBranchState(int Branch, CBranch::STATE State)
 {
@@ -1374,8 +1374,8 @@ void CNetwork::SetBranchState(int Branch, CBranch::STATE State)
 	CNode * p = Nodes + b->ip;
 	CNode * q = Nodes + b->iq;
 	if(State == CBranch::CONN && (
-		((p->Type == CNode::USUAL && !b->pYpq) || (q->Type == CNode::USUAL && !b->pYqp)) // Ветви нет в матрице проводимости, надо всё пересчитывать...
-		|| p->Type == CNode::MISSED || q->Type == CNode::MISSED // Возможно включение потеряного острова
+		((p->Type == CNode::USUAL && !b->pYpq) || (q->Type == CNode::USUAL && !b->pYqp)) // Р’РµС‚РІРё РЅРµС‚ РІ РјР°С‚СЂРёС†Рµ РїСЂРѕРІРѕРґРёРјРѕСЃС‚Рё, РЅР°РґРѕ РІСЃС‘ РїРµСЂРµСЃС‡РёС‚С‹РІР°С‚СЊ...
+		|| p->Type == CNode::MISSED || q->Type == CNode::MISSED // Р’РѕР·РјРѕР¶РЅРѕ РІРєР»СЋС‡РµРЅРёРµ РїРѕС‚РµСЂСЏРЅРѕРіРѕ РѕСЃС‚СЂРѕРІР°
 		))
 	{ 
 		b->State = State;
@@ -1416,8 +1416,8 @@ void CNetwork::SetNodeType(int Node, CNode::TYPE Type)
 	NeedPrepare = true;
 }
 
-void CNetwork::SetNodeParams(int Node, const cplx * y, const cplx * y1)//!< Устанавивает шунты в узле. y - шунт нагрузки (сети), y1 - шунт генератора.
-{ // Если указатель равен 0, соответствующее значение не меняется.
+void CNetwork::SetNodeParams(int Node, const cplx * y, const cplx * y1)//!< РЈСЃС‚Р°РЅР°РІРёРІР°РµС‚ С€СѓРЅС‚С‹ РІ СѓР·Р»Рµ. y - С€СѓРЅС‚ РЅР°РіСЂСѓР·РєРё (СЃРµС‚Рё), y1 - С€СѓРЅС‚ РіРµРЅРµСЂР°С‚РѕСЂР°.
+{ // Р•СЃР»Рё СѓРєР°Р·Р°С‚РµР»СЊ СЂР°РІРµРЅ 0, СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРµ Р·РЅР°С‡РµРЅРёРµ РЅРµ РјРµРЅСЏРµС‚СЃСЏ.
 	_ASSERTE(Node >= 0 && Node < NodeCount);
 	CNode * n = Nodes + Node;
 	NeedPrepare = true;
@@ -1431,7 +1431,7 @@ void CNetwork::SetNodeParams(int Node, const cplx * y, const cplx * y1)//!< Уста
 }
 
 
-void CNetwork::SetShunt(int Node, const cplx &Y) //!< Устанавивает дополнительный шунт в узле. Используется для установки КЗ.
+void CNetwork::SetShunt(int Node, const cplx &Y) //!< РЈСЃС‚Р°РЅР°РІРёРІР°РµС‚ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Р№ С€СѓРЅС‚ РІ СѓР·Р»Рµ. РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ СѓСЃС‚Р°РЅРѕРІРєРё РљР—.
 {
 	NeedPrepare = true;
 	_ASSERTE(Node >= 0 && Node < NodeCount);
@@ -1460,7 +1460,7 @@ void CNetwork::RemoveShunt(int Node)
 	}
 }
 
-const cplx& CNetwork::GetShunt(int Node) //!< Возвращает дополнительный шунт в узле.
+const cplx& CNetwork::GetShunt(int Node) //!< Р’РѕР·РІСЂР°С‰Р°РµС‚ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Р№ С€СѓРЅС‚ РІ СѓР·Р»Рµ.
 {
 	_ASSERTE(Node >= 0 && Node < NodeCount);
 	std::map<int, cplx>::iterator i = Shunts.find(Node);
@@ -1469,7 +1469,7 @@ const cplx& CNetwork::GetShunt(int Node) //!< Возвращает дополнительный шунт в у
 	return r;
 }
 
-int CNetwork::SetShortCircuit(int Branch, const cplx * Shunt, double Position) // Позиция от 0 до 1.
+int CNetwork::SetShortCircuit(int Branch, const cplx * Shunt, double Position) // РџРѕР·РёС†РёСЏ РѕС‚ 0 РґРѕ 1.
 {
 	NeedPrepare = true;
 	_ASSERTE(Branch >= 0 && Branch < BranchCount);
@@ -1480,10 +1480,10 @@ int CNetwork::SetShortCircuit(int Branch, const cplx * Shunt, double Position) /
 
 	CShortCurcuit * SC;
 	CBranch * B2;
-	// Определяем - делилась ли ветвь?
+	// РћРїСЂРµРґРµР»СЏРµРј - РґРµР»РёР»Р°СЃСЊ Р»Рё РІРµС‚РІСЊ?
 	std::map<int, CShortCurcuit>::iterator i = ShortCurcuits.find(Branch);
 	if(i != ShortCurcuits.end())
-	{ // Ветвь делилась, узел и ветвь существуют
+	{ // Р’РµС‚РІСЊ РґРµР»РёР»Р°СЃСЊ, СѓР·РµР» Рё РІРµС‚РІСЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‚
 		SC = &i->second;
 		B2 = Branches + SC->Branch;
 		SC->Position = Position;
@@ -1492,11 +1492,11 @@ int CNetwork::SetShortCircuit(int Branch, const cplx * Shunt, double Position) /
 	{ 
 		CShortCurcuit t;
 		SC = &t;
-		// Определить параметры участков ветви по методике "Реализация короткого замыкания на линии"
+		// РћРїСЂРµРґРµР»РёС‚СЊ РїР°СЂР°РјРµС‚СЂС‹ СѓС‡Р°СЃС‚РєРѕРІ РІРµС‚РІРё РїРѕ РјРµС‚РѕРґРёРєРµ "Р РµР°Р»РёР·Р°С†РёСЏ РєРѕСЂРѕС‚РєРѕРіРѕ Р·Р°РјС‹РєР°РЅРёСЏ РЅР° Р»РёРЅРёРё"
 		cplx ydyb = B1->yp / B1->y;
-		SC->yc = sqrt((ydyb + 2.0) * B1->yp * B1->y); // (1 / yc) == Zc : волновое сопротивление
-		SC->gl = log(ydyb + 1.0 - SC->yc / B1->y); // gl - постоянная распространения на длину
-		// Создаём узел и ветвь
+		SC->yc = sqrt((ydyb + 2.0) * B1->yp * B1->y); // (1 / yc) == Zc : РІРѕР»РЅРѕРІРѕРµ СЃРѕРїСЂРѕС‚РёРІР»РµРЅРёРµ
+		SC->gl = log(ydyb + 1.0 - SC->yc / B1->y); // gl - РїРѕСЃС‚РѕСЏРЅРЅР°СЏ СЂР°СЃРїСЂРѕСЃС‚СЂР°РЅРµРЅРёСЏ РЅР° РґР»РёРЅСѓ
+		// РЎРѕР·РґР°С‘Рј СѓР·РµР» Рё РІРµС‚РІСЊ
 		Clean();
 		SC->Node = NodeCount++;
 		SC->Branch = BranchCount++;
@@ -1514,24 +1514,24 @@ int CNetwork::SetShortCircuit(int Branch, const cplx * Shunt, double Position) /
 		ShortCurcuits.insert(std::make_pair(Branch, t));
 	}
 
-	// Расчёт параметров кусков линии
+	// Р Р°СЃС‡С‘С‚ РїР°СЂР°РјРµС‚СЂРѕРІ РєСѓСЃРєРѕРІ Р»РёРЅРёРё
 	cplx gl1 = SC->gl * Position;
 	cplx gl2 = SC->gl - gl1;
-	// Восстанавливаем параметры П-образной схемы первого отрезка линии
+	// Р’РѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј РїР°СЂР°РјРµС‚СЂС‹ Рџ-РѕР±СЂР°Р·РЅРѕР№ СЃС…РµРјС‹ РїРµСЂРІРѕРіРѕ РѕС‚СЂРµР·РєР° Р»РёРЅРёРё
 	cplx egl = exp(gl1);
 	cplx e_gl = exp(-gl1);
 	cplx yb = SC->yc * 2.0 / (e_gl - egl);
 	cplx y = ((egl + e_gl) * 0.5 - 1.0) * yb;
 	B1->y = yb;
 	B1->yp = B1->yq = y;
-	// Восстанавливаем параметры П-образной схемы второго отрезка линии
+	// Р’РѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј РїР°СЂР°РјРµС‚СЂС‹ Рџ-РѕР±СЂР°Р·РЅРѕР№ СЃС…РµРјС‹ РІС‚РѕСЂРѕРіРѕ РѕС‚СЂРµР·РєР° Р»РёРЅРёРё
 	egl = exp(gl2);
 	e_gl = exp(-gl2);
 	yb = SC->yc * 2.0 / (e_gl - egl);
 	y = ((egl + e_gl) * 0.5 - 1.0) * yb;
 	B2->y = yb;
 	B2->yp = B2->yq = y;
-	// Инициализируем узел
+	// РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј СѓР·РµР»
 	CNode & Node = Nodes[SC->Node];
 	if(Shunt && (*Shunt == 0.0))
 	{
@@ -1543,7 +1543,7 @@ int CNetwork::SetShortCircuit(int Branch, const cplx * Shunt, double Position) /
 		Node.Type = CNode::USUAL;
 		Node.y = Shunt ? conj(1.0 / *Shunt) : 0;
 	}
-	YisValid = false; // Необходимо реализовать коррекцию Y
+	YisValid = false; // РќРµРѕР±С…РѕРґРёРјРѕ СЂРµР°Р»РёР·РѕРІР°С‚СЊ РєРѕСЂСЂРµРєС†РёСЋ Y
 	return 0;
 }
 
@@ -1637,13 +1637,13 @@ int CNetwork::MarkIslands(void)
 			if(CNode * jNode = lu->Node)
 			{
 				_ASSERTE(Node >= &Nodes->SData);
-				if(!lu->Y || norm(lu->Y->Yij) < 1E-10) continue; // Тестируем связь
+				if(!lu->Y || norm(lu->Y->Yij) < 1E-10) continue; // РўРµСЃС‚РёСЂСѓРµРј СЃРІСЏР·СЊ
 				if(iIsland)
 				{
 					int jIsland = jNode->Island;
 					if(iIsland == jIsland) continue;
 					if(jIsland)
-					{ // Объединение островов
+					{ // РћР±СЉРµРґРёРЅРµРЅРёРµ РѕСЃС‚СЂРѕРІРѕРІ
 						int i = iIsland, j = jIsland;
 						int mx = max(i, j);
 						if(Size <= mx)
@@ -1664,18 +1664,18 @@ int CNetwork::MarkIslands(void)
 							if(j < i) IslandsMap[t] = i;
 						}
 					}
-					else jNode->Island = iIsland; // Обратная раскраска
+					else jNode->Island = iIsland; // РћР±СЂР°С‚РЅР°СЏ СЂР°СЃРєСЂР°СЃРєР°
 				}
 				else
 					if(int jIsland = jNode->Island)
-						iIsland = iNode->Island = jIsland; // Прямая раскраска
+						iIsland = iNode->Island = jIsland; // РџСЂСЏРјР°СЏ СЂР°СЃРєСЂР°СЃРєР°
 			}
 			else 
 			{
 				if(!iIsland)
-				{ // Определить остров не удалось - создаём новый
+				{ // РћРїСЂРµРґРµР»РёС‚СЊ РѕСЃС‚СЂРѕРІ РЅРµ СѓРґР°Р»РѕСЃСЊ - СЃРѕР·РґР°С‘Рј РЅРѕРІС‹Р№
 					iIsland = iNode->Island = ++Island;
-					lu += iNode->BranchCount + 1; // Откат
+					lu += iNode->BranchCount + 1; // РћС‚РєР°С‚
 					continue;
 				}
 				(*(CNode * *)&Node)--;
@@ -1684,11 +1684,11 @@ int CNetwork::MarkIslands(void)
 			}
 		}
 	}
-	if(!iIsland) // Определить остров не удалось - создаём новый
+	if(!iIsland) // РћРїСЂРµРґРµР»РёС‚СЊ РѕСЃС‚СЂРѕРІ РЅРµ СѓРґР°Р»РѕСЃСЊ - СЃРѕР·РґР°С‘Рј РЅРѕРІС‹Р№
 		iNode->Island = ++Island;
 	_ASSERTE(Node == &Nodes->SData);
 	
-	if(IslandsMap) // Обрабатываем слияния островов
+	if(IslandsMap) // РћР±СЂР°Р±Р°С‚С‹РІР°РµРј СЃР»РёСЏРЅРёСЏ РѕСЃС‚СЂРѕРІРѕРІ
 	{
 		if(Size <= Island)
 		{
@@ -1727,7 +1727,7 @@ int CNetwork::MarkIslands(void)
 	return Island;
 }
 
-// Быстрая сортировка
+// Р‘С‹СЃС‚СЂР°СЏ СЃРѕСЂС‚РёСЂРѕРІРєР°
 void FastSort(int * First, int * Last)
 {
 	int * up = First;
@@ -1757,7 +1757,7 @@ bool CNetwork::ExportToR_pd(R_pdn * pd)
 {
 	pd->o = (R_pdn::outn *) malloc((NodeCount + 1/*???*/) * sizeof(R_pdn::outn));
 	R_pdn::outn * o = pd->o + NodeCount - 1;
-	for(CNode * n = Nodes + NodeCount - 1; n >= Nodes; n--, o--) // Первично инициализируем узлы
+	for(CNode * n = Nodes + NodeCount - 1; n >= Nodes; n--, o--) // РџРµСЂРІРёС‡РЅРѕ РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј СѓР·Р»С‹
 	{
 		o->n1 = n->SData.Original - Nodes;
 		o->n2 = (CNode *) n->Sorted - Nodes;
@@ -1765,7 +1765,7 @@ bool CNetwork::ExportToR_pd(R_pdn * pd)
 		o->n4 = 0;
 	}
 	o++;
-	// Считаем число элементов в Y и LU для каждого узла
+	// РЎС‡РёС‚Р°РµРј С‡РёСЃР»Рѕ СЌР»РµРјРµРЅС‚РѕРІ РІ Y Рё LU РґР»СЏ РєР°Р¶РґРѕРіРѕ СѓР·Р»Р°
 	_ASSERTE(LU.Valid());
 	CPFlat<CLU>::CPiece * List = LU.First;
 	CLU * lu = List->GetFirst();
@@ -1790,7 +1790,7 @@ bool CNetwork::ExportToR_pd(R_pdn * pd)
 			CLU * lu = List->GetFirst();
 		}
 	} 
-	// Рассчитываем индексы в массивах и полные размеры массивов
+	// Р Р°СЃСЃС‡РёС‚С‹РІР°РµРј РёРЅРґРµРєСЃС‹ РІ РјР°СЃСЃРёРІР°С… Рё РїРѕР»РЅС‹Рµ СЂР°Р·РјРµСЂС‹ РјР°СЃСЃРёРІРѕРІ
 	int iy = 0, ilu = 0;
 	for(o = pd->o; o < pd->o + NodeCount; o++)
 	{
@@ -1804,7 +1804,7 @@ bool CNetwork::ExportToR_pd(R_pdn * pd)
 	o->n3 = iy;
 	o->n4 = ilu;
 
-	// Выделяем место под матрицы
+	// Р’С‹РґРµР»СЏРµРј РјРµСЃС‚Рѕ РїРѕРґ РјР°С‚СЂРёС†С‹
 	pd->nk = iy;
 	pd->may = (R_pdn::Rmay *) malloc(iy * sizeof(R_pdn::Rmay));
 	pd->ndd = ilu;
@@ -1813,7 +1813,7 @@ bool CNetwork::ExportToR_pd(R_pdn * pd)
 	R_pdn::Rmay * may = pd->may;
 	int * maj = pd->maj;
 
-	// Копируем элементы в матрицы
+	// РљРѕРїРёСЂСѓРµРј СЌР»РµРјРµРЅС‚С‹ РІ РјР°С‚СЂРёС†С‹
 	List = LU.First;
 	lu = List->GetFirst();
 	o = pd->o;
@@ -1821,7 +1821,7 @@ bool CNetwork::ExportToR_pd(R_pdn * pd)
 	{
 		CNode * jNode;
 		maj[o->n4++] = n - Nodes; // ???
-		int n3 = o->n3++; // Имеет ли значение порядок элементов в may?
+		int n3 = o->n3++; // РРјРµРµС‚ Р»Рё Р·РЅР°С‡РµРЅРёРµ РїРѕСЂСЏРґРѕРє СЌР»РµРјРµРЅС‚РѕРІ РІ may?
 		may[n3].nqy = n - Nodes;
 
 		for( ; jNode = lu->Node; lu++) 
@@ -1846,7 +1846,7 @@ bool CNetwork::ExportToR_pd(R_pdn * pd)
 			CLU * lu = List->GetFirst();
 		}
 	}
-	// Восстанавливаем индексы
+	// Р’РѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј РёРЅРґРµРєСЃС‹
 	for(o = pd->o + NodeCount; o >= pd->o; o--)
 	{
 		(o + 1)->n3 = o->n3;
@@ -1855,14 +1855,14 @@ bool CNetwork::ExportToR_pd(R_pdn * pd)
 	o++;
 	o->n3 = 0;
 	o->n4 = 0;
-	// Сортируем maj
+	// РЎРѕСЂС‚РёСЂСѓРµРј maj
 	for(o = pd->o + NodeCount; o >= pd->o; o--)
 		FastSort(maj + o->n4, maj + (o + 1)->n4 - 1);
 	return true;
 }
 
 
-bool CNetwork::ImportFromR_pd(R_pdn * pd) // Загружаем матрицу проводимости
+bool CNetwork::ImportFromR_pd(R_pdn * pd) // Р—Р°РіСЂСѓР¶Р°РµРј РјР°С‚СЂРёС†Сѓ РїСЂРѕРІРѕРґРёРјРѕСЃС‚Рё
 {
 	_ASSERTE(NodeCount);
 	LU.Reset();
@@ -1899,7 +1899,7 @@ bool CNetwork::ImportFromR_pd(R_pdn * pd) // Загружаем матрицу проводимости
 		CLU * d = lu + Range;
 		d->Y = Y + i;
 		for(R_pdn::Rmay * y = pd->may + n->n3, * z = pd->may + (n + 1)->n3; y < z; y++)
-			if(y->nqy == i) // Ищем диагональный элемент
+			if(y->nqy == i) // РС‰РµРј РґРёР°РіРѕРЅР°Р»СЊРЅС‹Р№ СЌР»РµРјРµРЅС‚
 			{
 				d->Y->Yij = y->y;
 				d->Node = 0;
@@ -1916,10 +1916,10 @@ bool CNetwork::ImportFromR_pd(R_pdn * pd) // Загружаем матрицу проводимости
 #ifdef _DEBUG
 	int f = 2;
 #endif
-			// Сканирование матрицы проводимости
+			// РЎРєР°РЅРёСЂРѕРІР°РЅРёРµ РјР°С‚СЂРёС†С‹ РїСЂРѕРІРѕРґРёРјРѕСЃС‚Рё
 			for(R_pdn::Rmay * y = pd->may + n->n3, * z = pd->may + (n + 1)->n3; y < z; y++)
 			{
-				if(y->nqy == *x) // Ищем прямой элемент
+				if(y->nqy == *x) // РС‰РµРј РїСЂСЏРјРѕР№ СЌР»РµРјРµРЅС‚
 				{
 					yd->Yij = y->y;
 					lu->Y = yd;
@@ -1930,7 +1930,7 @@ bool CNetwork::ImportFromR_pd(R_pdn * pd) // Загружаем матрицу проводимости
 			
 			R_pdn::outn * o = pd->o + *x;
 			for(R_pdn::Rmay * y = pd->may + o->n3, * z = pd->may + (o + 1)->n3; y < z; y++)
-				if(y->nqy == i) // Ищем обратный элемент
+				if(y->nqy == i) // РС‰РµРј РѕР±СЂР°С‚РЅС‹Р№ СЌР»РµРјРµРЅС‚
 				{
 					(yd++)->Yji = y->y;
 					_ASSERTE(f--);
@@ -1940,7 +1940,7 @@ bool CNetwork::ImportFromR_pd(R_pdn * pd) // Загружаем матрицу проводимости
 		}
 		_ASSERTE(d == lu);
 	}
-	// Инициализируем массив pLU
+	// РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РјР°СЃСЃРёРІ pLU
 	s = Nodes;
 	i = 0;
 	for(R_pdn::outn * n = pd->o; s < Nodes + UsualNodeCount; n++, s++, i++)

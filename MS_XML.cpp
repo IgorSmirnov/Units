@@ -79,7 +79,7 @@ VARIANT VariantString(BSTR str)
    return var;
 }
 
-IXMLDOMElement * CreateRootElement(IXMLDOMDocument * pXMLDom, BSTR bstr) // Ñîçäàòü êîðíåâîé ýëåìåíò
+IXMLDOMElement * CreateRootElement(IXMLDOMDocument * pXMLDom, BSTR bstr) // Ð¡Ð¾Ð·Ð´Ð°Ñ‚ÑŒ ÐºÐ¾Ñ€Ð½ÐµÐ²Ð¾Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚
 {
    IXMLDOMElement * pRoot = NULL;
    HRESULT hr;
@@ -89,7 +89,7 @@ clean:
    return pRoot;
 }
 
-void CreateComment(IXMLDOMDocument * pXMLDom, BSTR Comment) // Äîáàâèòü ýëåìåíò êîììåíòàðèÿ.
+void CreateComment(IXMLDOMDocument * pXMLDom, BSTR Comment) // Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ ÐºÐ¾Ð¼Ð¼ÐµÐ½Ñ‚Ð°Ñ€Ð¸Ñ.
 {
    Comment = SysAllocString(Comment);
    HRESULT hr;
@@ -103,7 +103,7 @@ clean:
    pc=NULL;
 }
 
-void CreateAttribute(IXMLDOMDocument * pXMLDom, IXMLDOMElement * pElement, BSTR Name, BSTR Value)// Ñîçäàòü àòðèáóò äëÿ ýëåìåíòà, è ïðèñâîèòü åìó çíà÷åíèå
+void CreateAttribute(IXMLDOMDocument * pXMLDom, IXMLDOMElement * pElement, BSTR Name, BSTR Value)// Ð¡Ð¾Ð·Ð´Ð°Ñ‚ÑŒ Ð°Ñ‚Ñ€Ð¸Ð±ÑƒÑ‚ Ð´Ð»Ñ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°, Ð¸ Ð¿Ñ€Ð¸ÑÐ²Ð¾Ð¸Ñ‚ÑŒ ÐµÐ¼Ñƒ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ
 {
    IXMLDOMAttribute * pa = NULL;
    IXMLDOMAttribute * pa1 = NULL;
@@ -125,7 +125,7 @@ clean:
    VariantClear(&var);
 }
 
-IXMLDOMElement * AppendElement(IXMLDOMDocument * pXMLDom, IXMLDOMNode * pNode, BSTR Name) // Äîáàâèòü ýëåìåíò
+IXMLDOMElement * AppendElement(IXMLDOMDocument * pXMLDom, IXMLDOMNode * pNode, BSTR Name) // Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚
 {
    IXMLDOMElement * pe = NULL;
    //bstr = SysAllocString(Name);
@@ -140,7 +140,7 @@ clean:
    return pe;
 }
 
-void AddTextContent(IXMLDOMElement * pElement, BSTR Text) // Äîáàâèòü òåêñòîâîå ñîäåðæèìîå
+void AddTextContent(IXMLDOMElement * pElement, BSTR Text) // Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ñ‚ÐµÐºÑÑ‚Ð¾Ð²Ð¾Ðµ ÑÐ¾Ð´ÐµÑ€Ð¶Ð¸Ð¼Ð¾Ðµ
 {
    HRESULT hr;
    HRCALL(pElement->put_text(Text), "");

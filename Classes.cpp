@@ -3,7 +3,7 @@
 #include <string.h>
 #include <tchar.h>
 
-/*************************** TString θ TDynString ***********************************/
+/*************************** TString ΠΈ TDynString ***********************************/
 
 int TString<char>::get_Len(void) {return strlen(Value);};
 int TString<wchar_t>::get_Len(void) {return wcslen(Value);};
@@ -25,7 +25,7 @@ int TStrings::IndexOf(const TCHAR * S)
 	return -1;
 }
 
-/**************************** Δελεγΰςϋ ********************************************/
+/**************************** Π”ΠµΠ»ΠµΠ³Π°Ρ‚Ρ‹ ********************************************/
 
 int Buf[128];
 int * B = Buf;

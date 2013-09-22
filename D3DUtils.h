@@ -9,8 +9,8 @@ private:
 	IDirect3DDevice9 * FD3DDevice;
 //	virtual void Invalidate(RECT * OldRect);
 protected:
-	virtual void OnPaint(PAINTSTRUCT * PaintStruct); // Процедура отрисовки компонента
-	//virtual bool ParentSetRect(RECT * Rect); // Уведомление от родительских компонентов
+	virtual void OnPaint(PAINTSTRUCT * PaintStruct); // РџСЂРѕС†РµРґСѓСЂР° РѕС‚СЂРёСЃРѕРІРєРё РєРѕРјРїРѕРЅРµРЅС‚Р°
+	//virtual bool ParentSetRect(RECT * Rect); // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ СЂРѕРґРёС‚РµР»СЊСЃРєРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 	//virtual void Invalidate(RECT * OldRect);
 public:
 	TD3DImage(TParentControl * Parent, RECT * Rect, int Layout, IDirect3D9 * Direct3D = 0, UINT Adapter = D3DADAPTER_DEFAULT);

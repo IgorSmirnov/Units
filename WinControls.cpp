@@ -1,4 +1,4 @@
-//! \file WinControls.cpp Реализация оконных визуальных компонентов
+//! \file WinControls.cpp Р РµР°Р»РёР·Р°С†РёСЏ РѕРєРѕРЅРЅС‹С… РІРёР·СѓР°Р»СЊРЅС‹С… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 #include "WinControls.h"
 #include <tchar.h>
 
@@ -113,7 +113,7 @@ void TWinControl::_TWinControl(TParentControl * Parent, RECT * Rect, int Layout)
 	FWinParent->FWinChildCount = cc;
 }
 
-void TWinControl::OnSetRect(RECT * Rect) // Уведомление от родительских компонентов
+void TWinControl::OnSetRect(RECT * Rect) // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ СЂРѕРґРёС‚РµР»СЊСЃРєРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 {
 	if(hWindow)	
 		MoveWindow(hWindow, Rect->left, Rect->top, Rect->right - Rect->left, Rect->bottom - Rect->top, false);
@@ -269,7 +269,7 @@ BOOL CALLBACK TWinParentControl::DialogProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 	return true;
 }
 
-bool TWinParentControl::ParentSetRect(RECT * Rect) // Уведомление от родительских компонентов
+bool TWinParentControl::ParentSetRect(RECT * Rect) // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ СЂРѕРґРёС‚РµР»СЊСЃРєРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 {
 	if(hWindow)	MoveWindow(hWindow, Rect->left, Rect->top, Rect->right - Rect->left, Rect->bottom - Rect->top, false);
 	return true;
@@ -437,7 +437,7 @@ LRESULT CALLBACK TWinParentControl::WindowProc(HWND hwnd, UINT uMsg, WPARAM wPar
 
 void TWinParentControl::AddChild(TControl * Child)
 {
-	Child->FRect.left -= FClient.left; // Относительные координаты
+	Child->FRect.left -= FClient.left; // РћС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹
 	Child->FRect.right -= FClient.left;
 	Child->FRect.top -= FClient.top;
 	Child->FRect.bottom -= FClient.top;
@@ -484,7 +484,7 @@ LRESULT CALLBACK TAppWindow::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
 		}
 		return 0;
 	}
-	if(uMsg == WM_DESTROY) // Так как у окна приложения нет родителя, объект удаляет сам себя
+	if(uMsg == WM_DESTROY) // РўР°Рє РєР°Рє Сѓ РѕРєРЅР° РїСЂРёР»РѕР¶РµРЅРёСЏ РЅРµС‚ СЂРѕРґРёС‚РµР»СЏ, РѕР±СЉРµРєС‚ СѓРґР°Р»СЏРµС‚ СЃР°Рј СЃРµР±СЏ
 	{
 		if(PMWorking)
 		{
@@ -722,7 +722,7 @@ TMDIClient::TMDIClient(TParentControl * Parent, RECT * Rect, int Layout)
 	hWindow = CreateWindowEx(0, MDIClientClassName, 0, WS_VISIBLE | WS_CLIPCHILDREN | WS_CHILD | WS_CLIPSIBLINGS, FRect.left, FRect.top, GetWidth(), GetHeight(), FWinParent->GetWindowHandle(), 0, hInstance, &CCS);
 }
 
-void TMDIClient::OnSetRect(RECT * Rect) // Уведомление от родительских компонентов
+void TMDIClient::OnSetRect(RECT * Rect) // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ СЂРѕРґРёС‚РµР»СЊСЃРєРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 {
 	if(hWindow)	
 		//SetWindowPos(hWindow, 0, Rect->left, Rect->top, Rect->right - Rect->left, Rect->bottom - Rect->top, SWP_NOZORDER | SWP_NOREDRAW);
@@ -1057,7 +1057,7 @@ LRESULT TComboBox::OnCommand(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/*bool TComboBox::ParentSetRect(RECT * Rect) // Уведомление от родительских компонентов
+/*bool TComboBox::ParentSetRect(RECT * Rect) // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ СЂРѕРґРёС‚РµР»СЊСЃРєРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 {
 	bool Result = TControl::ParentSetRect(Rect);
 	int Width = GetWidth();
@@ -1286,7 +1286,7 @@ void TScrollingWinControl::_TScrollingWinControl(TParentControl * Parent, RECT *
 	}
 }
 
-void TScrollingWinControl::OnSetRect(RECT * Rect) // Уведомление от родительских компонентов
+void TScrollingWinControl::OnSetRect(RECT * Rect) // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ СЂРѕРґРёС‚РµР»СЊСЃРєРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 {
 	if(hWindow)
 	{
@@ -1304,8 +1304,8 @@ void TScrollingWinControl::OnSetRect(RECT * Rect) // Уведомление от родительских
 	}
 }
 
-/// Метод устанавливает FScrolls[Bar].nPos и возвращает смещение изображения в пикселах.
-/// false означает отмену смещения. Если true, но смещение нулевое - Invalidate
+/// РњРµС‚РѕРґ СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ FScrolls[Bar].nPos Рё РІРѕР·РІСЂР°С‰Р°РµС‚ СЃРјРµС‰РµРЅРёРµ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РІ РїРёРєСЃРµР»Р°С….
+/// false РѕР·РЅР°С‡Р°РµС‚ РѕС‚РјРµРЅСѓ СЃРјРµС‰РµРЅРёСЏ. Р•СЃР»Рё true, РЅРѕ СЃРјРµС‰РµРЅРёРµ РЅСѓР»РµРІРѕРµ - Invalidate
 bool TScrollingWinControl::ScrollQuery(int Bar, int Req, POINT * Offset)
 {
 	long * d = (long *) Offset;
@@ -1358,7 +1358,7 @@ bool TScrollingWinControl::ScrollQuery(int Bar, int Req, POINT * Offset)
 	return true;
 }
 
-/// Метод определяет, в зависимости от действий пользователя, изменение FScrolls и смещает изображение
+/// РњРµС‚РѕРґ РѕРїСЂРµРґРµР»СЏРµС‚, РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РґРµР№СЃС‚РІРёР№ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ, РёР·РјРµРЅРµРЅРёРµ FScrolls Рё СЃРјРµС‰Р°РµС‚ РёР·РѕР±СЂР°Р¶РµРЅРёРµ
 void TScrollingWinControl::OnScroll(int Bar, int Req)
 {
 	POINT d;
@@ -1564,7 +1564,7 @@ TCustomGrid::~TCustomGrid(void)
 	free(FColOffsets);
 }
 
-/// Метод установки числа колонок в таблице
+/// РњРµС‚РѕРґ СѓСЃС‚Р°РЅРѕРІРєРё С‡РёСЃР»Р° РєРѕР»РѕРЅРѕРє РІ С‚Р°Р±Р»РёС†Рµ
 void TCustomGrid::SetCols(DWORD Cols)
 {
 	if(Cols < 1) Cols = 1;
@@ -1574,28 +1574,28 @@ void TCustomGrid::SetCols(DWORD Cols)
 	FCols = Cols;
 }
 
-/// Метод установки числа строк в таблице
+/// РњРµС‚РѕРґ СѓСЃС‚Р°РЅРѕРІРєРё С‡РёСЃР»Р° СЃС‚СЂРѕРє РІ С‚Р°Р±Р»РёС†Рµ
 void TCustomGrid::SetRows(DWORD Rows)
 {
 	FRows = Rows;
 	SetRange(SB_VERT, (Rows > 0) ? (Rows - 1) : 0);
 }
 
-void TCustomGrid::OnPaint(PAINTSTRUCT * PaintStruct) // Процедура отрисовки компонента
+void TCustomGrid::OnPaint(PAINTSTRUCT * PaintStruct) // РџСЂРѕС†РµРґСѓСЂР° РѕС‚СЂРёСЃРѕРІРєРё РєРѕРјРїРѕРЅРµРЅС‚Р°
 {
 	HGDIOBJ OldFont, OldPen;
 	if(FFont) OldFont = SelectObject(PaintStruct->hdc, FFont);
 	if(FPen) OldPen = SelectObject(PaintStruct->hdc, FPen);
 	RECT Rect = FClient;
 	Rect.bottom = Rect.top + FFixedRows * FDefRowHeight;
-	FillRect(PaintStruct->hdc, &Rect, FBackBrush);			// Заливка и обводка шапки
+	FillRect(PaintStruct->hdc, &Rect, FBackBrush);			// Р—Р°Р»РёРІРєР° Рё РѕР±РІРѕРґРєР° С€Р°РїРєРё
 	MoveToEx(PaintStruct->hdc, Rect.left, Rect.top, 0);
 	LineTo(PaintStruct->hdc, Rect.left, Rect.bottom - 1);
 	LineTo(PaintStruct->hdc, Rect.right - 1, Rect.bottom - 1);
 	LineTo(PaintStruct->hdc, Rect.right - 1, Rect.top);
 	LineTo(PaintStruct->hdc, Rect.left, Rect.top);
 	//DrawEdge(PaintStruct->hdc, &Rect, EDGE_ETCHED, BF_RECT);
-	if(FFields) // Подписывание столбцов
+	if(FFields) // РџРѕРґРїРёСЃС‹РІР°РЅРёРµ СЃС‚РѕР»Р±С†РѕРІ
 	{
 		GetClientRect(hWindow, &Rect);
 		Rect.top = 0;
@@ -1636,7 +1636,7 @@ void TCustomGrid::OnPaint(PAINTSTRUCT * PaintStruct) // Процедура отрисовки комп
 				//	SetTextColor(PaintStruct->hdc, TxtCol);
 			}
 		}
-		if(FRows <= (DWORD)FScrolls[SB_VERT].nPos + FScrolls[SB_VERT].nPage) // Не хватает рядов
+		if(FRows <= (DWORD)FScrolls[SB_VERT].nPos + FScrolls[SB_VERT].nPage) // РќРµ С…РІР°С‚Р°РµС‚ СЂСЏРґРѕРІ
 		if(FCellsBrush)
 		{
 			Rect = FClient;
@@ -1646,18 +1646,18 @@ void TCustomGrid::OnPaint(PAINTSTRUCT * PaintStruct) // Процедура отрисовки комп
 	}
 	else
 	{
-		Rect = FClient;									// Заливка полей данных
+		Rect = FClient;									// Р—Р°Р»РёРІРєР° РїРѕР»РµР№ РґР°РЅРЅС‹С…
 		Rect.top += FFixedRows * FDefRowHeight;
 		if(FCellsBrush)	FillRect(PaintStruct->hdc, &Rect, FCellsBrush);
 
-		if(FSelMode & SM_SHOW)					// Заливка выделенного поля
+		if(FSelMode & SM_SHOW)					// Р—Р°Р»РёРІРєР° РІС‹РґРµР»РµРЅРЅРѕРіРѕ РїРѕР»СЏ
 			if(GetCellRect(FSelCol, FSelRow, &Rect))
 				FillRect(PaintStruct->hdc, &Rect, FSelBrush);
 
 	}
 
 	if(FVLineWidth)
-	for(DWORD x = 0; x < FCols - 1; x++)						// Расчерчивание колонок
+	for(DWORD x = 0; x < FCols - 1; x++)						// Р Р°СЃС‡РµСЂС‡РёРІР°РЅРёРµ РєРѕР»РѕРЅРѕРє
 	{
 		int o = FColOffsets[x];
 		MoveToEx(PaintStruct->hdc, o, 0, 0);
@@ -1669,8 +1669,8 @@ void TCustomGrid::OnPaint(PAINTSTRUCT * PaintStruct) // Процедура отрисовки комп
 
 
 bool TCustomGrid::GetCellRect(DWORD Col, DWORD Row, RECT * Rect, _SM Mode)
-// FScrolls[SB_VERT].nPos - Самый верхний видимый ряд
-// FScrolls[SB_VERT].nPos + nPage - Самый нижний видимый ряд
+// FScrolls[SB_VERT].nPos - РЎР°РјС‹Р№ РІРµСЂС…РЅРёР№ РІРёРґРёРјС‹Р№ СЂСЏРґ
+// FScrolls[SB_VERT].nPos + nPage - РЎР°РјС‹Р№ РЅРёР¶РЅРёР№ РІРёРґРёРјС‹Р№ СЂСЏРґ
 {
 	if(FCols <= Col) return false;
 	if(FRows <= Row) return false;
@@ -1686,7 +1686,7 @@ bool TCustomGrid::GetCellRect(DWORD Col, DWORD Row, RECT * Rect, _SM Mode)
 		Rect->top += FFixedRows * FDefRowHeight;
 	}
 
-	// Обработка колонки
+	// РћР±СЂР°Р±РѕС‚РєР° РєРѕР»РѕРЅРєРё
 	Rect->left = (Mode & SM_ACOL) && Col ? FColOffsets[Col - 1] + FVLineWidth : 0;
 	if((Col == FCols - 1) || !(Mode & SM_ACOL))
 	{
@@ -1782,7 +1782,7 @@ void TCustomGrid::SetSelection(DWORD Col, DWORD Row)
 	if(FSelRow - FScrolls[SB_VERT].nPos >= (int)FScrolls[SB_VERT].nPage) SetScroll(SB_VERT, FSelRow - FScrolls[SB_VERT].nPage + 1);
 }
 
-void TCustomGrid::OnMouseEvent(int x, int y, int mk, UINT uMsg) // Процедура реакции на движение
+void TCustomGrid::OnMouseEvent(int x, int y, int mk, UINT uMsg) // РџСЂРѕС†РµРґСѓСЂР° СЂРµР°РєС†РёРё РЅР° РґРІРёР¶РµРЅРёРµ
 {
 	DWORD i;
 	int d;

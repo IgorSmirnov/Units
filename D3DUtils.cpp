@@ -2,7 +2,7 @@
 
 /************************************** TD3DImage *********************************************/
 
-void TD3DImage::OnPaint(PAINTSTRUCT * PaintStruct) // Ïðîöåäóðà îòðèñîâêè êîìïîíåíòà
+void TD3DImage::OnPaint(PAINTSTRUCT * PaintStruct) // ÐŸÑ€Ð¾Ñ†ÐµÐ´ÑƒÑ€Ð° Ð¾Ñ‚Ñ€Ð¸ÑÐ¾Ð²ÐºÐ¸ ÐºÐ¾Ð¼Ð¿Ð¾Ð½ÐµÐ½Ñ‚Ð°
 {
 	if(FD3DDevice) FD3DDevice->Present(0, &FRect, 0, 0);
 	else TImage::OnPaint(PaintStruct);

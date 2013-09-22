@@ -5,8 +5,8 @@
 
 namespace PE{
 
-/// Абстрактный класс модуля Portable Executable
-/// Класс предоставляет специфические данные модуля Portable Executable
+/// РђР±СЃС‚СЂР°РєС‚РЅС‹Р№ РєР»Р°СЃСЃ РјРѕРґСѓР»СЏ Portable Executable
+/// РљР»Р°СЃСЃ РїСЂРµРґРѕСЃС‚Р°РІР»СЏРµС‚ СЃРїРµС†РёС„РёС‡РµСЃРєРёРµ РґР°РЅРЅС‹Рµ РјРѕРґСѓР»СЏ Portable Executable
 class TPESource: public TDumpSource
 {
 private:
@@ -22,57 +22,57 @@ protected:
 	};
 	DWORD Image_base;
 public:
-	// Заголовки
-	MZHEADER * MZHeader;			//!< Заголовок MZ
-	PEHEADER * PEHeader;			//!< Заголовок PE
-	// Объекты
-	OBJECTTABLE * FSections;		//!< Таблица объектов
-	int FSectionCount;				//!< Количество объектов
-	// Импорт
-	IMPORTEDENTRY * FImported;		//!< Список импортируемых функций
-	int FImportedCount;				//!< Число импортируемых функций
-	IMPORTEDLIB * FImportedLibs;	//!< Список импортируемых библиотек
-	int FImportedLibCount;			//!< Число импортируемых библиотек
-	bool ReadImports(void);			//!< Метод для заполнения полей импорта
-	// Экспорт
-	char * FExportName;				//!< Экспортируемое имя библиотеки
-	EXPORTEDENTRY * FExported;		//!< Список экспортируемых функций
-	int FExportedCount;				//!< Количество экспортируемых функций
-	bool ReadExports(void);			//!< Метод заполнения полей экспорта
+	// Р—Р°РіРѕР»РѕРІРєРё
+	MZHEADER * MZHeader;			//!< Р—Р°РіРѕР»РѕРІРѕРє MZ
+	PEHEADER * PEHeader;			//!< Р—Р°РіРѕР»РѕРІРѕРє PE
+	// РћР±СЉРµРєС‚С‹
+	OBJECTTABLE * FSections;		//!< РўР°Р±Р»РёС†Р° РѕР±СЉРµРєС‚РѕРІ
+	int FSectionCount;				//!< РљРѕР»РёС‡РµСЃС‚РІРѕ РѕР±СЉРµРєС‚РѕРІ
+	// РРјРїРѕСЂС‚
+	IMPORTEDENTRY * FImported;		//!< РЎРїРёСЃРѕРє РёРјРїРѕСЂС‚РёСЂСѓРµРјС‹С… С„СѓРЅРєС†РёР№
+	int FImportedCount;				//!< Р§РёСЃР»Рѕ РёРјРїРѕСЂС‚РёСЂСѓРµРјС‹С… С„СѓРЅРєС†РёР№
+	IMPORTEDLIB * FImportedLibs;	//!< РЎРїРёСЃРѕРє РёРјРїРѕСЂС‚РёСЂСѓРµРјС‹С… Р±РёР±Р»РёРѕС‚РµРє
+	int FImportedLibCount;			//!< Р§РёСЃР»Рѕ РёРјРїРѕСЂС‚РёСЂСѓРµРјС‹С… Р±РёР±Р»РёРѕС‚РµРє
+	bool ReadImports(void);			//!< РњРµС‚РѕРґ РґР»СЏ Р·Р°РїРѕР»РЅРµРЅРёСЏ РїРѕР»РµР№ РёРјРїРѕСЂС‚Р°
+	// Р­РєСЃРїРѕСЂС‚
+	char * FExportName;				//!< Р­РєСЃРїРѕСЂС‚РёСЂСѓРµРјРѕРµ РёРјСЏ Р±РёР±Р»РёРѕС‚РµРєРё
+	EXPORTEDENTRY * FExported;		//!< РЎРїРёСЃРѕРє СЌРєСЃРїРѕСЂС‚РёСЂСѓРµРјС‹С… С„СѓРЅРєС†РёР№
+	int FExportedCount;				//!< РљРѕР»РёС‡РµСЃС‚РІРѕ СЌРєСЃРїРѕСЂС‚РёСЂСѓРµРјС‹С… С„СѓРЅРєС†РёР№
+	bool ReadExports(void);			//!< РњРµС‚РѕРґ Р·Р°РїРѕР»РЅРµРЅРёСЏ РїРѕР»РµР№ СЌРєСЃРїРѕСЂС‚Р°
 
-	TPESource(void);				//!< Конструктор должен обнулить все поля
+	TPESource(void);				//!< РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РґРѕР»Р¶РµРЅ РѕР±РЅСѓР»РёС‚СЊ РІСЃРµ РїРѕР»СЏ
 	virtual void Clear(void);
-	virtual ~TPESource(void);		//!< Деструктор должен уничтожить поля импорта и экспорта
+	virtual ~TPESource(void);		//!< Р”РµСЃС‚СЂСѓРєС‚РѕСЂ РґРѕР»Р¶РµРЅ СѓРЅРёС‡С‚РѕР¶РёС‚СЊ РїРѕР»СЏ РёРјРїРѕСЂС‚Р° Рё СЌРєСЃРїРѕСЂС‚Р°
 };
 
-/// Класс для работы с модулем Portable Executable, с загрузкой из файла
+/// РљР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РјРѕРґСѓР»РµРј Portable Executable, СЃ Р·Р°РіСЂСѓР·РєРѕР№ РёР· С„Р°Р№Р»Р°
 class TPEFile: public TPESource
 {
 private:
 	char * LoadFromFile(const char * FileName);
 	char * * FSectData;
-	char * FFileData; // Контейнер файла
+	char * FFileData; // РљРѕРЅС‚РµР№РЅРµСЂ С„Р°Р№Р»Р°
 	DWORD FFileSize;
 public:
-	virtual void * GetData(void * VA, DWORD * Size, DWORD * Type, void * Seg);//!< Метод получения блока данных
+	virtual void * GetData(void * VA, DWORD * Size, DWORD * Type, void * Seg);//!< РњРµС‚РѕРґ РїРѕР»СѓС‡РµРЅРёСЏ Р±Р»РѕРєР° РґР°РЅРЅС‹С…
 	virtual void Clear(void);
 	char * SaveToFile(const char * FileName);
 	TPEFile(const char * FileName);
 	virtual ~TPEFile(void);
 };
 
-/// Класс для работы с модулем PortableExecutable, который уже загружен в данное адресное пространство
+/// РљР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РјРѕРґСѓР»РµРј PortableExecutable, РєРѕС‚РѕСЂС‹Р№ СѓР¶Рµ Р·Р°РіСЂСѓР¶РµРЅ РІ РґР°РЅРЅРѕРµ Р°РґСЂРµСЃРЅРѕРµ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ
 class TPELocalModule: public TPESource
 {
 public:
-	virtual void * GetData(void * VA, DWORD * Size, DWORD * Type, void * Seg);//!< Метод получения блока данных
+	virtual void * GetData(void * VA, DWORD * Size, DWORD * Type, void * Seg);//!< РњРµС‚РѕРґ РїРѕР»СѓС‡РµРЅРёСЏ Р±Р»РѕРєР° РґР°РЅРЅС‹С…
 	TPELocalModule(void * ImageBase);
 	void * PatchImport(void * NewAddress, char * Name, char * Library = 0);
 	//virtual ~TPELocalModule(void);
 };
 
 
-	/// Метод, возвращающий адрес в загруженной секции по его RVA.
+	/// РњРµС‚РѕРґ, РІРѕР·РІСЂР°С‰Р°СЋС‰РёР№ Р°РґСЂРµСЃ РІ Р·Р°РіСЂСѓР¶РµРЅРЅРѕР№ СЃРµРєС†РёРё РїРѕ РµРіРѕ RVA.
 	/*inline void * RVA(void * Pointer)
 	{
 		if(OBJECTTABLE * Table = GetSection(Pointer))
@@ -80,7 +80,7 @@ public:
 		return 0;
 	}
 
-	/// Метод, возвращающий адрес в загруженной секции по его RVA, также возвращает указатель на конец секции
+	/// РњРµС‚РѕРґ, РІРѕР·РІСЂР°С‰Р°СЋС‰РёР№ Р°РґСЂРµСЃ РІ Р·Р°РіСЂСѓР¶РµРЅРЅРѕР№ СЃРµРєС†РёРё РїРѕ РµРіРѕ RVA, С‚Р°РєР¶Рµ РІРѕР·РІСЂР°С‰Р°РµС‚ СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РєРѕРЅРµС† СЃРµРєС†РёРё
 	inline void * RVA(void * Pointer, void * &End)
 	{
 		if(OBJECTTABLE * Table = GetSection(Pointer))

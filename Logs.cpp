@@ -36,7 +36,7 @@ void OpenLog(void)
 		delete tlm;
 		return;
 	}
-	if(LogHandle && (LogHandle != INVALID_HANDLE_VALUE)) CloseHandle(LogHandle); // Если лог был уже открыт, то закрыть.
+	if(LogHandle && (LogHandle != INVALID_HANDLE_VALUE)) CloseHandle(LogHandle); // Р•СЃР»Рё Р»РѕРі Р±С‹Р» СѓР¶Рµ РѕС‚РєСЂС‹С‚, С‚Рѕ Р·Р°РєСЂС‹С‚СЊ.
 
 	LogHandle = LocHandle;
 
@@ -52,7 +52,7 @@ void AddMessage(void)
 	sprintf(OutString, "[%.2d.%.2d.%.4d %.2d:%.2d:%.2d.%.3d]", st.wDay, st.wMonth, st.wYear, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
 	LogMessage[-1] = 32;
 	//printf(OutString);
-	if(LogHandle == 0) OpenLog(); // Если лог не открывался, то открыть.
+	if(LogHandle == 0) OpenLog(); // Р•СЃР»Рё Р»РѕРі РЅРµ РѕС‚РєСЂС‹РІР°Р»СЃСЏ, С‚Рѕ РѕС‚РєСЂС‹С‚СЊ.
 
 	if(LogHandle && (LogHandle != INVALID_HANDLE_VALUE))
 	{
@@ -63,7 +63,7 @@ void AddMessage(void)
 
 void AddBSTR(wchar_t * String)
 {
-	if(LogHandle == 0) OpenLog(); // Если лог не открывался, то открыть.
+	if(LogHandle == 0) OpenLog(); // Р•СЃР»Рё Р»РѕРі РЅРµ РѕС‚РєСЂС‹РІР°Р»СЃСЏ, С‚Рѕ РѕС‚РєСЂС‹С‚СЊ.
 	unsigned long l = wcslen(String) + 1;
 	char * s = (char *) malloc(l);
 	WideCharToMultiByte(CP_ACP, 0, String, l, s, l, 0, 0);
@@ -73,7 +73,7 @@ void AddBSTR(wchar_t * String)
 
 void AddChars(char * String)
 {
-	if(LogHandle == 0) OpenLog(); // Если лог не открывался, то открыть.
+	if(LogHandle == 0) OpenLog(); // Р•СЃР»Рё Р»РѕРі РЅРµ РѕС‚РєСЂС‹РІР°Р»СЃСЏ, С‚Рѕ РѕС‚РєСЂС‹С‚СЊ.
 	unsigned long l = strlen(String);
 	WriteFile(LogHandle, String, l, &l, 0);
 }

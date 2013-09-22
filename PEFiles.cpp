@@ -11,20 +11,20 @@
 
 namespace PE{
 
-//! Конструктор должен обнулить все поля
+//! РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РґРѕР»Р¶РµРЅ РѕР±РЅСѓР»РёС‚СЊ РІСЃРµ РїРѕР»СЏ
 TPESource::TPESource(void)
 {				
 	MZHeader = 0;
 	PEHeader = 0;
-	// Объекты
+	// РћР±СЉРµРєС‚С‹
 	FSections = 0;
 	FSectionCount = 0;
-	// Импорт
+	// РРјРїРѕСЂС‚
 	FImported = 0;
 	FImportedCount = 0;
 	FImportedLibs = 0;
 	FImportedLibCount = 0;
-	// Экспорт
+	// Р­РєСЃРїРѕСЂС‚
 	FExportName = 0;
 	FExported = 0;
 	FExportedCount = 0;
@@ -59,7 +59,7 @@ void TPESource::Clear(void)
 	PEHeader = 0;
 }
 
-/// Метод извлечения из загруженных секций информации об импортируемых функциях
+/// РњРµС‚РѕРґ РёР·РІР»РµС‡РµРЅРёСЏ РёР· Р·Р°РіСЂСѓР¶РµРЅРЅС‹С… СЃРµРєС†РёР№ РёРЅС„РѕСЂРјР°С†РёРё РѕР± РёРјРїРѕСЂС‚РёСЂСѓРµРјС‹С… С„СѓРЅРєС†РёСЏС…
 bool TPESource::ReadImports(void)
 {
 	if(!PEHeader) return false;
@@ -70,7 +70,7 @@ bool TPESource::ReadImports(void)
 
 	IMPORTDIRECTORYTABLE * Table = (IMPORTDIRECTORYTABLE *)RVA(Import, &End);
 	if(!Table) return false;
-// Посчитаем количество импортируемых библиотек
+// РџРѕСЃС‡РёС‚Р°РµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РёРјРїРѕСЂС‚РёСЂСѓРµРјС‹С… Р±РёР±Р»РёРѕС‚РµРє
 	for(;Table->Library_name_offset; Table++)
 	{
 		if(Table >= End)
@@ -85,7 +85,7 @@ bool TPESource::ReadImports(void)
 	FImportedLibCount = TabCtr;
 	TabCtr = 0;
 	int EntCtr = 0;
-// Заполним имена библиотек и посчитаем число функций
+// Р—Р°РїРѕР»РЅРёРј РёРјРµРЅР° Р±РёР±Р»РёРѕС‚РµРє Рё РїРѕСЃС‡РёС‚Р°РµРј С‡РёСЃР»Рѕ С„СѓРЅРєС†РёР№
 	for(Table = (IMPORTDIRECTORYTABLE *)RVA(Import, &End); Table->Library_name_offset; Table++)
 	{
 		if(Table >= End)
@@ -121,7 +121,7 @@ bool TPESource::ReadImports(void)
 			Imp->Library = FImportedLibs + TabCtr;
 			if(char * Name = (char *)RVA(*Names))
 			{
-				//Hint не нужен// Imp->Ordinal = *(WORD *)Name;
+				//Hint РЅРµ РЅСѓР¶РµРЅ// Imp->Ordinal = *(WORD *)Name;
 				Imp->Name = Name + 2;
 			}
 			else
@@ -133,7 +133,7 @@ bool TPESource::ReadImports(void)
 	return true;
 }
 
-/// Метод извлечения из загруженных секций информации об экпортируемых функциях
+/// РњРµС‚РѕРґ РёР·РІР»РµС‡РµРЅРёСЏ РёР· Р·Р°РіСЂСѓР¶РµРЅРЅС‹С… СЃРµРєС†РёР№ РёРЅС„РѕСЂРјР°С†РёРё РѕР± СЌРєРїРѕСЂС‚РёСЂСѓРµРјС‹С… С„СѓРЅРєС†РёСЏС…
 bool TPESource::ReadExports(void)
 {
 	free(FExported);
@@ -149,7 +149,7 @@ bool TPESource::ReadExports(void)
 	char * * pFuncNames = (char * *)RVA(Table->Name_pointers_RVA);
 	int ExportedCount = Table->Number_of_funcs;
 	EXPORTEDENTRY * Exported = (EXPORTEDENTRY *) malloc(sizeof(EXPORTEDENTRY) * (ExportedCount));
-// Извлекаем адреса функций
+// РР·РІР»РµРєР°РµРј Р°РґСЂРµСЃР° С„СѓРЅРєС†РёР№
 	for(int x = 0; x < ExportedCount; x++)
 	{
 		Exported[x].Ordinal = x + Table->Ordinal_base;
@@ -157,7 +157,7 @@ bool TPESource::ReadExports(void)
 		Exported[x].Address = Addr ? *Addr : 0;
 		Exported[x].Name = 0;
 	}
-// Извлекаем имена функций
+// РР·РІР»РµРєР°РµРј РёРјРµРЅР° С„СѓРЅРєС†РёР№
 	int NameCount = Table->Number_of_names;
 	for(int x = 0; x < NameCount; x++)
 	{
@@ -166,7 +166,7 @@ bool TPESource::ReadExports(void)
 		Exported[*Ord].Name = (char *)RVA(*pFuncNames);
 		pFuncNames++;
 	}
-// Фильтруем от пустых
+// Р¤РёР»СЊС‚СЂСѓРµРј РѕС‚ РїСѓСЃС‚С‹С…
 	EXPORTEDENTRY * Dst = Exported;
 	for(int x = 0; x < ExportedCount; x++) 
 		if(Exported[x].Address || Exported[x].Name)
@@ -227,10 +227,10 @@ char * TPEFile::SaveToFile(const char * FileName)
 {
 	HANDLE f = CreateFile(FileName, FILE_WRITE_DATA, FILE_SHARE_READ, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
 	if(f == INVALID_HANDLE_VALUE)
-		ADD_MESSAGE "Ошибка открытия %s (Код %d)", FileName, GetLastError() HALT
+		ADD_MESSAGE "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ %s (РљРѕРґ %d)", FileName, GetLastError() HALT
 	DWORD t;
 	if(!WriteFile(f, FFileData, FFileSize, &t, 0) || (t != FFileSize))
-		ADD_MESSAGE "Ошибка чтения %s (Код %d)", FileName, GetLastError() HALT
+		ADD_MESSAGE "РћС€РёР±РєР° С‡С‚РµРЅРёСЏ %s (РљРѕРґ %d)", FileName, GetLastError() HALT
 	CloseHandle(f);
 	return 0;
 }
@@ -239,57 +239,57 @@ char * TPEFile::LoadFromFile(const char * FileName)
 {
 	Clear();
 
-//Прочитать файл
+//РџСЂРѕС‡РёС‚Р°С‚СЊ С„Р°Р№Р»
 	void * f = CreateFile(FileName, FILE_READ_DATA, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	if(f == INVALID_HANDLE_VALUE)
-		ADD_MESSAGE "Ошибка открытия %s (Код %d)", FileName, GetLastError() HALT
+		ADD_MESSAGE "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ %s (РљРѕРґ %d)", FileName, GetLastError() HALT
 	FFileSize = GetFileSize(f, 0);
 	FFileData = (char *) malloc(FFileSize);
 	DWORD t;
 	if(!ReadFile(f, FFileData, FFileSize, &t, 0) || (t != FFileSize))
-		ADD_MESSAGE "Ошибка чтения %s (Код %d)", FileName, GetLastError() HALT
+		ADD_MESSAGE "РћС€РёР±РєР° С‡С‚РµРЅРёСЏ %s (РљРѕРґ %d)", FileName, GetLastError() HALT
 	CloseHandle(f);
 
-//Загрузить заголовок MZ
+//Р—Р°РіСЂСѓР·РёС‚СЊ Р·Р°РіРѕР»РѕРІРѕРє MZ
 
 	MZHeader = (MZHEADER *)FFileData;
 	//DWORD l;
 	//if(!ReadFile(f, &FMZHeader, sizeof(FMZHeader), &t, 0) || (t != sizeof(FMZHeader)))
-	//	ADD_MESSAGE "Ошибка чтения MZ из %s (Код %d)", FileName, GetLastError() HALT
+	//	ADD_MESSAGE "РћС€РёР±РєР° С‡С‚РµРЅРёСЏ MZ РёР· %s (РљРѕРґ %d)", FileName, GetLastError() HALT
 
 	int Signature = *(unsigned short *)&(MZHeader->Signature);
 	if((Signature != 'MZ') && (Signature != 'ZM'))
-		ADD_MESSAGE "Неверная сигнатура MZ в файле %s", FileName HALT
+		ADD_MESSAGE "РќРµРІРµСЂРЅР°СЏ СЃРёРіРЅР°С‚СѓСЂР° MZ РІ С„Р°Р№Р»Рµ %s", FileName HALT
 
 	//MZHeader = &FMZHeader;
-	if(MZHeader->Table_offset < 0x40 || MZHeader->PE_offset + sizeof(PEHEADER) > FFileSize) return "Заголовок PE отсутствует.";
+	if(MZHeader->Table_offset < 0x40 || MZHeader->PE_offset + sizeof(PEHEADER) > FFileSize) return "Р—Р°РіРѕР»РѕРІРѕРє PE РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚.";
 
-//Загрузить заголовок PE
+//Р—Р°РіСЂСѓР·РёС‚СЊ Р·Р°РіРѕР»РѕРІРѕРє PE
 
 	PEHeader = (PEHEADER *) (FFileData + MZHeader->PE_offset);
 	//if(SetFilePointer(f, FMZHeader.PE_offset, 0, FILE_BEGIN) != FMZHeader.PE_offset) 
-	//	{ CloseHandle(f); return "Ошибка установки позиции чтения";}
+	//	{ CloseHandle(f); return "РћС€РёР±РєР° СѓСЃС‚Р°РЅРѕРІРєРё РїРѕР·РёС†РёРё С‡С‚РµРЅРёСЏ";}
 
 	//if(!ReadFile(f, &FPEHeader, sizeof(FPEHeader), &t, 0) || (t != sizeof(FPEHeader)))
-	//	ADD_MESSAGE "Ошибка чтения PE из %s (Код %d)", FileName, GetLastError() HALT
+	//	ADD_MESSAGE "РћС€РёР±РєР° С‡С‚РµРЅРёСЏ PE РёР· %s (РљРѕРґ %d)", FileName, GetLastError() HALT
 
-    if(*(int *)&(PEHeader->Signature) != 0x4550) return "Неверная сигнатура PE.";
+    if(*(int *)&(PEHeader->Signature) != 0x4550) return "РќРµРІРµСЂРЅР°СЏ СЃРёРіРЅР°С‚СѓСЂР° PE.";
 	//PEHeader = &FPEHeader;
 	Image_base = PEHeader->Image_base;
 
-// Загрузить заголовки секций
+// Р—Р°РіСЂСѓР·РёС‚СЊ Р·Р°РіРѕР»РѕРІРєРё СЃРµРєС†РёР№
 	if(!(FSectionCount = PEHeader->Number_of_objects))
-		ADD_MESSAGE "Секции отсутствуют в %s.", FileName HALT
+		ADD_MESSAGE "РЎРµРєС†РёРё РѕС‚СЃСѓС‚СЃС‚РІСѓСЋС‚ РІ %s.", FileName HALT
 	FSections = (OBJECTTABLE *)(PEHeader + 1);// malloc(sizeof(OBJECTTABLE) * FSectionCount);
 
 	//l = FSectionCount * sizeof(OBJECTTABLE);
 	//if(!ReadFile(f, FSections, l, &t, 0) || (t != l))
-	//	ADD_MESSAGE "Ошибка чтения секций из %s (Код %d)", FileName, GetLastError() HALT
+	//	ADD_MESSAGE "РћС€РёР±РєР° С‡С‚РµРЅРёСЏ СЃРµРєС†РёР№ РёР· %s (РљРѕРґ %d)", FileName, GetLastError() HALT
 
-// Нарастить секции по потребности
+// РќР°СЂР°СЃС‚РёС‚СЊ СЃРµРєС†РёРё РїРѕ РїРѕС‚СЂРµР±РЅРѕСЃС‚Рё
 
 
-// Загрузить данные секций
+// Р—Р°РіСЂСѓР·РёС‚СЊ РґР°РЅРЅС‹Рµ СЃРµРєС†РёР№
 	FSectData = (char * *)malloc(sizeof(char *) * FSectionCount);
 
 	OBJECTTABLE * Section = FSections;
@@ -307,9 +307,9 @@ char * TPEFile::LoadFromFile(const char * FileName)
 			Size = pSize;
 		}*/
 		/*if(SetFilePointer(f, Section->Offset, 0, FILE_BEGIN) != Section->Offset) 
-			{ CloseHandle(f); return "Ошибка позиционирования в файле при загрузке секций";}
+			{ CloseHandle(f); return "РћС€РёР±РєР° РїРѕР·РёС†РёРѕРЅРёСЂРѕРІР°РЅРёСЏ РІ С„Р°Р№Р»Рµ РїСЂРё Р·Р°РіСЂСѓР·РєРµ СЃРµРєС†РёР№";}
 		if(!ReadFile(f, FSectData[x], pSize, &t, 0) || (t != pSize))
-			ADD_MESSAGE "Ошибка чтения секции из %s (Код %d)", FileName, GetLastError() HALT
+			ADD_MESSAGE "РћС€РёР±РєР° С‡С‚РµРЅРёСЏ СЃРµРєС†РёРё РёР· %s (РљРѕРґ %d)", FileName, GetLastError() HALT
 		*/
 		Section++;
 	}
@@ -321,7 +321,7 @@ char * TPEFile::LoadFromFile(const char * FileName)
 }
 
 
-/// Метод получения блока данных
+/// РњРµС‚РѕРґ РїРѕР»СѓС‡РµРЅРёСЏ Р±Р»РѕРєР° РґР°РЅРЅС‹С…
 void * TPEFile::GetData(void * VA, DWORD * Size, DWORD * Type, void * Seg)
 {
 	*Type = 0;

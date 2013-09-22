@@ -1,4 +1,4 @@
-//! \file Classes.h Определения делегатов и вспомогательных классов
+//! \file Classes.h РћРїСЂРµРґРµР»РµРЅРёСЏ РґРµР»РµРіР°С‚РѕРІ Рё РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹С… РєР»Р°СЃСЃРѕРІ
 #ifndef _Classes_
 #define _Classes_
 #include <string.h>
@@ -13,7 +13,7 @@ inline size_t StrLen(char * Value) {return strlen(Value);};
 inline size_t StrLen(wchar_t * Value) {return wcslen(Value);};
 
 
-/// Класс статической строки.
+/// РљР»Р°СЃСЃ СЃС‚Р°С‚РёС‡РµСЃРєРѕР№ СЃС‚СЂРѕРєРё.
 template <class T>
 class TString 
 {
@@ -28,7 +28,7 @@ public:
 	virtual ~TString() {};
 };
 
-/// Класс динамической строки
+/// РљР»Р°СЃСЃ РґРёРЅР°РјРёС‡РµСЃРєРѕР№ СЃС‚СЂРѕРєРё
 template <class T>
 class TDynString: public TString<T>
 {
@@ -40,7 +40,7 @@ private:
 	} PROP;
 public:
 	virtual int get_Len(void) {return Value ? ((PROP *) Value)[-1].Len : 0;};
-	/// Копирующий конструктор.
+	/// РљРѕРїРёСЂСѓСЋС‰РёР№ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
 	template <class sT>
 	TDynString(TString<sT> &String)
 	{
@@ -56,7 +56,7 @@ public:
 		Value = (T *)(Prop + 1);
 		CopyString(Value, String, Len);
 	}
-	/// Конструктор создания строки из указателя.
+	/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃРѕР·РґР°РЅРёСЏ СЃС‚СЂРѕРєРё РёР· СѓРєР°Р·Р°С‚РµР»СЏ.
 	template <class sT>
 	TDynString(sT * String)
 	{
@@ -68,13 +68,13 @@ public:
 		Value = (T *)(Prop + 1);
 		CopyString(Value, String, Len);
 	}
-	/// Конструктор для создания нового объекта с той же строкой
+	/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РЅРѕРІРѕРіРѕ РѕР±СЉРµРєС‚Р° СЃ С‚РѕР№ Р¶Рµ СЃС‚СЂРѕРєРѕР№
 	TDynString(TDynString &String)
 	{
 		if(Value = String.Value)
 			((PROP *) Value)[-1].RefCount++;
 	}
-	/// Деструктор
+	/// Р”РµСЃС‚СЂСѓРєС‚РѕСЂ
 	virtual ~TDynString(void)
 	{
 		if(Value)
@@ -85,21 +85,21 @@ public:
 	}
 };
 
-/// Абстрактный класс, базовый для всех классов, содержащих список строк типа char*.
+/// РђР±СЃС‚СЂР°РєС‚РЅС‹Р№ РєР»Р°СЃСЃ, Р±Р°Р·РѕРІС‹Р№ РґР»СЏ РІСЃРµС… РєР»Р°СЃСЃРѕРІ, СЃРѕРґРµСЂР¶Р°С‰РёС… СЃРїРёСЃРѕРє СЃС‚СЂРѕРє С‚РёРїР° char*.
 class TStrings
 {
 public:
-	virtual int Add(const TCHAR * S, void * Object = 0) = 0; /// Добавляет строку в список.
-	virtual void Delete(int Index /*!Номер строки*/) = 0; /// Удаляет строку из списка.
-	virtual void Clear(void) = 0; /// Очищает список.
-	virtual int GetCount(void) = 0; /// Возвращает число строк в списке.
-	virtual int IndexOf(const TCHAR * S); /// Ищет строку в списке, возвращает номер строки.
-	virtual void Insert(int Index, const TCHAR * S) = 0; /// Вставляет строку в список.
-	virtual TCHAR * get_Strings(int Index) = 0; /// Получает строку по номеру.
-	virtual void set_Strings(int Index, TCHAR * String) = 0; /// Присваивает строку по номеру
+	virtual int Add(const TCHAR * S, void * Object = 0) = 0; /// Р”РѕР±Р°РІР»СЏРµС‚ СЃС‚СЂРѕРєСѓ РІ СЃРїРёСЃРѕРє.
+	virtual void Delete(int Index /*!РќРѕРјРµСЂ СЃС‚СЂРѕРєРё*/) = 0; /// РЈРґР°Р»СЏРµС‚ СЃС‚СЂРѕРєСѓ РёР· СЃРїРёСЃРєР°.
+	virtual void Clear(void) = 0; /// РћС‡РёС‰Р°РµС‚ СЃРїРёСЃРѕРє.
+	virtual int GetCount(void) = 0; /// Р’РѕР·РІСЂР°С‰Р°РµС‚ С‡РёСЃР»Рѕ СЃС‚СЂРѕРє РІ СЃРїРёСЃРєРµ.
+	virtual int IndexOf(const TCHAR * S); /// РС‰РµС‚ СЃС‚СЂРѕРєСѓ РІ СЃРїРёСЃРєРµ, РІРѕР·РІСЂР°С‰Р°РµС‚ РЅРѕРјРµСЂ СЃС‚СЂРѕРєРё.
+	virtual void Insert(int Index, const TCHAR * S) = 0; /// Р’СЃС‚Р°РІР»СЏРµС‚ СЃС‚СЂРѕРєСѓ РІ СЃРїРёСЃРѕРє.
+	virtual TCHAR * get_Strings(int Index) = 0; /// РџРѕР»СѓС‡Р°РµС‚ СЃС‚СЂРѕРєСѓ РїРѕ РЅРѕРјРµСЂСѓ.
+	virtual void set_Strings(int Index, TCHAR * String) = 0; /// РџСЂРёСЃРІР°РёРІР°РµС‚ СЃС‚СЂРѕРєСѓ РїРѕ РЅРѕРјРµСЂСѓ
 };
 
-/// Абстрактный класс, базовый для всех классов, содержащих список строк типа char* и состояние каждой строки.
+/// РђР±СЃС‚СЂР°РєС‚РЅС‹Р№ РєР»Р°СЃСЃ, Р±Р°Р·РѕРІС‹Р№ РґР»СЏ РІСЃРµС… РєР»Р°СЃСЃРѕРІ, СЃРѕРґРµСЂР¶Р°С‰РёС… СЃРїРёСЃРѕРє СЃС‚СЂРѕРє С‚РёРїР° char* Рё СЃРѕСЃС‚РѕСЏРЅРёРµ РєР°Р¶РґРѕР№ СЃС‚СЂРѕРєРё.
 class TStateStrings: public TStrings
 {
 public:
@@ -109,7 +109,7 @@ public:
 	virtual int get_State(void * Object) = 0;
 };
 
-//////////////////////////////////// Реализация делегатов ///////////////////////////////////////////////
+//////////////////////////////////// Р РµР°Р»РёР·Р°С†РёСЏ РґРµР»РµРіР°С‚РѕРІ ///////////////////////////////////////////////
 
 //#define __delfast
 
@@ -125,7 +125,7 @@ public:
 class TNotifyEvent {
 public:
 	void * Handler;
-	void * Object;  // Объект метода или 0.
+	void * Object;  // РћР±СЉРµРєС‚ РјРµС‚РѕРґР° РёР»Рё 0.
 	inline TNotifyEvent(void) {Handler = 0; Object = 0;};
 	inline void * operator = (void * a)
 	{

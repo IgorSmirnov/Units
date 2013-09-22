@@ -1,7 +1,7 @@
-//! Реализация базовых визуальных компонентов
+//! Р РµР°Р»РёР·Р°С†РёСЏ Р±Р°Р·РѕРІС‹С… РІРёР·СѓР°Р»СЊРЅС‹С… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 /** \file
- 	Файл содержит реализацию классов визуальных компонентов, не имеющих
-	своего окна и определённой специализации.
+ 	Р¤Р°Р№Р» СЃРѕРґРµСЂР¶РёС‚ СЂРµР°Р»РёР·Р°С†РёСЋ РєР»Р°СЃСЃРѕРІ РІРёР·СѓР°Р»СЊРЅС‹С… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ, РЅРµ РёРјРµСЋС‰РёС…
+	СЃРІРѕРµРіРѕ РѕРєРЅР° Рё РѕРїСЂРµРґРµР»С‘РЅРЅРѕР№ СЃРїРµС†РёР°Р»РёР·Р°С†РёРё.
 */
 #include "Controls.h"
 #include "WinControls.h"
@@ -62,14 +62,14 @@ void TControl::_TControl(TParentControl * Parent, RECT * Rect, int Layout)
 	}
 }
 
-//! Деструктор визуального компонента.
-//! Уведомляет родителя об уничтожении. Извлекает компонент из родительского связного списка.
+//! Р”РµСЃС‚СЂСѓРєС‚РѕСЂ РІРёР·СѓР°Р»СЊРЅРѕРіРѕ РєРѕРјРїРѕРЅРµРЅС‚Р°.
+//! РЈРІРµРґРѕРјР»СЏРµС‚ СЂРѕРґРёС‚РµР»СЏ РѕР± СѓРЅРёС‡С‚РѕР¶РµРЅРёРё. РР·РІР»РµРєР°РµС‚ РєРѕРјРїРѕРЅРµРЅС‚ РёР· СЂРѕРґРёС‚РµР»СЊСЃРєРѕРіРѕ СЃРІСЏР·РЅРѕРіРѕ СЃРїРёСЃРєР°.
 TControl::~TControl(void)
 {
 	if(FParent) FParent->RemoveChild(this, false);
 }
 
-void TControl::MouseEvent(int x, int y, int mk, UINT uMsg)  // Уведомление о движении
+void TControl::MouseEvent(int x, int y, int mk, UINT uMsg)  // РЈРІРµРґРѕРјР»РµРЅРёРµ Рѕ РґРІРёР¶РµРЅРёРё
 {
 	OnMouseEvent(x, y, mk, uMsg);
 }
@@ -94,7 +94,7 @@ void TControl::MakeFocused(void)
 	if(FWinParent) FWinParent->SetFocusedChild(this);
 };
 
-bool TControl::ParentSetRect(RECT * Rect) // Уведомление от родительских компонентов
+bool TControl::ParentSetRect(RECT * Rect) // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ СЂРѕРґРёС‚РµР»СЊСЃРєРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 {
 	FOldRect = FRect;
 	FRect = *Rect;
@@ -197,31 +197,31 @@ TParentControl::TParentControl(void)
 	FClientPresent = false;
 }
 
-/* Принципы уничтожения визуальных компонентов 
+/* РџСЂРёРЅС†РёРїС‹ СѓРЅРёС‡С‚РѕР¶РµРЅРёСЏ РІРёР·СѓР°Р»СЊРЅС‹С… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ 
 
-     Алгоритм работы деструктора визуального компонента:
-	1. Попытаться уничтожить(delete) всех детей (вызывающий код вправе запретить это 
-	путём очистки FFirstChild и FLastChild), с запретом уведомления.
-	2. Если есть - уничтожить окно и т.п.
-	3. Уведомить родителя об уничтожении: RemoveChild(this, false)
-	(вызывающий код вправе запретить это путём очистки FParent)
-	4?. Уведомить прочих.
+     РђР»РіРѕСЂРёС‚Рј СЂР°Р±РѕС‚С‹ РґРµСЃС‚СЂСѓРєС‚РѕСЂР° РІРёР·СѓР°Р»СЊРЅРѕРіРѕ РєРѕРјРїРѕРЅРµРЅС‚Р°:
+	1. РџРѕРїС‹С‚Р°С‚СЊСЃСЏ СѓРЅРёС‡С‚РѕР¶РёС‚СЊ(delete) РІСЃРµС… РґРµС‚РµР№ (РІС‹Р·С‹РІР°СЋС‰РёР№ РєРѕРґ РІРїСЂР°РІРµ Р·Р°РїСЂРµС‚РёС‚СЊ СЌС‚Рѕ 
+	РїСѓС‚С‘Рј РѕС‡РёСЃС‚РєРё FFirstChild Рё FLastChild), СЃ Р·Р°РїСЂРµС‚РѕРј СѓРІРµРґРѕРјР»РµРЅРёСЏ.
+	2. Р•СЃР»Рё РµСЃС‚СЊ - СѓРЅРёС‡С‚РѕР¶РёС‚СЊ РѕРєРЅРѕ Рё С‚.Рї.
+	3. РЈРІРµРґРѕРјРёС‚СЊ СЂРѕРґРёС‚РµР»СЏ РѕР± СѓРЅРёС‡С‚РѕР¶РµРЅРёРё: RemoveChild(this, false)
+	(РІС‹Р·С‹РІР°СЋС‰РёР№ РєРѕРґ РІРїСЂР°РІРµ Р·Р°РїСЂРµС‚РёС‚СЊ СЌС‚Рѕ РїСѓС‚С‘Рј РѕС‡РёСЃС‚РєРё FParent)
+	4?. РЈРІРµРґРѕРјРёС‚СЊ РїСЂРѕС‡РёС….
 
-     Алгоритм метода, уведомляющего об уничтожении дочерних компонентов(RemoveChild):
-	1. Извлечь уничтожаемый компонент из связного списка.
-	2. Запустить деструктор дочернего компонента, если Destroy (с запретом уведомления).
-	3. Обновить себя?
+     РђР»РіРѕСЂРёС‚Рј РјРµС‚РѕРґР°, СѓРІРµРґРѕРјР»СЏСЋС‰РµРіРѕ РѕР± СѓРЅРёС‡С‚РѕР¶РµРЅРёРё РґРѕС‡РµСЂРЅРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ(RemoveChild):
+	1. РР·РІР»РµС‡СЊ СѓРЅРёС‡С‚РѕР¶Р°РµРјС‹Р№ РєРѕРјРїРѕРЅРµРЅС‚ РёР· СЃРІСЏР·РЅРѕРіРѕ СЃРїРёСЃРєР°.
+	2. Р—Р°РїСѓСЃС‚РёС‚СЊ РґРµСЃС‚СЂСѓРєС‚РѕСЂ РґРѕС‡РµСЂРЅРµРіРѕ РєРѕРјРїРѕРЅРµРЅС‚Р°, РµСЃР»Рё Destroy (СЃ Р·Р°РїСЂРµС‚РѕРј СѓРІРµРґРѕРјР»РµРЅРёСЏ).
+	3. РћР±РЅРѕРІРёС‚СЊ СЃРµР±СЏ?
 
-     Алгоритм обработки сообщений WM_DESTROY и подобных им:
-	1. Избавиться от окна, принявшего сообщение.
-	2. Уведомить родителя об необходимости уничтожения: RemoveChild(this, true)
-	(вызывающий код вправе запретить это путём очистки FParent)
+     РђР»РіРѕСЂРёС‚Рј РѕР±СЂР°Р±РѕС‚РєРё СЃРѕРѕР±С‰РµРЅРёР№ WM_DESTROY Рё РїРѕРґРѕР±РЅС‹С… РёРј:
+	1. РР·Р±Р°РІРёС‚СЊСЃСЏ РѕС‚ РѕРєРЅР°, РїСЂРёРЅСЏРІС€РµРіРѕ СЃРѕРѕР±С‰РµРЅРёРµ.
+	2. РЈРІРµРґРѕРјРёС‚СЊ СЂРѕРґРёС‚РµР»СЏ РѕР± РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё СѓРЅРёС‡С‚РѕР¶РµРЅРёСЏ: RemoveChild(this, true)
+	(РІС‹Р·С‹РІР°СЋС‰РёР№ РєРѕРґ РІРїСЂР°РІРµ Р·Р°РїСЂРµС‚РёС‚СЊ СЌС‚Рѕ РїСѓС‚С‘Рј РѕС‡РёСЃС‚РєРё FParent)
 
-	 Алгоритм работы деструктора формы со статически включёнными компонентами:
-	1. Выполнить RemoveChild(&Child, false) для всех включённых детей и запустить их деструкторы.
-	3. Запустить унаследованный деструктор.
+	 РђР»РіРѕСЂРёС‚Рј СЂР°Р±РѕС‚С‹ РґРµСЃС‚СЂСѓРєС‚РѕСЂР° С„РѕСЂРјС‹ СЃРѕ СЃС‚Р°С‚РёС‡РµСЃРєРё РІРєР»СЋС‡С‘РЅРЅС‹РјРё РєРѕРјРїРѕРЅРµРЅС‚Р°РјРё:
+	1. Р’С‹РїРѕР»РЅРёС‚СЊ RemoveChild(&Child, false) РґР»СЏ РІСЃРµС… РІРєР»СЋС‡С‘РЅРЅС‹С… РґРµС‚РµР№ Рё Р·Р°РїСѓСЃС‚РёС‚СЊ РёС… РґРµСЃС‚СЂСѓРєС‚РѕСЂС‹.
+	3. Р—Р°РїСѓСЃС‚РёС‚СЊ СѓРЅР°СЃР»РµРґРѕРІР°РЅРЅС‹Р№ РґРµСЃС‚СЂСѓРєС‚РѕСЂ.
   */
-//! Деструктор родительского компонента.
+//! Р”РµСЃС‚СЂСѓРєС‚РѕСЂ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРіРѕ РєРѕРјРїРѕРЅРµРЅС‚Р°.
 TParentControl::~TParentControl(void)
 {
 	for(TControl * x = FFirstChild; x; )
@@ -236,16 +236,16 @@ TParentControl::~TParentControl(void)
 void TParentControl::RemoveChild(TControl * Child, bool Destroy)
 {
 	TControl * Next;
-	// Распутываем
+	// Р Р°СЃРїСѓС‚С‹РІР°РµРј
 	if(Next = Child->FNext) Next->FPrev = Child->FPrev;
 	else FLastChild = Child->FPrev;
 	if(TControl * Prev = Child->FPrev) Prev->FNext = Child->FNext;
 	else FFirstChild = Child->FNext;
 	Child->FParent = 0;
-	// Уничтожаем
+	// РЈРЅРёС‡С‚РѕР¶Р°РµРј
 	RECT CleanRect = Child->FRect;
 	if(Destroy) delete Child;
-	// Обновляем
+	// РћР±РЅРѕРІР»СЏРµРј
 	if(HWND hWindow = GetWindowHandle())
 	{
 		InvalidateRect(hWindow, &CleanRect, false);
@@ -366,14 +366,14 @@ void TParentControl::AddChild(TControl * Child)
 
 
 	int Layout = Child->FLayout;
-	if((Layout & (LT_ALIGN | LT_SCALE)) == (LT_ALIGN | LT_SCALE)) // Вычисление доли
+	if((Layout & (LT_ALIGN | LT_SCALE)) == (LT_ALIGN | LT_SCALE)) // Р’С‹С‡РёСЃР»РµРЅРёРµ РґРѕР»Рё
 		Child->FSegment = GetSegment(&FFreeClient, &Child->FRect, Layout);
 	if(Layout & LT_ALIGN)
 	{
 		/*if((Layout & LT_MODE) == LT_ALIGN)
-		{// Расчёт полных ограничений:
-		 //	По направлению прижатия: Part += Child; FChild = min/max(Part)
-		 //	Перпендикулярно: Part
+		{// Р Р°СЃС‡С‘С‚ РїРѕР»РЅС‹С… РѕРіСЂР°РЅРёС‡РµРЅРёР№:
+		 //	РџРѕ РЅР°РїСЂР°РІР»РµРЅРёСЋ РїСЂРёР¶Р°С‚РёСЏ: Part += Child; FChild = min/max(Part)
+		 //	РџРµСЂРїРµРЅРґРёРєСѓР»СЏСЂРЅРѕ: Part
 
 			int c = Layout & 1;
 			int p = c ^ 1;
@@ -400,7 +400,7 @@ void TParentControl::AddChild(TControl * Child)
 	else
 	{
 		RECT r = Child->FRect;
-		r.left += FClient.left; // Относительные координаты
+		r.left += FClient.left; // РћС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹
 		r.right += FClient.left;
 		r.top += FClient.top;
 		r.bottom += FClient.top;
@@ -420,18 +420,18 @@ void TParentControl::get_Constraints(RECT * c)
 
 
 
-void TParentControl::ChildSetSize(TControl * Child, RECT * Rect) // Уведомление от дочерних компонентов
+void TParentControl::ChildSetSize(TControl * Child, RECT * Rect) // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ РґРѕС‡РµСЂРЅРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 {
 	TControl * LastChild = 0;
 	int Layout = Child->FLayout & LT_LAYOUT;
-	for(TControl * x = Child->FPrev; x; x = x->FPrev) // Ищем ближайшего соседа перед данным
+	for(TControl * x = Child->FPrev; x; x = x->FPrev) // РС‰РµРј Р±Р»РёР¶Р°Р№С€РµРіРѕ СЃРѕСЃРµРґР° РїРµСЂРµРґ РґР°РЅРЅС‹Рј
 	if((x->FLayout & LT_LAYOUT) == Layout)
 	{
 		LastChild = x;
 		break;
 	}
 
-	// Рассчитать суммарные ограничения последующих компонентов
+	// Р Р°СЃСЃС‡РёС‚Р°С‚СЊ СЃСѓРјРјР°СЂРЅС‹Рµ РѕРіСЂР°РЅРёС‡РµРЅРёСЏ РїРѕСЃР»РµРґСѓСЋС‰РёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 	RECT Sum = {0};
 	for(TControl * x = FLastChild; x; x = x->FPrev)
 	{
@@ -466,12 +466,12 @@ void TParentControl::ChildSetSize(TControl * Child, RECT * Rect) // Уведомление 
 	for(TControl * x = FFirstChild; x; x = x->FNext)
 	{
 		int Layout = x->FLayout;
-		if(x == LastChild) // Если нашли ближайшего соседа перед данным, то изменяем его размер.
+		if(x == LastChild) // Р•СЃР»Рё РЅР°С€Р»Рё Р±Р»РёР¶Р°Р№С€РµРіРѕ СЃРѕСЃРµРґР° РїРµСЂРµРґ РґР°РЅРЅС‹Рј, С‚Рѕ РёР·РјРµРЅСЏРµРј РµРіРѕ СЂР°Р·РјРµСЂ.
 		{
 			b = true;
 			int Cur = Child->FLayout & LT_ALOFFSET;
 
-			RECT CRect = x->FRect; // Наложение ограничений предыдущего соседа
+			RECT CRect = x->FRect; // РќР°Р»РѕР¶РµРЅРёРµ РѕРіСЂР°РЅРёС‡РµРЅРёР№ РїСЂРµРґС‹РґСѓС‰РµРіРѕ СЃРѕСЃРµРґР°
 			pint(CRect)[Cur ^ 2] = pint(*Rect)[Cur];
 			RECT Cnt;
 			x->get_Constraints(&Cnt);
@@ -482,10 +482,10 @@ void TParentControl::ChildSetSize(TControl * Child, RECT * Rect) // Уведомление 
 			if(cn && (pint(CRect)[Cur | 2] - pint(CRect)[Cur & 1] > cn))
 				pint(CRect)[Cur ^ 2] = pint(CRect)[Cur] + (Cur & 2 ? -cn : cn);
 
-			// Наложение ограничений последующих соседей
+			// РќР°Р»РѕР¶РµРЅРёРµ РѕРіСЂР°РЅРёС‡РµРЅРёР№ РїРѕСЃР»РµРґСѓСЋС‰РёС… СЃРѕСЃРµРґРµР№
 			int fc = pint(FFreeClient)[Cur | 2] - pint(FFreeClient)[Cur & 1];
 			int cr = pint(CRect)[Cur | 2] - pint(CRect)[Cur & 1];
-			fc -= cr; // Размер, остающийся последующим соседям
+			fc -= cr; // Р Р°Р·РјРµСЂ, РѕСЃС‚Р°СЋС‰РёР№СЃСЏ РїРѕСЃР»РµРґСѓСЋС‰РёРј СЃРѕСЃРµРґСЏРј
 			if(pint(Sum)[Cur & 1] > fc) 
 			{
 				fc -= pint(Sum)[Cur & 1];
@@ -528,8 +528,8 @@ void TParentControl::RestoreFC(int Layout, RECT * Rect)
 	}
 }
 
-//! Рассчитывает положение дочерних компонентов, начиная от Child. 
-//! Результат пишется в Child->FOldRect. Если Move, после окончания вызывается ParentSetRect
+//! Р Р°СЃСЃС‡РёС‚С‹РІР°РµС‚ РїРѕР»РѕР¶РµРЅРёРµ РґРѕС‡РµСЂРЅРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ, РЅР°С‡РёРЅР°СЏ РѕС‚ Child. 
+//! Р РµР·СѓР»СЊС‚Р°С‚ РїРёС€РµС‚СЃСЏ РІ Child->FOldRect. Р•СЃР»Рё Move, РїРѕСЃР»Рµ РѕРєРѕРЅС‡Р°РЅРёСЏ РІС‹Р·С‹РІР°РµС‚СЃСЏ ParentSetRect
 bool TParentControl::Align(TControl * Child, RECT * Old, bool Move)
 {
 	for(TControl * x = FFirstChild; x; x = x->FNext)
@@ -540,7 +540,7 @@ bool TParentControl::Align(TControl * Child, RECT * Old, bool Move)
 	TControl * First;
 	for(First = Child; Child; Child = Child->FNext)
 	{
-		// Вписываем Child в соответствии с FLayout:
+		// Р’РїРёСЃС‹РІР°РµРј Child РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ FLayout:
 		_ASSERTE(FClientPresent);
 		RECT c;
 		Child->get_Constraints(&c);
@@ -586,10 +586,10 @@ bool TParentControl::Align(TControl * Child, RECT * Old, bool Move)
 			}
 		}
 
-		// Проверяем ограничения:
-		// Если ограничение нарушено, необходимо скорректировать размер предыдущего соседа,
-		// который прижат в ту сторону, которая перпендикулярна стороне нарушившей ограничение
-		int dd[2] = {0}; // Коррекция размеров предыдущего соседа. Положительное значение - увеличить.
+		// РџСЂРѕРІРµСЂСЏРµРј РѕРіСЂР°РЅРёС‡РµРЅРёСЏ:
+		// Р•СЃР»Рё РѕРіСЂР°РЅРёС‡РµРЅРёРµ РЅР°СЂСѓС€РµРЅРѕ, РЅРµРѕР±С…РѕРґРёРјРѕ СЃРєРѕСЂСЂРµРєС‚РёСЂРѕРІР°С‚СЊ СЂР°Р·РјРµСЂ РїСЂРµРґС‹РґСѓС‰РµРіРѕ СЃРѕСЃРµРґР°,
+		// РєРѕС‚РѕСЂС‹Р№ РїСЂРёР¶Р°С‚ РІ С‚Сѓ СЃС‚РѕСЂРѕРЅСѓ, РєРѕС‚РѕСЂР°СЏ РїРµСЂРїРµРЅРґРёРєСѓР»СЏСЂРЅР° СЃС‚РѕСЂРѕРЅРµ РЅР°СЂСѓС€РёРІС€РµР№ РѕРіСЂР°РЅРёС‡РµРЅРёРµ
+		int dd[2] = {0}; // РљРѕСЂСЂРµРєС†РёСЏ СЂР°Р·РјРµСЂРѕРІ РїСЂРµРґС‹РґСѓС‰РµРіРѕ СЃРѕСЃРµРґР°. РџРѕР»РѕР¶РёС‚РµР»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ - СѓРІРµР»РёС‡РёС‚СЊ.
 		RECT &r = Child->FOldRect;
 		int w = r.right - r.left, h = r.bottom - r.top;
 		if(c.left > w) dd[0] = w - c.left;
@@ -642,9 +642,9 @@ bool TParentControl::Align(TControl * Child, RECT * Old, bool Move)
 	return true;
 }
 
-//! Прижимает Child к краю, отсекает от FFreeClient кусок, занятый им
+//! РџСЂРёР¶РёРјР°РµС‚ Child Рє РєСЂР°СЋ, РѕС‚СЃРµРєР°РµС‚ РѕС‚ FFreeClient РєСѓСЃРѕРє, Р·Р°РЅСЏС‚С‹Р№ РёРј
 
-//! Если MoveChild = false, то меняет только FFreeClient
+//! Р•СЃР»Рё MoveChild = false, С‚Рѕ РјРµРЅСЏРµС‚ С‚РѕР»СЊРєРѕ FFreeClient
 void TParentControl::Align(TControl * Child, int Layout, bool MoveChilds, RECT * ChildRect)
 {
 	if((Layout & LT_MODE) == LT_ALIGN)
@@ -675,7 +675,7 @@ void TParentControl::Align(TControl * Child, int Layout, bool MoveChilds, RECT *
 	}
 }
 
-bool TParentControl::ParentSetRect(RECT * Rect) // Уведомление от родительских компонентов
+bool TParentControl::ParentSetRect(RECT * Rect) // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ СЂРѕРґРёС‚РµР»СЊСЃРєРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 {
 	RECT Old = FRect;
 	bool Result = TControl::ParentSetRect(Rect);
@@ -688,7 +688,7 @@ bool TParentControl::ParentSetRect(RECT * Rect) // Уведомление от родительских к
 	return Result;
 }
 
-void TParentControl::PaintChilds(PAINTSTRUCT * PaintStruct) // Уведомление об отрисовке детям
+void TParentControl::PaintChilds(PAINTSTRUCT * PaintStruct) // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕР± РѕС‚СЂРёСЃРѕРІРєРµ РґРµС‚СЏРј
 {
 	for(TControl * x = FFirstChild; x; x = x->FNext)
 	{
@@ -865,7 +865,7 @@ void * TImage::SetBitMapSize(int Width, int Height, int BitCount, int Mode)
 	return Bits;
 }
 
-bool TImage::ParentSetRect(RECT * Rect) // Уведомление от родительских компонентов
+bool TImage::ParentSetRect(RECT * Rect) // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ СЂРѕРґРёС‚РµР»СЊСЃРєРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 {
 	bool Result = TControl::ParentSetRect(Rect);
 	if(AutoResize) SetBitMapSize(GetWidth(), GetHeight(), 0, AutoResize - 1);
@@ -984,7 +984,7 @@ void TGroupBox::Invalidate(RECT * OldRect)
 
 /*********************************** TLabel *************************************************/
 
-void TLabel::OnPaint(PAINTSTRUCT * PaintStruct) // Процедура отрисовки компонента
+void TLabel::OnPaint(PAINTSTRUCT * PaintStruct) // РџСЂРѕС†РµРґСѓСЂР° РѕС‚СЂРёСЃРѕРІРєРё РєРѕРјРїРѕРЅРµРЅС‚Р°
 {
 	if(!FCaption) return;
 	//SetBkColor(PaintStruct->hdc, FBackBrush);
@@ -1038,14 +1038,14 @@ TSplitter::TSplitter(TParentControl * Parent, int Width, int Layout, int Style)
 	_TControl(Parent, &Rect, Layout | LT_CWIDTH);
 }
 
-void TSplitter::OnPaint(PAINTSTRUCT * PaintStruct) // Процедура отрисовки компонента
+void TSplitter::OnPaint(PAINTSTRUCT * PaintStruct) // РџСЂРѕС†РµРґСѓСЂР° РѕС‚СЂРёСЃРѕРІРєРё РєРѕРјРїРѕРЅРµРЅС‚Р°
 {
 	FillRect(PaintStruct->hdc, &FRect, FBackBrush);
 	if(FStyle) 
 		DrawEdge(PaintStruct->hdc, &FRect, FStyle, FVertical ? (BF_TOP | BF_BOTTOM) : (BF_RIGHT | BF_LEFT));// BF_RECT);
 }
 
-void TSplitter::OnMouseEvent(int x, int y, int mk, UINT uMsg) // Процедура реакции на движение
+void TSplitter::OnMouseEvent(int x, int y, int mk, UINT uMsg) // РџСЂРѕС†РµРґСѓСЂР° СЂРµР°РєС†РёРё РЅР° РґРІРёР¶РµРЅРёРµ
 {
 	RECT ORect;
 	int d;

@@ -2,30 +2,30 @@
 #include <complex>
 #include <atlbase.h>
 #include <map>
-#include "device.h"  // объявление cplx
+#include "device.h"  // РѕР±СЉСЏРІР»РµРЅРёРµ cplx
 
 namespace DFW
 {
-	/************************ Заголовок *************************************************/
+	/************************ Р—Р°РіРѕР»РѕРІРѕРє *************************************************/
 	struct R_pdn{
-		int ndd, // Число элементов в maj
-			nk; // Число элементов в матрице проводимости may
+		int ndd, // Р§РёСЃР»Рѕ СЌР»РµРјРµРЅС‚РѕРІ РІ maj
+			nk; // Р§РёСЃР»Рѕ СЌР»РµРјРµРЅС‚РѕРІ РІ РјР°С‚СЂРёС†Рµ РїСЂРѕРІРѕРґРёРјРѕСЃС‚Рё may
 
 		struct outn
 		{
-			int n1, // niyp = Original в виде индекса								|
-				n2, // nobr = Sorted в виде индекса									|
-				n3, // nrp = nhp - индекс узла в матрице проводимости				|
-				n4; // nhj - индекс узла в триангулированной матрице
-			// от nhj до nhj следующего узла должны храниться смежные узлы в ПОИ
-		} * o; // Все узлы.
+			int n1, // niyp = Original РІ РІРёРґРµ РёРЅРґРµРєСЃР°								|
+				n2, // nobr = Sorted РІ РІРёРґРµ РёРЅРґРµРєСЃР°									|
+				n3, // nrp = nhp - РёРЅРґРµРєСЃ СѓР·Р»Р° РІ РјР°С‚СЂРёС†Рµ РїСЂРѕРІРѕРґРёРјРѕСЃС‚Рё				|
+				n4; // nhj - РёРЅРґРµРєСЃ СѓР·Р»Р° РІ С‚СЂРёР°РЅРіСѓР»РёСЂРѕРІР°РЅРЅРѕР№ РјР°С‚СЂРёС†Рµ
+			// РѕС‚ nhj РґРѕ nhj СЃР»РµРґСѓСЋС‰РµРіРѕ СѓР·Р»Р° РґРѕР»Р¶РЅС‹ С…СЂР°РЅРёС‚СЊСЃСЏ СЃРјРµР¶РЅС‹Рµ СѓР·Р»С‹ РІ РџРћР
+		} * o; // Р’СЃРµ СѓР·Р»С‹.
 		struct Rmay
 		{
-			int nqy; // Индекс смежного узла
-			cplx y; // Значение проводимости
-		} * may;  // Матрица проводимости (размер nk)
+			int nqy; // РРЅРґРµРєСЃ СЃРјРµР¶РЅРѕРіРѕ СѓР·Р»Р°
+			cplx y; // Р—РЅР°С‡РµРЅРёРµ РїСЂРѕРІРѕРґРёРјРѕСЃС‚Рё
+		} * may;  // РњР°С‚СЂРёС†Р° РїСЂРѕРІРѕРґРёРјРѕСЃС‚Рё (СЂР°Р·РјРµСЂ nk)
 
-		int *maj; // Граф триангулированной матрицы, со сменой направления на противоположное
+		int *maj; // Р“СЂР°С„ С‚СЂРёР°РЅРіСѓР»РёСЂРѕРІР°РЅРЅРѕР№ РјР°С‚СЂРёС†С‹, СЃРѕ СЃРјРµРЅРѕР№ РЅР°РїСЂР°РІР»РµРЅРёСЏ РЅР° РїСЂРѕС‚РёРІРѕРїРѕР»РѕР¶РЅРѕРµ
 
 		R_pdn() {o = NULL; may = NULL; maj = NULL;}
 		~R_pdn(){delete_all();}
@@ -36,7 +36,7 @@ namespace DFW
 			free(maj);
 		}
 	};
-	//! Кусочно-плоский массив на основе двусвязного списка
+	//! РљСѓСЃРѕС‡РЅРѕ-РїР»РѕСЃРєРёР№ РјР°СЃСЃРёРІ РЅР° РѕСЃРЅРѕРІРµ РґРІСѓСЃРІСЏР·РЅРѕРіРѕ СЃРїРёСЃРєР°
 	template<class T> 
 	class CPFlat
 	{
@@ -45,11 +45,11 @@ namespace DFW
 		{
 		public:
 			CPiece * Next, * Prev;
-			T * End, * Last; // End - конец выделенной памяти, Last - последний заполненный элемент
+			T * End, * Last; // End - РєРѕРЅРµС† РІС‹РґРµР»РµРЅРЅРѕР№ РїР°РјСЏС‚Рё, Last - РїРѕСЃР»РµРґРЅРёР№ Р·Р°РїРѕР»РЅРµРЅРЅС‹Р№ СЌР»РµРјРµРЅС‚
 			inline T * GetFirst(void) { return (T *)(this + 1);};
 			inline void Reset(void) { Last = ((T *)(this + 1)) - 1;};
 		};
-		T * Alloc(int Count); // Выделить заданное количество элементов под результат триангуляции узла
+		T * Alloc(int Count); // Р’С‹РґРµР»РёС‚СЊ Р·Р°РґР°РЅРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РїРѕРґ СЂРµР·СѓР»СЊС‚Р°С‚ С‚СЂРёР°РЅРіСѓР»СЏС†РёРё СѓР·Р»Р°
 		int Align;
 		CPiece * First, * Last;
 		inline void Reset(void) { Last = First; if(First) First->Reset();}
@@ -65,7 +65,7 @@ namespace DFW
 
 	//typedef std::complex<double> cplx;
 
-	//! Класс сети
+	//! РљР»Р°СЃСЃ СЃРµС‚Рё
 	class CNetwork 
 	{
 		class CYList;
@@ -73,7 +73,7 @@ namespace DFW
 		typedef struct _CLU;
 	public:
 		class CNode;
-		//! Класс статической характеристики нагрузки
+		//! РљР»Р°СЃСЃ СЃС‚Р°С‚РёС‡РµСЃРєРѕР№ С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё РЅР°РіСЂСѓР·РєРё
 		class CSXN
 		{
 		private:
@@ -95,37 +95,37 @@ namespace DFW
 			double GetMaxBreak(void);
 			void AddFactors(const double &Vrmin, const cplx &f0, const cplx &f1, const cplx &f2, const double &Frec = 0);
 		};
-		//! Класс узла сети
+		//! РљР»Р°СЃСЃ СѓР·Р»Р° СЃРµС‚Рё
 		__declspec(align(16))class CNode 
 		{
 		private:
 			cplx Isxn;
 		public:
-			cplx y; //!< Проводимость узла (НЕ Сопрягается!!!)
-			cplx y1; //!< Ещё одна проводимость узла
-			cplx V; //!< Напряжение в узле
-			cplx I; //!< Задающий ток узла
-			cplx Sn; //!< Номинальная мощность нагрузки в узле
-			cplx Sg; //!< Мощность генерации в узле
-			cplx yo; //!< Изначальная проводимость узла (из Metakit)
+			cplx y; //!< РџСЂРѕРІРѕРґРёРјРѕСЃС‚СЊ СѓР·Р»Р° (РќР• РЎРѕРїСЂСЏРіР°РµС‚СЃСЏ!!!)
+			cplx y1; //!< Р•С‰С‘ РѕРґРЅР° РїСЂРѕРІРѕРґРёРјРѕСЃС‚СЊ СѓР·Р»Р°
+			cplx V; //!< РќР°РїСЂСЏР¶РµРЅРёРµ РІ СѓР·Р»Рµ
+			cplx I; //!< Р—Р°РґР°СЋС‰РёР№ С‚РѕРє СѓР·Р»Р°
+			cplx Sn; //!< РќРѕРјРёРЅР°Р»СЊРЅР°СЏ РјРѕС‰РЅРѕСЃС‚СЊ РЅР°РіСЂСѓР·РєРё РІ СѓР·Р»Рµ
+			cplx Sg; //!< РњРѕС‰РЅРѕСЃС‚СЊ РіРµРЅРµСЂР°С†РёРё РІ СѓР·Р»Рµ
+			cplx yo; //!< РР·РЅР°С‡Р°Р»СЊРЅР°СЏ РїСЂРѕРІРѕРґРёРјРѕСЃС‚СЊ СѓР·Р»Р° (РёР· Metakit)
 			double ModV;
 			double ArgV;
 			double SlipU;
-			double Vnom; //!< Номинальное напряжение узла
+			double Vnom; //!< РќРѕРјРёРЅР°Р»СЊРЅРѕРµ РЅР°РїСЂСЏР¶РµРЅРёРµ СѓР·Р»Р°
 			enum TYPE {DISABLED = 0, CONST_V = 1, USUAL = 2, MISSED = 3} Type;
 			CSXN * SXN;
-			int N; //!< Номер узла
-			int Island; //!< Номер острова
+			int N; //!< РќРѕРјРµСЂ СѓР·Р»Р°
+			int Island; //!< РќРѕРјРµСЂ РѕСЃС‚СЂРѕРІР°
 		private:
 			friend CNetwork;
 			void * AddBranch(CNode * AdjacentNode, CYList * &Destination);
-			// Данные
+			// Р”Р°РЅРЅС‹Рµ
 			union
 			{
-				CYList * YList; //!< Связный список матрицы проводимости
-				cplx * pY; // Yii, на которую влияет данный узел
+				CYList * YList; //!< РЎРІСЏР·РЅС‹Р№ СЃРїРёСЃРѕРє РјР°С‚СЂРёС†С‹ РїСЂРѕРІРѕРґРёРјРѕСЃС‚Рё
+				cplx * pY; // Yii, РЅР° РєРѕС‚РѕСЂСѓСЋ РІР»РёСЏРµС‚ РґР°РЅРЅС‹Р№ СѓР·РµР»
 			};
-			int BranchCount; //!< Число ветвей узла
+			int BranchCount; //!< Р§РёСЃР»Рѕ РІРµС‚РІРµР№ СѓР·Р»Р°
 
 			union
 			{
@@ -140,89 +140,89 @@ namespace DFW
 					CYList * YMark;
 				};
 			};
-			struct CSorted // Данные узла, которые хранятся в порядке оптимального исключения
+			struct CSorted // Р”Р°РЅРЅС‹Рµ СѓР·Р»Р°, РєРѕС‚РѕСЂС‹Рµ С…СЂР°РЅСЏС‚СЃСЏ РІ РїРѕСЂСЏРґРєРµ РѕРїС‚РёРјР°Р»СЊРЅРѕРіРѕ РёСЃРєР»СЋС‡РµРЅРёСЏ
 			{
 				CNode * Original; // niyp
 			} SData, *Sorted; // nobr
 			void * LastFactors;
 		};
 
-		//! Класс ветви сети
+		//! РљР»Р°СЃСЃ РІРµС‚РІРё СЃРµС‚Рё
 		class CBranch 
 		{
 		private:
 			friend CNetwork;
 			template <bool Add> inline void Apply(cplx * Yp, cplx * Yq, cplx * Ypq, cplx * Yqp);
 			union {cplx * pYpq; int iYpq; CBranch * NextBranch;};
-			union {cplx * pYqp; int iYqp;}; // Проводимости, на которые влияет данная ветвь
+			union {cplx * pYqp; int iYqp;}; // РџСЂРѕРІРѕРґРёРјРѕСЃС‚Рё, РЅР° РєРѕС‚РѕСЂС‹Рµ РІР»РёСЏРµС‚ РґР°РЅРЅР°СЏ РІРµС‚РІСЊ
 		//private:
 		public:
-			int ip, iq; //!< Индексы узлов
-			cplx yp, yq, y; //!< Проводимости П-образной схемы замещения
-			cplx kt; //!< Коэффициент трансформации - включён между проводимостями y и yq, означает Vq = kt * Vp
+			int ip, iq; //!< РРЅРґРµРєСЃС‹ СѓР·Р»РѕРІ
+			cplx yp, yq, y; //!< РџСЂРѕРІРѕРґРёРјРѕСЃС‚Рё Рџ-РѕР±СЂР°Р·РЅРѕР№ СЃС…РµРјС‹ Р·Р°РјРµС‰РµРЅРёСЏ
+			cplx kt; //!< РљРѕСЌС„С„РёС†РёРµРЅС‚ С‚СЂР°РЅСЃС„РѕСЂРјР°С†РёРё - РІРєР»СЋС‡С‘РЅ РјРµР¶РґСѓ РїСЂРѕРІРѕРґРёРјРѕСЃС‚СЏРјРё y Рё yq, РѕР·РЅР°С‡Р°РµС‚ Vq = kt * Vp
 			enum STATE {
-				CONN = 0,	//!< Ветвь включена
-				P_DISC = 2, //!< Ветвь отключена в начале
-				Q_DISC = 3, //!< Ветвь отключена в конце
-				DISC = 1	//!< Ветвь отключена
-			} State; // Состояние ветви
-			int Island; //!< Номер острова
-			int NP; //!< Номер параллельной ветви
+				CONN = 0,	//!< Р’РµС‚РІСЊ РІРєР»СЋС‡РµРЅР°
+				P_DISC = 2, //!< Р’РµС‚РІСЊ РѕС‚РєР»СЋС‡РµРЅР° РІ РЅР°С‡Р°Р»Рµ
+				Q_DISC = 3, //!< Р’РµС‚РІСЊ РѕС‚РєР»СЋС‡РµРЅР° РІ РєРѕРЅС†Рµ
+				DISC = 1	//!< Р’РµС‚РІСЊ РѕС‚РєР»СЋС‡РµРЅР°
+			} State; // РЎРѕСЃС‚РѕСЏРЅРёРµ РІРµС‚РІРё
+			int Island; //!< РќРѕРјРµСЂ РѕСЃС‚СЂРѕРІР°
+			int NP; //!< РќРѕРјРµСЂ РїР°СЂР°Р»Р»РµР»СЊРЅРѕР№ РІРµС‚РІРё
 		};
-		//! Класс короткого замыкания
+		//! РљР»Р°СЃСЃ РєРѕСЂРѕС‚РєРѕРіРѕ Р·Р°РјС‹РєР°РЅРёСЏ
 		class CShortCurcuit
 		{
 		public:
 			double Position;
 			cplx Shunt;
-			int Node, Branch; // Узел и ветвь, созданые замыканием
-			cplx yc, gl; // Параметры линии с распределёнными параметрами
+			int Node, Branch; // РЈР·РµР» Рё РІРµС‚РІСЊ, СЃРѕР·РґР°РЅС‹Рµ Р·Р°РјС‹РєР°РЅРёРµРј
+			cplx yc, gl; // РџР°СЂР°РјРµС‚СЂС‹ Р»РёРЅРёРё СЃ СЂР°СЃРїСЂРµРґРµР»С‘РЅРЅС‹РјРё РїР°СЂР°РјРµС‚СЂР°РјРё
 		};
 	private:
-		//! Элемент матрицы проводимостей
+		//! Р­Р»РµРјРµРЅС‚ РјР°С‚СЂРёС†С‹ РїСЂРѕРІРѕРґРёРјРѕСЃС‚РµР№
 		typedef struct _CYArray
 		{
 			cplx Yij;
 			cplx Yji;
 		} CYArray;
 
-		//! Класс элемента матрицы проводимости в виде связного списка
+		//! РљР»Р°СЃСЃ СЌР»РµРјРµРЅС‚Р° РјР°С‚СЂРёС†С‹ РїСЂРѕРІРѕРґРёРјРѕСЃС‚Рё РІ РІРёРґРµ СЃРІСЏР·РЅРѕРіРѕ СЃРїРёСЃРєР°
 		class CYList 
 		{
 		public:
-			cplx y;                    // y - проводимость
-			CNode * Node;   // nqy - соответствующий узел
-			CYList * Next;  // nky - следующая ветвь
-			cplx * * Sources; // Источники данной проводимости
-			cplx * * Branches; // Проводимости ветвей - источники данной проводимости
+			cplx y;                    // y - РїСЂРѕРІРѕРґРёРјРѕСЃС‚СЊ
+			CNode * Node;   // nqy - СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёР№ СѓР·РµР»
+			CYList * Next;  // nky - СЃР»РµРґСѓСЋС‰Р°СЏ РІРµС‚РІСЊ
+			cplx * * Sources; // РСЃС‚РѕС‡РЅРёРєРё РґР°РЅРЅРѕР№ РїСЂРѕРІРѕРґРёРјРѕСЃС‚Рё
+			cplx * * Branches; // РџСЂРѕРІРѕРґРёРјРѕСЃС‚Рё РІРµС‚РІРµР№ - РёСЃС‚РѕС‡РЅРёРєРё РґР°РЅРЅРѕР№ РїСЂРѕРІРѕРґРёРјРѕСЃС‚Рё
 			inline void AddSource(cplx * &Source);
 			inline void FillSources(int Value);
 			inline void AddBranch(cplx * &Source);
 			inline void FillBranches(cplx * Value);
 		};
 
-		//! Элемент триангулированной матрицы
+		//! Р­Р»РµРјРµРЅС‚ С‚СЂРёР°РЅРіСѓР»РёСЂРѕРІР°РЅРЅРѕР№ РјР°С‚СЂРёС†С‹
 		typedef struct _CLU 
 		{
-			cplx L, U; // L = Yij, Yii для V; U = Yji, 0 для I
+			cplx L, U; // L = Yij, Yii РґР»СЏ V; U = Yji, 0 РґР»СЏ I
 			CNode * Node;
 			CYArray * Y;
 		} CLU;
 
 
-		// Данные класса
-		int NodeCount, BranchCount; // Исходные данные
+		// Р”Р°РЅРЅС‹Рµ РєР»Р°СЃСЃР°
+		int NodeCount, BranchCount; // РСЃС…РѕРґРЅС‹Рµ РґР°РЅРЅС‹Рµ
 		int UsualNodeCount;
 		CNode * Nodes, * _Nodes;				//
 		CBranch * Branches;			//
 
-		CYList * YList, * FreeY;	// Матрица проводимости в виде связного списка
-		CYArray * Y;				// Матрица проводимости в виде массива
+		CYList * YList, * FreeY;	// РњР°С‚СЂРёС†Р° РїСЂРѕРІРѕРґРёРјРѕСЃС‚Рё РІ РІРёРґРµ СЃРІСЏР·РЅРѕРіРѕ СЃРїРёСЃРєР°
+		CYArray * Y;				// РњР°С‚СЂРёС†Р° РїСЂРѕРІРѕРґРёРјРѕСЃС‚Рё РІ РІРёРґРµ РјР°СЃСЃРёРІР°
 		int YSize;					//
 
 		CNode * Base;
 
-		CPFlat<CLU> LU;	//!< Триангулированная матрица
+		CPFlat<CLU> LU;	//!< РўСЂРёР°РЅРіСѓР»РёСЂРѕРІР°РЅРЅР°СЏ РјР°С‚СЂРёС†Р°
 		int LUIndex;
 		CPFlat<cplx *> pLU; 
 
@@ -231,29 +231,29 @@ namespace DFW
 		std::map<int, CSXN *> SXNMap;
 
 		std::map<int, cplx> Shunts;
-		// Методы класса
+		// РњРµС‚РѕРґС‹ РєР»Р°СЃСЃР°
 
 		void * ExcludeNode(CNode * Node);
-		void PrepareYList(void); // prep_steady_state::formy - инициализирует Y и YSize
+		void PrepareYList(void); // prep_steady_state::formy - РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚ Y Рё YSize
 		bool TriangulateYList(void);
 		void IdxToPointers(void);
 		void PrepareY(void);
 		void ResetLU(CLU * First = 0);
 		bool TriangulateLU(void);
-		//template<bool Fast, bool Y> void PrepareSteadyState(void); //!< Метод подготовки задающих токов и шунтов из СХН и генераторов
+		//template<bool Fast, bool Y> void PrepareSteadyState(void); //!< РњРµС‚РѕРґ РїРѕРґРіРѕС‚РѕРІРєРё Р·Р°РґР°СЋС‰РёС… С‚РѕРєРѕРІ Рё С€СѓРЅС‚РѕРІ РёР· РЎРҐРќ Рё РіРµРЅРµСЂР°С‚РѕСЂРѕРІ
 		bool NeedPrepare;
 		bool YisValid;
-		bool Prepare(void); //!< Метод триангуляции.
+		bool Prepare(void); //!< РњРµС‚РѕРґ С‚СЂРёР°РЅРіСѓР»СЏС†РёРё.
 	public:
-		bool UseFastTriangulation; //!< Разрешает быструю триангуляцию
-		bool UseBestDiagonal; //!< Разрешает поиск узла с максимальной диагональю и минимальным числом ветвей.
-			   //Иначе поиск ведётся до первого узла с минимальным числом ветвей и удовлетворительной диагональю.
-		double MinimalDiagonalNorm; //!< Минимально допустимая норма диагонали
-		bool UseSXN; //!< Разрешает использование СХН
-		bool UseSSE2; //!< Разрешает использование SSE2
+		bool UseFastTriangulation; //!< Р Р°Р·СЂРµС€Р°РµС‚ Р±С‹СЃС‚СЂСѓСЋ С‚СЂРёР°РЅРіСѓР»СЏС†РёСЋ
+		bool UseBestDiagonal; //!< Р Р°Р·СЂРµС€Р°РµС‚ РїРѕРёСЃРє СѓР·Р»Р° СЃ РјР°РєСЃРёРјР°Р»СЊРЅРѕР№ РґРёР°РіРѕРЅР°Р»СЊСЋ Рё РјРёРЅРёРјР°Р»СЊРЅС‹Рј С‡РёСЃР»РѕРј РІРµС‚РІРµР№.
+			   //РРЅР°С‡Рµ РїРѕРёСЃРє РІРµРґС‘С‚СЃСЏ РґРѕ РїРµСЂРІРѕРіРѕ СѓР·Р»Р° СЃ РјРёРЅРёРјР°Р»СЊРЅС‹Рј С‡РёСЃР»РѕРј РІРµС‚РІРµР№ Рё СѓРґРѕРІР»РµС‚РІРѕСЂРёС‚РµР»СЊРЅРѕР№ РґРёР°РіРѕРЅР°Р»СЊСЋ.
+		double MinimalDiagonalNorm; //!< РњРёРЅРёРјР°Р»СЊРЅРѕ РґРѕРїСѓСЃС‚РёРјР°СЏ РЅРѕСЂРјР° РґРёР°РіРѕРЅР°Р»Рё
+		bool UseSXN; //!< Р Р°Р·СЂРµС€Р°РµС‚ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РЎРҐРќ
+		bool UseSSE2; //!< Р Р°Р·СЂРµС€Р°РµС‚ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ SSE2
 		//bool YChanged;
-		enum STATE {} State; //Состояние сети
-		// Методы управления контентом
+		enum STATE {} State; //РЎРѕСЃС‚РѕСЏРЅРёРµ СЃРµС‚Рё
+		// РњРµС‚РѕРґС‹ СѓРїСЂР°РІР»РµРЅРёСЏ РєРѕРЅС‚РµРЅС‚РѕРј
 		void UpdateNodeMap(void);
 		inline CSXN * GetSXN(int Number, bool Create = false) 
 		{
@@ -268,7 +268,7 @@ namespace DFW
 			return SXN;
 		};
 		void SetMinSXNV(const double &V) { for(std::map<int, CSXN *>::iterator i = SXNMap.begin(); i != SXNMap.end(); i++) i->second->SetMinVoltage(V);};
-		double GetMaxSXNBreak(int * N) //!< Возвращает максимальный разрыв между кусками СХН
+		double GetMaxSXNBreak(int * N) //!< Р’РѕР·РІСЂР°С‰Р°РµС‚ РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ СЂР°Р·СЂС‹РІ РјРµР¶РґСѓ РєСѓСЃРєР°РјРё РЎРҐРќ
 		{
 			double r = 0;
 			int n = 0;
@@ -290,23 +290,23 @@ namespace DFW
 		inline CNode &Node(int Index) { _ASSERT((Index >= 0) && (Index < NodeCount)); return Nodes[Index];};
 		inline CBranch * GetBranches(void) { return Branches;};
 		inline CNode * GetNodes(void) { return Nodes;};
-		double GetMaxSXNDisc(void); //!< Возвращает невязку тока СХН
-		// Уведомления
+		double GetMaxSXNDisc(void); //!< Р’РѕР·РІСЂР°С‰Р°РµС‚ РЅРµРІСЏР·РєСѓ С‚РѕРєР° РЎРҐРќ
+		// РЈРІРµРґРѕРјР»РµРЅРёСЏ
 		void SetSize(int NodeCount, int BranchCount);
 		void SetBranchState(int Branch, CBranch::STATE State);
 		void SetBranchParams(int Branch, const cplx * y, const cplx * yp = 0, const cplx * yq = 0, const cplx * kt = 0);
 		void SetNodeType(int Node, CNode::TYPE Type);
-		void SetNodeParams(int Node, const cplx * y, const cplx * y1 = 0);//!< Устанавивает шунты в узле. y - шунт нагрузки (сети), y1 - шунт генератора.
-		void SetShunt(int Node, const cplx &Y); //!< Устанавивает дополнительный шунт в узле. Используется для установки КЗ.
+		void SetNodeParams(int Node, const cplx * y, const cplx * y1 = 0);//!< РЈСЃС‚Р°РЅР°РІРёРІР°РµС‚ С€СѓРЅС‚С‹ РІ СѓР·Р»Рµ. y - С€СѓРЅС‚ РЅР°РіСЂСѓР·РєРё (СЃРµС‚Рё), y1 - С€СѓРЅС‚ РіРµРЅРµСЂР°С‚РѕСЂР°.
+		void SetShunt(int Node, const cplx &Y); //!< РЈСЃС‚Р°РЅР°РІРёРІР°РµС‚ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Р№ С€СѓРЅС‚ РІ СѓР·Р»Рµ. РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ СѓСЃС‚Р°РЅРѕРІРєРё РљР—.
 		void RemoveShunt(int Node);
-		const cplx& GetShunt(int Node); //!< Возвращает дополнительный шунт в узле.
-		inline cplx GetTotalShunt(int Node) // Возвращает полный шунт узла (не считая шунта генератора)
+		const cplx& GetShunt(int Node); //!< Р’РѕР·РІСЂР°С‰Р°РµС‚ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Р№ С€СѓРЅС‚ РІ СѓР·Р»Рµ.
+		inline cplx GetTotalShunt(int Node) // Р’РѕР·РІСЂР°С‰Р°РµС‚ РїРѕР»РЅС‹Р№ С€СѓРЅС‚ СѓР·Р»Р° (РЅРµ СЃС‡РёС‚Р°СЏ С€СѓРЅС‚Р° РіРµРЅРµСЂР°С‚РѕСЂР°)
 		{
 			_ASSERTE((Node >= 0) && (Node < NodeCount));
 			CNode & n = Nodes[Node];
 			return n.y /*+ n.y1*/ + GetShunt(Node);					
 		};
-		inline cplx GetNodeY(int Node) // Возвращает изначальную проводимость узла (из Metakit)
+		inline cplx GetNodeY(int Node) // Р’РѕР·РІСЂР°С‰Р°РµС‚ РёР·РЅР°С‡Р°Р»СЊРЅСѓСЋ РїСЂРѕРІРѕРґРёРјРѕСЃС‚СЊ СѓР·Р»Р° (РёР· Metakit)
 		{
 			_ASSERTE((Node >= 0) && (Node < NodeCount));
 			CNode & n = Nodes[Node];
@@ -325,19 +325,19 @@ namespace DFW
 			}
 			return Sn;
 		}
-		int SetShortCircuit(int Branch, const cplx * Shunt, double Position = 0.5); // Позиция от 0 до 1.
+		int SetShortCircuit(int Branch, const cplx * Shunt, double Position = 0.5); // РџРѕР·РёС†РёСЏ РѕС‚ 0 РґРѕ 1.
 		void inline DiscardY(bool Reorder = false) 
 		{
 			YisValid = false; 
 			NeedPrepare = true; 
 			if(Reorder) { LU.Reset(); pLU.Reset();}
 		};
-		// Справочные методы
+		// РЎРїСЂР°РІРѕС‡РЅС‹Рµ РјРµС‚РѕРґС‹
 		inline int GetNodeCount(void) const {return NodeCount;};
 		inline int GetBranchCount(void) const {return BranchCount;};
-		void GetBranchCurrent(int Branch, bool End, cplx &Current);//!< Ток, _в_текающий в линию.
-		void GetBranchPower(int Branch, bool End, cplx &Power);//!< Мощность, _в_текающая в линию.
-		void GetBranchResistance(int Branch, bool End, cplx &Resistance);//!< Мощность, _в_текающая в линию.
+		void GetBranchCurrent(int Branch, bool End, cplx &Current);//!< РўРѕРє, _РІ_С‚РµРєР°СЋС‰РёР№ РІ Р»РёРЅРёСЋ.
+		void GetBranchPower(int Branch, bool End, cplx &Power);//!< РњРѕС‰РЅРѕСЃС‚СЊ, _РІ_С‚РµРєР°СЋС‰Р°СЏ РІ Р»РёРЅРёСЋ.
+		void GetBranchResistance(int Branch, bool End, cplx &Resistance);//!< РњРѕС‰РЅРѕСЃС‚СЊ, _РІ_С‚РµРєР°СЋС‰Р°СЏ РІ Р»РёРЅРёСЋ.
 		inline CNode * GetNodeByNumber(int Number) 
 		{
 			if(NodeMap.empty()) UpdateNodeMap();
@@ -350,16 +350,16 @@ namespace DFW
 			std::map<int, CNode *>::iterator i = NodeMap.find(Number);
 			return (i == NodeMap.end()) ? -1 : i->second - Nodes;
 		};
-		inline const CPFlat<CLU> &GetLU(void) const {return LU;};	//!< Триангулированная матрица
+		inline const CPFlat<CLU> &GetLU(void) const {return LU;};	//!< РўСЂРёР°РЅРіСѓР»РёСЂРѕРІР°РЅРЅР°СЏ РјР°С‚СЂРёС†Р°
 		inline const CPFlat<cplx *> &GetpLU(void) const {return pLU;};
 		inline bool GetNeedPrepare() const { return NeedPrepare ; }
-		// Методы расчёта
+		// РњРµС‚РѕРґС‹ СЂР°СЃС‡С‘С‚Р°
 		bool Solve(void);
 		void CalcPolarV();
 		//void SolveSteadyState(void);
-		// Прочее
+		// РџСЂРѕС‡РµРµ
 		int MarkIslands(void);
-		void Clean(); //!< Метод освобождения памяти
+		void Clean(); //!< РњРµС‚РѕРґ РѕСЃРІРѕР±РѕР¶РґРµРЅРёСЏ РїР°РјСЏС‚Рё
 		double Test(void);
 		bool ExportToR_pd(R_pdn * pd);
 		bool ImportFromR_pd(R_pdn * pd);
@@ -367,9 +367,9 @@ namespace DFW
 		~CNetwork(void);
 	};
 
-	/************************ Реализация функций работы со связными списками *************************************************/
+	/************************ Р РµР°Р»РёР·Р°С†РёСЏ С„СѓРЅРєС†РёР№ СЂР°Р±РѕС‚С‹ СЃРѕ СЃРІСЏР·РЅС‹РјРё СЃРїРёСЃРєР°РјРё *************************************************/
 
-	//! Удалить связный список
+	//! РЈРґР°Р»РёС‚СЊ СЃРІСЏР·РЅС‹Р№ СЃРїРёСЃРѕРє
 	template<class T> inline void DeleteList(T * List)
 	{
 		for(T * Next; List; List = Next)
@@ -379,7 +379,7 @@ namespace DFW
 		}
 	}
 
-	//! Выделить новый элемент списка
+	//! Р’С‹РґРµР»РёС‚СЊ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ СЃРїРёСЃРєР°
 	template<class T> inline T * NewElement(T * &List, T * &Free)
 	{
 		if(Free)
@@ -403,7 +403,7 @@ namespace DFW
 		return List + 1;
 	};
 
-	//! Удалить из связного списка следующий элемент, добавить его в список свободных
+	//! РЈРґР°Р»РёС‚СЊ РёР· СЃРІСЏР·РЅРѕРіРѕ СЃРїРёСЃРєР° СЃР»РµРґСѓСЋС‰РёР№ СЌР»РµРјРµРЅС‚, РґРѕР±Р°РІРёС‚СЊ РµРіРѕ РІ СЃРїРёСЃРѕРє СЃРІРѕР±РѕРґРЅС‹С…
 	template<class T> inline void DeleteNextElement(T * Element, T * &FreeList)
 	{ 
 		T * t = FreeList;
@@ -423,7 +423,7 @@ namespace DFW
 		First = Last = 0;
 	}
 
-	//! Выделить заданное количество элементов под результат триангуляции узла
+	//! Р’С‹РґРµР»РёС‚СЊ Р·Р°РґР°РЅРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РїРѕРґ СЂРµР·СѓР»СЊС‚Р°С‚ С‚СЂРёР°РЅРіСѓР»СЏС†РёРё СѓР·Р»Р°
 	template<class T> T * CPFlat<T>::Alloc(int Count) 
 	{
 		CPiece * f, * next;

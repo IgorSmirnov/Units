@@ -29,16 +29,16 @@ void AddTextToNode(IXMLDOMDocument* pDom, IXMLDOMNode *pNode, BSTR Text);
 
 VARIANT VariantString(BSTR str);
 
-IXMLDOMElement * CreateRootElement(IXMLDOMDocument * pXMLDom, BSTR bstr); // Создать корневой элемент
+IXMLDOMElement * CreateRootElement(IXMLDOMDocument * pXMLDom, BSTR bstr); // РЎРѕР·РґР°С‚СЊ РєРѕСЂРЅРµРІРѕР№ СЌР»РµРјРµРЅС‚
 
-void CreateComment(IXMLDOMDocument * pXMLDom, BSTR bstr); // Добавить элемент комментария.
+void CreateComment(IXMLDOMDocument * pXMLDom, BSTR bstr); // Р”РѕР±Р°РІРёС‚СЊ СЌР»РµРјРµРЅС‚ РєРѕРјРјРµРЅС‚Р°СЂРёСЏ.
 
-// Создать атрибут для элемента и присвоить ему значение
+// РЎРѕР·РґР°С‚СЊ Р°С‚СЂРёР±СѓС‚ РґР»СЏ СЌР»РµРјРµРЅС‚Р° Рё РїСЂРёСЃРІРѕРёС‚СЊ РµРјСѓ Р·РЅР°С‡РµРЅРёРµ
 void CreateAttribute(IXMLDOMDocument * pXMLDom, IXMLDOMElement * pElement, BSTR Name, BSTR Value);
 
-IXMLDOMElement * AppendElement(IXMLDOMDocument * pXMLDom, IXMLDOMNode * pNode, BSTR Name); // Добавить элемент
+IXMLDOMElement * AppendElement(IXMLDOMDocument * pXMLDom, IXMLDOMNode * pNode, BSTR Name); // Р”РѕР±Р°РІРёС‚СЊ СЌР»РµРјРµРЅС‚
 
-void AddTextContent(IXMLDOMElement * pElement, BSTR Text); // Добавить текстовое содержимое
+void AddTextContent(IXMLDOMElement * pElement, BSTR Text); // Р”РѕР±Р°РІРёС‚СЊ С‚РµРєСЃС‚РѕРІРѕРµ СЃРѕРґРµСЂР¶РёРјРѕРµ
 
 BSTR GetAttribute(IXMLDOMNode * Node, BSTR Name);
 

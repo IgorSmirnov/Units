@@ -58,7 +58,7 @@ public:
 		return *this;
 	}
 	inline TVector<T, N> &operator =(const T * A) {for(int x = 0; x < N; x++) v[x] = *(A++); return *this;}
-	T operator*(const TVector<T, N> & A) const //!< Ñêàëÿðíîå óìíîæåíèå
+	T operator*(const TVector<T, N> & A) const //!< Ð¡ÐºÐ°Ð»ÑÑ€Ð½Ð¾Ðµ ÑƒÐ¼Ð½Ð¾Ð¶ÐµÐ½Ð¸Ðµ
 	{
 		T Res = 0;
 		for(int x = N - 1; x >= 0; x--) Res += v[x] * A.v[x];

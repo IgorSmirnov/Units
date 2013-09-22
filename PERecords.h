@@ -6,20 +6,20 @@
 #define PreDefRec(r) typedef struct _##r r;
 #define StartRec(r) TFieldDesc FD_##r[]; typedef struct _##r {
 #define EndRec(r) } r;
-#define f(t, n) t n;		// Поле
-#define fd(t, n, d) t n;	// Поле с описанием
-#define fdt(t, n, d, o) t n;// Поле с описанием
-#define p(n) void * n;		// Указатель
-#define pd(n, d) void * n;	// Указатель с описанием
-#define a(t, n, c) t n[c];	// Массив
+#define f(t, n) t n;		// РџРѕР»Рµ
+#define fd(t, n, d) t n;	// РџРѕР»Рµ СЃ РѕРїРёСЃР°РЅРёРµРј
+#define fdt(t, n, d, o) t n;// РџРѕР»Рµ СЃ РѕРїРёСЃР°РЅРёРµРј
+#define p(n) void * n;		// РЈРєР°Р·Р°С‚РµР»СЊ
+#define pd(n, d) void * n;	// РЈРєР°Р·Р°С‚РµР»СЊ СЃ РѕРїРёСЃР°РЅРёРµРј
+#define a(t, n, c) t n[c];	// РњР°СЃСЃРёРІ
 #define ah a
 #define r(n, c) char n[c];	// Reserved
 #define pc(t, n) t * n;
 #define pcd(t, n, d) pc(t, n)
-#define ps(s, n) _##s * n;		// Указатель на структуру
-#define psd(s, n, d) _##s * n;	// Указатель на структуру с описанием
-#define psc(s, n) _##s * n; int n##_count; // Указатель и счётчик
-#define pscd(s, n, d) _##s * n; int n##_count; // Указатель и счётчик
+#define ps(s, n) _##s * n;		// РЈРєР°Р·Р°С‚РµР»СЊ РЅР° СЃС‚СЂСѓРєС‚СѓСЂСѓ
+#define psd(s, n, d) _##s * n;	// РЈРєР°Р·Р°С‚РµР»СЊ РЅР° СЃС‚СЂСѓРєС‚СѓСЂСѓ СЃ РѕРїРёСЃР°РЅРёРµРј
+#define psc(s, n) _##s * n; int n##_count; // РЈРєР°Р·Р°С‚РµР»СЊ Рё СЃС‡С‘С‚С‡РёРє
+#define pscd(s, n, d) _##s * n; int n##_count; // РЈРєР°Р·Р°С‚РµР»СЊ Рё СЃС‡С‘С‚С‡РёРє
 
 #include "PERecords.inc"
 

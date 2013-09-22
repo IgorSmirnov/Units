@@ -1,7 +1,7 @@
-//! Описания оконных визуальных компонентов
+//! РћРїРёСЃР°РЅРёСЏ РѕРєРѕРЅРЅС‹С… РІРёР·СѓР°Р»СЊРЅС‹С… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 /** \file
- 	Файл содержит определения классов оконных визуальных компонентов
-	без определённой специализации.
+ 	Р¤Р°Р№Р» СЃРѕРґРµСЂР¶РёС‚ РѕРїСЂРµРґРµР»РµРЅРёСЏ РєР»Р°СЃСЃРѕРІ РѕРєРѕРЅРЅС‹С… РІРёР·СѓР°Р»СЊРЅС‹С… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
+	Р±РµР· РѕРїСЂРµРґРµР»С‘РЅРЅРѕР№ СЃРїРµС†РёР°Р»РёР·Р°С†РёРё.
 */
 #ifndef _WinControls_
 #define _WinControls_
@@ -27,7 +27,7 @@ public:
 	void Release(void * Stub);
 };
 
-//! Компонент-окно без детей и собственного оконного класса
+//! РљРѕРјРїРѕРЅРµРЅС‚-РѕРєРЅРѕ Р±РµР· РґРµС‚РµР№ Рё СЃРѕР±СЃС‚РІРµРЅРЅРѕРіРѕ РѕРєРѕРЅРЅРѕРіРѕ РєР»Р°СЃСЃР°
 class TWinControl: public TControl
 {
 private:
@@ -41,8 +41,8 @@ protected:
 	HWND hWindow;
 	friend TWinParentControl;
 	HINSTANCE hInstance;
-	virtual void OnSetRect(RECT * Rect); // Уведомление от родительских компонентов
-	virtual void Paint(PAINTSTRUCT * PaintStruct){}; // Уведомление об отрисовке
+	virtual void OnSetRect(RECT * Rect); // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ СЂРѕРґРёС‚РµР»СЊСЃРєРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
+	virtual void Paint(PAINTSTRUCT * PaintStruct){}; // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕР± РѕС‚СЂРёСЃРѕРІРєРµ
 	void _TWinControl(TParentControl * Parent, RECT * Rect, int Layout);
 	TWinControl(void);
 	virtual LRESULT OnCommand(WPARAM wParam, LPARAM lParam) {return 0;};//!< WM_COMMAND
@@ -60,14 +60,14 @@ public:
 			SetWindowLong(hWindow, GWLP_WNDPROC, (LONG)FStub);
 		}
 	}
-	TNotifyEvent OnReturn;//!< При нажатии Enter. Прототип: bool __delcall OnType(TControl * Sender)
-	TNotifyEvent OnChar;//!< При WM_CHAR. Прототип: bool __delcall OnChar(TControl * Sender, WPARAM &wParam, LPARAM &lParam)
+	TNotifyEvent OnReturn;//!< РџСЂРё РЅР°Р¶Р°С‚РёРё Enter. РџСЂРѕС‚РѕС‚РёРї: bool __delcall OnType(TControl * Sender)
+	TNotifyEvent OnChar;//!< РџСЂРё WM_CHAR. РџСЂРѕС‚РѕС‚РёРї: bool __delcall OnChar(TControl * Sender, WPARAM &wParam, LPARAM &lParam)
 	virtual bool LoadFromResource(TParentControl * Parent, int Id, int Layout = LT_ANLEFT | LT_ANTOP);
 	virtual HWND GetWindowHandle(void) {return hWindow;};
 	inline HINSTANCE GetInstance(void) {return hInstance;};
 	inline void set_Text(const TCHAR * Text) {SetWindowText(hWindow, Text);};
 	inline int get_TextLength(void) {return GetWindowTextLength(hWindow);};
-	inline TCHAR * get_Text(void) // Строки следует уничтожать
+	inline TCHAR * get_Text(void) // РЎС‚СЂРѕРєРё СЃР»РµРґСѓРµС‚ СѓРЅРёС‡С‚РѕР¶Р°С‚СЊ
 	{
 		int l = GetWindowTextLength(hWindow);
 		if(!l++) return 0;
@@ -100,7 +100,7 @@ typedef struct _COMMANDREC
 	UINT Identifier;
 } COMMANDREC;
 
-//! Компонент-окно с детьми
+//! РљРѕРјРїРѕРЅРµРЅС‚-РѕРєРЅРѕ СЃ РґРµС‚СЊРјРё
 class TWinParentControl: public TParentControl
 {
 private:
@@ -117,14 +117,14 @@ private:
 	BOOL CALLBACK DialogProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	void SetFocusedChild(TControl * Focused);
 protected:
-	virtual bool ParentSetRect(RECT * Rect); // Уведомление от родительских компонентов
+	virtual bool ParentSetRect(RECT * Rect); // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ СЂРѕРґРёС‚РµР»СЊСЃРєРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 	virtual LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-	virtual void Paint(PAINTSTRUCT * PaintStruct){}; // Уведомление об отрисовке
+	virtual void Paint(PAINTSTRUCT * PaintStruct){}; // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕР± РѕС‚СЂРёСЃРѕРІРєРµ
 	virtual void GetClientRct(RECT * Rect);
 	long (CALLBACK * FDefWindowProc)(HWND, UINT, WPARAM, LPARAM);
 	HWND hWindow;
 	HINSTANCE hInstance;
-	virtual TWinParentControl * GetWinParent(void) {return this;}; // Получить FWinParent для детей данного компонента
+	virtual TWinParentControl * GetWinParent(void) {return this;}; // РџРѕР»СѓС‡РёС‚СЊ FWinParent РґР»СЏ РґРµС‚РµР№ РґР°РЅРЅРѕРіРѕ РєРѕРјРїРѕРЅРµРЅС‚Р°
 	virtual void AddChild(TControl * Child);
 	virtual void OnKeyEvent(UINT uMsg, WPARAM wParam, LPARAM lParam) {if(FFocusedChild) FFocusedChild->OnKeyEvent(uMsg, wParam, lParam);};
 	virtual void OnInitDialog(void){};
@@ -132,7 +132,7 @@ protected:
 	void _TWinParentControl(TParentControl * Parent, RECT * Rect, int Layout);
 public:
 	TNotifyEvent OnDestroy; 
-	TNotifyEvent OnClose; // По WM_CLOSE, если возвращает 0, то оставить по умолчанию.
+	TNotifyEvent OnClose; // РџРѕ WM_CLOSE, РµСЃР»Рё РІРѕР·РІСЂР°С‰Р°РµС‚ 0, С‚Рѕ РѕСЃС‚Р°РІРёС‚СЊ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ.
 	TNotifyEvent * Commands(UINT Identifier);
 	void SetCommandsTable(COMMANDREC * Commands, int Count);
 	inline HINSTANCE GetInstance(void) {return hInstance;};
@@ -143,9 +143,9 @@ public:
 	virtual ~TWinParentControl(void);
 };
 
-//! Компонент - окно приложения с детьми.
-/*! При создании экземпляра этого класса, увеличивается счётчик FAppWinCount. При уничтожении - уменьшается. 
-    Если при этом FAppWinCount достиг 0, выполняется PosQuitMessage(0).*/
+//! РљРѕРјРїРѕРЅРµРЅС‚ - РѕРєРЅРѕ РїСЂРёР»РѕР¶РµРЅРёСЏ СЃ РґРµС‚СЊРјРё.
+/*! РџСЂРё СЃРѕР·РґР°РЅРёРё СЌРєР·РµРјРїР»СЏСЂР° СЌС‚РѕРіРѕ РєР»Р°СЃСЃР°, СѓРІРµР»РёС‡РёРІР°РµС‚СЃСЏ СЃС‡С‘С‚С‡РёРє FAppWinCount. РџСЂРё СѓРЅРёС‡С‚РѕР¶РµРЅРёРё - СѓРјРµРЅСЊС€Р°РµС‚СЃСЏ. 
+    Р•СЃР»Рё РїСЂРё СЌС‚РѕРј FAppWinCount РґРѕСЃС‚РёРі 0, РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ PosQuitMessage(0).*/
 class TAppWindow: public TWinParentControl
 {
 private:
@@ -163,7 +163,7 @@ public:
 	virtual ~TAppWindow(void);
 };
 
-//! Компонент-всплывающее окно с детьми
+//! РљРѕРјРїРѕРЅРµРЅС‚-РІСЃРїР»С‹РІР°СЋС‰РµРµ РѕРєРЅРѕ СЃ РґРµС‚СЊРјРё
 class TPopupWindow: public TWinParentControl
 {
 private:
@@ -177,7 +177,7 @@ public:
 	void Show(int nCmdShow);
 };
 
-//! Окно диалога с детьми
+//! РћРєРЅРѕ РґРёР°Р»РѕРіР° СЃ РґРµС‚СЊРјРё
 class TDialog: public TWinParentControl
 {
 private:
@@ -192,7 +192,7 @@ public:
 	int ShowModal(int nCmdShow);
 };
 
-//! Окно встраиваемого диалога с детьми
+//! РћРєРЅРѕ РІСЃС‚СЂР°РёРІР°РµРјРѕРіРѕ РґРёР°Р»РѕРіР° СЃ РґРµС‚СЊРјРё
 class TEmbeddedDialog: public TWinParentControl
 {
 private:
@@ -201,7 +201,7 @@ private:
 	static WNDCLASSEX FWindowClass;
 protected:
 	virtual void Invalidate(RECT * OldRect);
-	//virtual void OnSetRect(RECT * Rect); // Уведомление от родительских компонентов
+	//virtual void OnSetRect(RECT * Rect); // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ СЂРѕРґРёС‚РµР»СЊСЃРєРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 public:
 	//TDialogWindow(TControl * Parent, int Left, int Top, int Width, int Height);
 	//void _TEmbeddedDialog(TControl * Parent, LPCTSTR Template);
@@ -209,7 +209,7 @@ public:
 	void Show(int nCmdShow);
 };
 
-//! Окно модального диалога с детьми
+//! РћРєРЅРѕ РјРѕРґР°Р»СЊРЅРѕРіРѕ РґРёР°Р»РѕРіР° СЃ РґРµС‚СЊРјРё
 class TModalDialog: public TWinParentControl
 {
 protected:
@@ -222,19 +222,19 @@ public:
 	INT_PTR Show(int nCmdShow);
 };
 
-//! Окно, предоставляющее область для дочерних окон пользовательского интерфейса MDI
+//! РћРєРЅРѕ, РїСЂРµРґРѕСЃС‚Р°РІР»СЏСЋС‰РµРµ РѕР±Р»Р°СЃС‚СЊ РґР»СЏ РґРѕС‡РµСЂРЅРёС… РѕРєРѕРЅ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРѕРіРѕ РёРЅС‚РµСЂС„РµР№СЃР° MDI
 class TMDIClient: public TWinControl
 {
 protected:
 //	virtual void AddChild(TControl * Child) {};
-	virtual void OnSetRect(RECT * Rect); // Уведомление от родительских компонентов
-	virtual void OnPaint(PAINTSTRUCT * PaintStruct) {}; ///< Процедура отрисовки компонента
-	virtual TWinParentControl * GetWinParent(void) {return 0;}; // Получить FWinParent для детей данного компонента
+	virtual void OnSetRect(RECT * Rect); // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ СЂРѕРґРёС‚РµР»СЊСЃРєРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
+	virtual void OnPaint(PAINTSTRUCT * PaintStruct) {}; ///< РџСЂРѕС†РµРґСѓСЂР° РѕС‚СЂРёСЃРѕРІРєРё РєРѕРјРїРѕРЅРµРЅС‚Р°
+	virtual TWinParentControl * GetWinParent(void) {return 0;}; // РџРѕР»СѓС‡РёС‚СЊ FWinParent РґР»СЏ РґРµС‚РµР№ РґР°РЅРЅРѕРіРѕ РєРѕРјРїРѕРЅРµРЅС‚Р°
 public:
 	TMDIClient(TParentControl * Parent, RECT * Rect, int Layout);
 };
 
-//! Дочернее окно документа в MDI с детьми.
+//! Р”РѕС‡РµСЂРЅРµРµ РѕРєРЅРѕ РґРѕРєСѓРјРµРЅС‚Р° РІ MDI СЃ РґРµС‚СЊРјРё.
 class TMDIChildWindow: public TWinParentControl
 {
 public:
@@ -242,12 +242,12 @@ public:
 	void Show(int nCmdShow);
 };
 
-//! Стандартная кнопка с оконным классом 'BUTTON'
+//! РЎС‚Р°РЅРґР°СЂС‚РЅР°СЏ РєРЅРѕРїРєР° СЃ РѕРєРѕРЅРЅС‹Рј РєР»Р°СЃСЃРѕРј 'BUTTON'
 class TButton: public TWinControl
 {
 protected:
 	virtual void Invalidate(RECT * OldRect);
-	virtual void OnPaint(PAINTSTRUCT * PaintStruct) {}; ///< Процедура отрисовки компонента
+	virtual void OnPaint(PAINTSTRUCT * PaintStruct) {}; ///< РџСЂРѕС†РµРґСѓСЂР° РѕС‚СЂРёСЃРѕРІРєРё РєРѕРјРїРѕРЅРµРЅС‚Р°
 	virtual LRESULT OnCommand(WPARAM wParam, LPARAM lParam);// WM_COMMAND
 public:
 	TButton(TParentControl * Parent, RECT * Rect, int Layout, TCHAR * Caption, int ButtonStyle = BS_PUSHBUTTON);
@@ -258,12 +258,12 @@ public:
 	__declspec(property(get = get_State, put = set_State)) int State;
 };
 
-//! Стандартная панель с кнопками
+//! РЎС‚Р°РЅРґР°СЂС‚РЅР°СЏ РїР°РЅРµР»СЊ СЃ РєРЅРѕРїРєР°РјРё
 class TReBar: public TWinControl
 {
 protected:
 	virtual void Invalidate(RECT * OldRect);
-	virtual void OnPaint(PAINTSTRUCT * PaintStruct) {}; ///< Процедура отрисовки компонента
+	virtual void OnPaint(PAINTSTRUCT * PaintStruct) {}; ///< РџСЂРѕС†РµРґСѓСЂР° РѕС‚СЂРёСЃРѕРІРєРё РєРѕРјРїРѕРЅРµРЅС‚Р°
 	virtual LRESULT OnCommand(WPARAM wParam, LPARAM lParam);// WM_COMMAND
 	virtual LRESULT OnNotify(NMHDR * Header);//!< WM_NOTIFY
 public:
@@ -276,7 +276,7 @@ class TUpDown: public TWinControl
 {
 protected:
 	virtual void Invalidate(RECT * OldRect);
-	virtual void OnPaint(PAINTSTRUCT * PaintStruct) {}; // Процедура отрисовки компонента
+	virtual void OnPaint(PAINTSTRUCT * PaintStruct) {}; // РџСЂРѕС†РµРґСѓСЂР° РѕС‚СЂРёСЃРѕРІРєРё РєРѕРјРїРѕРЅРµРЅС‚Р°
 	virtual LRESULT OnCommand(WPARAM wParam, LPARAM lParam);// WM_COMMAND
 public:
 	TUpDown(TParentControl * Parent, RECT * Rect, int Layout);
@@ -289,7 +289,7 @@ class TEdit: public TWinControl
 {
 protected:
 	virtual void Invalidate(RECT * OldRect);
-	virtual void OnPaint(PAINTSTRUCT * PaintStruct) {}; // Процедура отрисовки компонента
+	virtual void OnPaint(PAINTSTRUCT * PaintStruct) {}; // РџСЂРѕС†РµРґСѓСЂР° РѕС‚СЂРёСЃРѕРІРєРё РєРѕРјРїРѕРЅРµРЅС‚Р°
 	virtual LRESULT OnCommand(WPARAM wParam, LPARAM lParam);// WM_COMMAND
 public:
 	inline BOOL get_ReadOnly(void){	return GetWindowLong(hWindow, GWL_STYLE) & ES_READONLY;};
@@ -304,7 +304,7 @@ class TStatusBar: public TWinControl
 {
 protected:
 	virtual void Invalidate(RECT * OldRect);
-	virtual void OnPaint(PAINTSTRUCT * PaintStruct) {}; // Процедура отрисовки компонента
+	virtual void OnPaint(PAINTSTRUCT * PaintStruct) {}; // РџСЂРѕС†РµРґСѓСЂР° РѕС‚СЂРёСЃРѕРІРєРё РєРѕРјРїРѕРЅРµРЅС‚Р°
 public:
 	inline void set_Simple(BOOL s) { SendMessage(hWindow, SB_SIMPLE, s, 0);};
 	inline BOOL get_Simple(void) { return SendMessage(hWindow, SB_ISSIMPLE, 0, 0);};
@@ -344,8 +344,8 @@ class TListBox: public TWinControl
 private:
 	int FItemHeight, FOCW;
 protected:
-	virtual void Paint(PAINTSTRUCT * PaintStruct); // Уведомление об отрисовке
-	virtual void OnPaint(PAINTSTRUCT * PaintStruct) {}; // Процедура отрисовки компонента
+	virtual void Paint(PAINTSTRUCT * PaintStruct); // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕР± РѕС‚СЂРёСЃРѕРІРєРµ
+	virtual void OnPaint(PAINTSTRUCT * PaintStruct) {}; // РџСЂРѕС†РµРґСѓСЂР° РѕС‚СЂРёСЃРѕРІРєРё РєРѕРјРїРѕРЅРµРЅС‚Р°
 	virtual LRESULT OnCommand(WPARAM wParam, LPARAM lParam);// WM_COMMAND
 	virtual void Invalidate(RECT * OldRect);
 public:
@@ -378,11 +378,11 @@ public:
 class TComboBox: public TWinControl
 {
 protected:
-	//virtual void Paint(PAINTSTRUCT * PaintStruct); // Уведомление об отрисовке
-	virtual void OnPaint(PAINTSTRUCT * PaintStruct) {}; // Процедура отрисовки компонента
+	//virtual void Paint(PAINTSTRUCT * PaintStruct); // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕР± РѕС‚СЂРёСЃРѕРІРєРµ
+	virtual void OnPaint(PAINTSTRUCT * PaintStruct) {}; // РџСЂРѕС†РµРґСѓСЂР° РѕС‚СЂРёСЃРѕРІРєРё РєРѕРјРїРѕРЅРµРЅС‚Р°
 	virtual void Invalidate(RECT * OldRect);
 	virtual LRESULT OnCommand(WPARAM wParam, LPARAM lParam);// WM_COMMAND
-	//virtual bool ParentSetRect(RECT * Rect); // Уведомление от родительских компонентов
+	//virtual bool ParentSetRect(RECT * Rect); // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ СЂРѕРґРёС‚РµР»СЊСЃРєРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 public:
 	TComboBoxStrings Items;
 	//virtual bool LoadFromResource(TParentControl * Parent, int Id, int Layout = 0);
@@ -395,7 +395,7 @@ public:
 	TNotifyEvent OnChange;
 };
 
-//! Компонент-окно с полосами прокрутки и автоматическим сдвигом клиентской области по ним.
+//! РљРѕРјРїРѕРЅРµРЅС‚-РѕРєРЅРѕ СЃ РїРѕР»РѕСЃР°РјРё РїСЂРѕРєСЂСѓС‚РєРё Рё Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРёРј СЃРґРІРёРіРѕРј РєР»РёРµРЅС‚СЃРєРѕР№ РѕР±Р»Р°СЃС‚Рё РїРѕ РЅРёРј.
 class TScrollingWinControl: public TWinControl
 {
 private:
@@ -412,12 +412,12 @@ protected:
 	void ClientToLocal(int * x, int * y);
 	void LocalToClient(int * x, int * y);
 	int FScrollUnits[2];
-	SCROLLINFO FScrolls[2];// Горизонтально, вертикально
+	SCROLLINFO FScrolls[2];// Р“РѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕ, РІРµСЂС‚РёРєР°Р»СЊРЅРѕ
 	virtual int OnTimer(WPARAM wParam, LPARAM lParam) {return 0;};
 	virtual bool ScrollQuery(int Bar, int Req, POINT * Offset);
 	void OnScroll(int Bar, int Req);
-	virtual void OnSetRect(RECT * Rect); // Уведомление от родительских компонентов
-	RECT FFixed; // Фиксированные границы
+	virtual void OnSetRect(RECT * Rect); // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ СЂРѕРґРёС‚РµР»СЊСЃРєРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
+	RECT FFixed; // Р¤РёРєСЃРёСЂРѕРІР°РЅРЅС‹Рµ РіСЂР°РЅРёС†С‹
 	RECT FClient;
 	void _TScrollingWinControl(TParentControl * Parent, RECT * Rect, int Layout, UINT WS_EX = 0);
 	TScrollingWinControl(void);
@@ -434,19 +434,19 @@ private:
 	int FColNum;
 protected:
 	enum _SM {
-		SM_AROW		= 0x01, ///< Разрешено выделять ряд
-		SM_ACOL		= 0x02, ///< Разрешено выделять колонку
+		SM_AROW		= 0x01, ///< Р Р°Р·СЂРµС€РµРЅРѕ РІС‹РґРµР»СЏС‚СЊ СЂСЏРґ
+		SM_ACOL		= 0x02, ///< Р Р°Р·СЂРµС€РµРЅРѕ РІС‹РґРµР»СЏС‚СЊ РєРѕР»РѕРЅРєСѓ
 		SM_ACOLROW	= 0x03,
-		SM_SROW		= 0x04, ///< Ряд выделен
-		SM_SCOL		= 0x08, ///< Колонка выделена
+		SM_SROW		= 0x04, ///< Р СЏРґ РІС‹РґРµР»РµРЅ
+		SM_SCOL		= 0x08, ///< РљРѕР»РѕРЅРєР° РІС‹РґРµР»РµРЅР°
 
-		SM_SHOW		= 0x10 ///< Показывать выделение
+		SM_SHOW		= 0x10 ///< РџРѕРєР°Р·С‹РІР°С‚СЊ РІС‹РґРµР»РµРЅРёРµ
 	} FSelMode;
 	bool FUseOnDrawCell;
 	HWND hEditor;
 	SIZE FCharSize;
-	virtual void OnPaint(PAINTSTRUCT * PaintStruct); // Процедура отрисовки компонента
-	virtual void OnMouseEvent(int x, int y, int mk, UINT uMsg); // Процедура реакции на действия мыши
+	virtual void OnPaint(PAINTSTRUCT * PaintStruct); // РџСЂРѕС†РµРґСѓСЂР° РѕС‚СЂРёСЃРѕРІРєРё РєРѕРјРїРѕРЅРµРЅС‚Р°
+	virtual void OnMouseEvent(int x, int y, int mk, UINT uMsg); // РџСЂРѕС†РµРґСѓСЂР° СЂРµР°РєС†РёРё РЅР° РґРµР№СЃС‚РІРёСЏ РјС‹С€Рё
 	virtual TCHAR * OnDrawCell(int Col, int Row, RECT * Rect, HDC dc) {return 0;};
 	bool GetCellRect(DWORD Col, DWORD Row, RECT * Rect, _SM Mode = SM_ACOLROW);
 	bool CoordsToCell(int x, int y, DWORD * Col, DWORD * Row);
@@ -455,7 +455,7 @@ protected:
 	DWORD FSelRow, FSelCol;
 	void ShowEditor(int Col, int Row, TCHAR * Data);
 	virtual LRESULT OnCommand(WPARAM wParam, LPARAM lParam);
-	virtual void OnSetText(char * Data) {free(Data);}; // Процедура должна уничтожать значение
+	virtual void OnSetText(char * Data) {free(Data);}; // РџСЂРѕС†РµРґСѓСЂР° РґРѕР»Р¶РЅР° СѓРЅРёС‡С‚РѕР¶Р°С‚СЊ Р·РЅР°С‡РµРЅРёРµ
 	virtual void OnKeyEvent(UINT uMsg, WPARAM wParam, LPARAM lParam);
 	virtual void SetSelection(DWORD Col, DWORD Row);
 	virtual void OnFocus(bool Focused);
@@ -472,7 +472,7 @@ public:
 	static HBRUSH FDefaultCellsBrush, FDefaultSelBrush, FDefaultBlurBrush;
 	DWORD FFixedRows, FFixedCols;
 	int FVLineWidth, FHLineWidth;
-	int * FColOffsets; // Первая колонка начинается с 0, вторая с FColOffsets[0] + FVLineWidth
+	int * FColOffsets; // РџРµСЂРІР°СЏ РєРѕР»РѕРЅРєР° РЅР°С‡РёРЅР°РµС‚СЃСЏ СЃ 0, РІС‚РѕСЂР°СЏ СЃ FColOffsets[0] + FVLineWidth
 	DWORD FDefRowHeight, FDefColWidth;
 	TCustomGrid(TParentControl * Parent, RECT * Rect, int Layout);
 	~TCustomGrid(void);

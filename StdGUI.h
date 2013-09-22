@@ -1,4 +1,4 @@
-//! \file StdGUI.h Подключает общие визуальные компоненты и DefMessageLoop
+//! \file StdGUI.h РџРѕРґРєР»СЋС‡Р°РµС‚ РѕР±С‰РёРµ РІРёР·СѓР°Р»СЊРЅС‹Рµ РєРѕРјРїРѕРЅРµРЅС‚С‹ Рё DefMessageLoop
 #ifndef _StdWinGUI_
 #define _StdWinGUI_
 #include "Classes.h"
@@ -9,7 +9,7 @@ namespace StdGUI{
 
 int DefMessageLoop(HACCEL hAccelTable);
 int ProcessMessages(void);
-extern TNotifyEvent OnWork;//!< "Квант" работы
+extern TNotifyEvent OnWork;//!< "РљРІР°РЅС‚" СЂР°Р±РѕС‚С‹
 
 template <class T>
 inline void InitializeStub(unsigned char * Stub, void * Object, T Handler)// char Stub[12]

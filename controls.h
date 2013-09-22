@@ -1,7 +1,7 @@
-//! Описания базовых визуальных компонентов
+//! РћРїРёСЃР°РЅРёСЏ Р±Р°Р·РѕРІС‹С… РІРёР·СѓР°Р»СЊРЅС‹С… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 /** \file
- 	Файл содержит определения классов визуальных компонентов, не имеющих
-	своего окна и определённой специализации.
+ 	Р¤Р°Р№Р» СЃРѕРґРµСЂР¶РёС‚ РѕРїСЂРµРґРµР»РµРЅРёСЏ РєР»Р°СЃСЃРѕРІ РІРёР·СѓР°Р»СЊРЅС‹С… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ, РЅРµ РёРјРµСЋС‰РёС…
+	СЃРІРѕРµРіРѕ РѕРєРЅР° Рё РѕРїСЂРµРґРµР»С‘РЅРЅРѕР№ СЃРїРµС†РёР°Р»РёР·Р°С†РёРё.
 */
 #ifndef _Controls_
 #define _Controls_
@@ -11,85 +11,85 @@
 
 
 namespace StdGUI {
-/*************************************** Классы *************************************/
+/*************************************** РљР»Р°СЃСЃС‹ *************************************/
 
-class TControl;///< любой графический компонент, имеющий геометрические размеры
-	class TParentControl;///< графический компонент, имеющий размеры и дочерние компоненты
-		class TSimplePanel;///< Безоконная панель
-		class TWinParentControl;///< графический компонент, имеющий дочерние компоненты и окно
-			class TAppWindow;///< Главное окно приложения.
-	class TWinControl;///<  графический компонент, имеющий окно
+class TControl;///< Р»СЋР±РѕР№ РіСЂР°С„РёС‡РµСЃРєРёР№ РєРѕРјРїРѕРЅРµРЅС‚, РёРјРµСЋС‰РёР№ РіРµРѕРјРµС‚СЂРёС‡РµСЃРєРёРµ СЂР°Р·РјРµСЂС‹
+	class TParentControl;///< РіСЂР°С„РёС‡РµСЃРєРёР№ РєРѕРјРїРѕРЅРµРЅС‚, РёРјРµСЋС‰РёР№ СЂР°Р·РјРµСЂС‹ Рё РґРѕС‡РµСЂРЅРёРµ РєРѕРјРїРѕРЅРµРЅС‚С‹
+		class TSimplePanel;///< Р‘РµР·РѕРєРѕРЅРЅР°СЏ РїР°РЅРµР»СЊ
+		class TWinParentControl;///< РіСЂР°С„РёС‡РµСЃРєРёР№ РєРѕРјРїРѕРЅРµРЅС‚, РёРјРµСЋС‰РёР№ РґРѕС‡РµСЂРЅРёРµ РєРѕРјРїРѕРЅРµРЅС‚С‹ Рё РѕРєРЅРѕ
+			class TAppWindow;///< Р“Р»Р°РІРЅРѕРµ РѕРєРЅРѕ РїСЂРёР»РѕР¶РµРЅРёСЏ.
+	class TWinControl;///<  РіСЂР°С„РёС‡РµСЃРєРёР№ РєРѕРјРїРѕРЅРµРЅС‚, РёРјРµСЋС‰РёР№ РѕРєРЅРѕ
 
-/************************************ Поля и методы ***********************************
-	RECT FRect;	- Координаты компонента в клинтской области родительского компонента-окна
-		(FWinParent или GWL_HWNDPARENT)
+/************************************ РџРѕР»СЏ Рё РјРµС‚РѕРґС‹ ***********************************
+	RECT FRect;	- РљРѕРѕСЂРґРёРЅР°С‚С‹ РєРѕРјРїРѕРЅРµРЅС‚Р° РІ РєР»РёРЅС‚СЃРєРѕР№ РѕР±Р»Р°СЃС‚Рё СЂРѕРґРёС‚РµР»СЊСЃРєРѕРіРѕ РєРѕРјРїРѕРЅРµРЅС‚Р°-РѕРєРЅР°
+		(FWinParent РёР»Рё GWL_HWNDPARENT)
 
 
-	virtual bool ParentSetRect(RECT * Rect); - Уведомление от родительского компонента о перемещении.
-		Компонент должен обновить свой FRect и вызвать соответствующие InvalidateRect.
+	virtual bool ParentSetRect(RECT * Rect); - РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРіРѕ РєРѕРјРїРѕРЅРµРЅС‚Р° Рѕ РїРµСЂРµРјРµС‰РµРЅРёРё.
+		РљРѕРјРїРѕРЅРµРЅС‚ РґРѕР»Р¶РµРЅ РѕР±РЅРѕРІРёС‚СЊ СЃРІРѕР№ FRect Рё РІС‹Р·РІР°С‚СЊ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ InvalidateRect.
 
 
 ******************************************************************************/
 
-#define LT_ALLEFT	0x010 //!< Прижать к левому краю
-#define LT_ALTOP	0x011 //!< Прижать к верхнему краю
-#define LT_ALRIGHT	0x012 //!< Прижать к правому краю
-#define LT_ALBOTTOM	0x013 //!< Прижать к нижнему краю
+#define LT_ALLEFT	0x010 //!< РџСЂРёР¶Р°С‚СЊ Рє Р»РµРІРѕРјСѓ РєСЂР°СЋ
+#define LT_ALTOP	0x011 //!< РџСЂРёР¶Р°С‚СЊ Рє РІРµСЂС…РЅРµРјСѓ РєСЂР°СЋ
+#define LT_ALRIGHT	0x012 //!< РџСЂРёР¶Р°С‚СЊ Рє РїСЂР°РІРѕРјСѓ РєСЂР°СЋ
+#define LT_ALBOTTOM	0x013 //!< РџСЂРёР¶Р°С‚СЊ Рє РЅРёР¶РЅРµРјСѓ РєСЂР°СЋ
 
-#define LT_SIZEIN	0x800 //!< Только на вход конструктору: Вместо RECT - int размер.
+#define LT_SIZEIN	0x800 //!< РўРѕР»СЊРєРѕ РЅР° РІС…РѕРґ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂСѓ: Р’РјРµСЃС‚Рѕ RECT - int СЂР°Р·РјРµСЂ.
 
-#define LT_SALLEFT		0x010|LT_SIZEIN //!< Прижать к левому краю
-#define LT_SALTOP		0x011|LT_SIZEIN //!< Прижать к верхнему краю
-#define LT_SALRIGHT		0x012|LT_SIZEIN //!< Прижать к правому краю
-#define LT_SALBOTTOM	0x013|LT_SIZEIN //!< Прижать к нижнему краю
+#define LT_SALLEFT		0x010|LT_SIZEIN //!< РџСЂРёР¶Р°С‚СЊ Рє Р»РµРІРѕРјСѓ РєСЂР°СЋ
+#define LT_SALTOP		0x011|LT_SIZEIN //!< РџСЂРёР¶Р°С‚СЊ Рє РІРµСЂС…РЅРµРјСѓ РєСЂР°СЋ
+#define LT_SALRIGHT		0x012|LT_SIZEIN //!< РџСЂРёР¶Р°С‚СЊ Рє РїСЂР°РІРѕРјСѓ РєСЂР°СЋ
+#define LT_SALBOTTOM	0x013|LT_SIZEIN //!< РџСЂРёР¶Р°С‚СЊ Рє РЅРёР¶РЅРµРјСѓ РєСЂР°СЋ
 
-#define LT_ALVERT	0x001 //!< Возвращает: прижато к верху или к низу?
-#define LT_ALOFFSET	0x003 //!< Возвращает смещение в структуре RECT стороны, к которой прижат компонент
+#define LT_ALVERT	0x001 //!< Р’РѕР·РІСЂР°С‰Р°РµС‚: РїСЂРёР¶Р°С‚Рѕ Рє РІРµСЂС…Сѓ РёР»Рё Рє РЅРёР·Сѓ?
+#define LT_ALOFFSET	0x003 //!< Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃРјРµС‰РµРЅРёРµ РІ СЃС‚СЂСѓРєС‚СѓСЂРµ RECT СЃС‚РѕСЂРѕРЅС‹, Рє РєРѕС‚РѕСЂРѕР№ РїСЂРёР¶Р°С‚ РєРѕРјРїРѕРЅРµРЅС‚
 
-#define LT_ANLEFT	0x021 //!< Якорь слева
-#define LT_ANTOP	0x022 //!< Якорь сверху
-#define LT_ANRIGHT	0x024 //!< Якорь справа
-#define LT_ANBOTTOM	0x028 //!< Якорь снизу
+#define LT_ANLEFT	0x021 //!< РЇРєРѕСЂСЊ СЃР»РµРІР°
+#define LT_ANTOP	0x022 //!< РЇРєРѕСЂСЊ СЃРІРµСЂС…Сѓ
+#define LT_ANRIGHT	0x024 //!< РЇРєРѕСЂСЊ СЃРїСЂР°РІР°
+#define LT_ANBOTTOM	0x028 //!< РЇРєРѕСЂСЊ СЃРЅРёР·Сѓ
 
-#define LT_ALIGN	0x010 //!< Режим: Прижать к краю
-#define LT_ANCHORS	0x020 //!< Режим: Якоря
-#define LT_ALCLIENT	0x030 //!< Режим: Использовать всё доступное пространство
-#define LT_MODE		0x030 //!< Возвращает режим
+#define LT_ALIGN	0x010 //!< Р РµР¶РёРј: РџСЂРёР¶Р°С‚СЊ Рє РєСЂР°СЋ
+#define LT_ANCHORS	0x020 //!< Р РµР¶РёРј: РЇРєРѕСЂСЏ
+#define LT_ALCLIENT	0x030 //!< Р РµР¶РёРј: РСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РІСЃС‘ РґРѕСЃС‚СѓРїРЅРѕРµ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ
+#define LT_MODE		0x030 //!< Р’РѕР·РІСЂР°С‰Р°РµС‚ СЂРµР¶РёРј
 
-#define LT_SCALE	0x040 //!< Автоматическое сохранение соотношения размеров при изменении предоставленного пространства
-#define LT_BSCALE	0x080 //!< Возможность LT_SCALE временно заблокирована
-#define LT_CWIDTH	0x100 //!< Сохранять ширину компонента
-#define LT_LAYOUT   0x03F //!< Получить положение компонента без прочих параметров
+#define LT_SCALE	0x040 //!< РђРІС‚РѕРјР°С‚РёС‡РµСЃРєРѕРµ СЃРѕС…СЂР°РЅРµРЅРёРµ СЃРѕРѕС‚РЅРѕС€РµРЅРёСЏ СЂР°Р·РјРµСЂРѕРІ РїСЂРё РёР·РјРµРЅРµРЅРёРё РїСЂРµРґРѕСЃС‚Р°РІР»РµРЅРЅРѕРіРѕ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІР°
+#define LT_BSCALE	0x080 //!< Р’РѕР·РјРѕР¶РЅРѕСЃС‚СЊ LT_SCALE РІСЂРµРјРµРЅРЅРѕ Р·Р°Р±Р»РѕРєРёСЂРѕРІР°РЅР°
+#define LT_CWIDTH	0x100 //!< РЎРѕС…СЂР°РЅСЏС‚СЊ С€РёСЂРёРЅСѓ РєРѕРјРїРѕРЅРµРЅС‚Р°
+#define LT_LAYOUT   0x03F //!< РџРѕР»СѓС‡РёС‚СЊ РїРѕР»РѕР¶РµРЅРёРµ РєРѕРјРїРѕРЅРµРЅС‚Р° Р±РµР· РїСЂРѕС‡РёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 
-/// Базовый класс для всех графических компонентов.
+/// Р‘Р°Р·РѕРІС‹Р№ РєР»Р°СЃСЃ РґР»СЏ РІСЃРµС… РіСЂР°С„РёС‡РµСЃРєРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ.
 class TControl
 {
 public:
 	TNotifyEvent OnMouse;
 protected:
-	int FLayout;  ///< Положение элемента на клиентской области родителя
-	int FSegment; ///< Отношение размера компонента к размеру FFreeClient родителя в момент расчёта позиции << 16
-	RECT FRect;	///< Координаты компонента в клиентской области FWinParent
-	RECT FOldRect; ///< Координаты до вызова ParentSetRect
+	int FLayout;  ///< РџРѕР»РѕР¶РµРЅРёРµ СЌР»РµРјРµРЅС‚Р° РЅР° РєР»РёРµРЅС‚СЃРєРѕР№ РѕР±Р»Р°СЃС‚Рё СЂРѕРґРёС‚РµР»СЏ
+	int FSegment; ///< РћС‚РЅРѕС€РµРЅРёРµ СЂР°Р·РјРµСЂР° РєРѕРјРїРѕРЅРµРЅС‚Р° Рє СЂР°Р·РјРµСЂСѓ FFreeClient СЂРѕРґРёС‚РµР»СЏ РІ РјРѕРјРµРЅС‚ СЂР°СЃС‡С‘С‚Р° РїРѕР·РёС†РёРё << 16
+	RECT FRect;	///< РљРѕРѕСЂРґРёРЅР°С‚С‹ РєРѕРјРїРѕРЅРµРЅС‚Р° РІ РєР»РёРµРЅС‚СЃРєРѕР№ РѕР±Р»Р°СЃС‚Рё FWinParent
+	RECT FOldRect; ///< РљРѕРѕСЂРґРёРЅР°С‚С‹ РґРѕ РІС‹Р·РѕРІР° ParentSetRect
 	RECT FConstraints;
-	TControl * FNext; ///< Следующий в связном списке родителя
-	TControl * FPrev; ///< Предыдущий в связном списке родителя
-	TParentControl * FParent;	///< Родительский компонент
-	TWinParentControl * FWinParent; ///< Ближайший родительский компонент, являющийся окном
+	TControl * FNext; ///< РЎР»РµРґСѓСЋС‰РёР№ РІ СЃРІСЏР·РЅРѕРј СЃРїРёСЃРєРµ СЂРѕРґРёС‚РµР»СЏ
+	TControl * FPrev; ///< РџСЂРµРґС‹РґСѓС‰РёР№ РІ СЃРІСЏР·РЅРѕРј СЃРїРёСЃРєРµ СЂРѕРґРёС‚РµР»СЏ
+	TParentControl * FParent;	///< Р РѕРґРёС‚РµР»СЊСЃРєРёР№ РєРѕРјРїРѕРЅРµРЅС‚
+	TWinParentControl * FWinParent; ///< Р‘Р»РёР¶Р°Р№С€РёР№ СЂРѕРґРёС‚РµР»СЊСЃРєРёР№ РєРѕРјРїРѕРЅРµРЅС‚, СЏРІР»СЏСЋС‰РёР№СЃСЏ РѕРєРЅРѕРј
 
-	virtual bool ParentSetRect(RECT * Rect); /*! Уведомление от родительских компонентов об изменеии размера.
-	При вызове этого метода, компонент должен изменить FRect, и вызвать Invalidate */
-	void ChildSetSize(RECT * Rect); // Контрол хочет изменить свои размеры
-	virtual void OnSetRect(RECT * Rect) {}; ///< Уведомление для наследующих классов
+	virtual bool ParentSetRect(RECT * Rect); /*! РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ СЂРѕРґРёС‚РµР»СЊСЃРєРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ РѕР± РёР·РјРµРЅРµРёРё СЂР°Р·РјРµСЂР°.
+	РџСЂРё РІС‹Р·РѕРІРµ СЌС‚РѕРіРѕ РјРµС‚РѕРґР°, РєРѕРјРїРѕРЅРµРЅС‚ РґРѕР»Р¶РµРЅ РёР·РјРµРЅРёС‚СЊ FRect, Рё РІС‹Р·РІР°С‚СЊ Invalidate */
+	void ChildSetSize(RECT * Rect); // РљРѕРЅС‚СЂРѕР» С…РѕС‡РµС‚ РёР·РјРµРЅРёС‚СЊ СЃРІРѕРё СЂР°Р·РјРµСЂС‹
+	virtual void OnSetRect(RECT * Rect) {}; ///< РЈРІРµРґРѕРјР»РµРЅРёРµ РґР»СЏ РЅР°СЃР»РµРґСѓСЋС‰РёС… РєР»Р°СЃСЃРѕРІ
 
 	virtual void Invalidate(RECT * OldRect);
-	virtual void OnPaint(PAINTSTRUCT * PaintStruct) = 0; ///< Процедура отрисовки компонента.
-	virtual void OnMouseEvent(int x, int y, int mk, UINT uMsg) { if(OnMouse.Assigned()) OnMouse(this, x, y, mk, uMsg);}; ///< Процедура обработки событий мыши
+	virtual void OnPaint(PAINTSTRUCT * PaintStruct) = 0; ///< РџСЂРѕС†РµРґСѓСЂР° РѕС‚СЂРёСЃРѕРІРєРё РєРѕРјРїРѕРЅРµРЅС‚Р°.
+	virtual void OnMouseEvent(int x, int y, int mk, UINT uMsg) { if(OnMouse.Assigned()) OnMouse(this, x, y, mk, uMsg);}; ///< РџСЂРѕС†РµРґСѓСЂР° РѕР±СЂР°Р±РѕС‚РєРё СЃРѕР±С‹С‚РёР№ РјС‹С€Рё
 	virtual void OnKeyEvent(UINT uMsg, WPARAM wParam, LPARAM lParam) {};
 	virtual void OnFocus(bool Focused) {};
 	virtual void MakeFocused(void);
-	virtual void MouseEvent(int x, int y, int mk, UINT uMsg); // Уведомление о движении
-	virtual void Paint(PAINTSTRUCT * PaintStruct){ OnPaint(PaintStruct);}; // Уведомление об отрисовке
+	virtual void MouseEvent(int x, int y, int mk, UINT uMsg); // РЈРІРµРґРѕРјР»РµРЅРёРµ Рѕ РґРІРёР¶РµРЅРёРё
+	virtual void Paint(PAINTSTRUCT * PaintStruct){ OnPaint(PaintStruct);}; // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕР± РѕС‚СЂРёСЃРѕРІРєРµ
 	friend TParentControl;
 	friend TWinParentControl;
 	void _TControl(TParentControl * Parent, RECT * Rect, int Layout);
@@ -97,14 +97,14 @@ protected:
 	HFONT FFont;
 	bool MoveInvalidate(RECT * OldRect, int Flags);
 public:
-	static HBRUSH FDefaultBackBrush; //< При отсутствии родителя, все новые компоненты будут пользоваться этой кистью
+	static HBRUSH FDefaultBackBrush; //< РџСЂРё РѕС‚СЃСѓС‚СЃС‚РІРёРё СЂРѕРґРёС‚РµР»СЏ, РІСЃРµ РЅРѕРІС‹Рµ РєРѕРјРїРѕРЅРµРЅС‚С‹ Р±СѓРґСѓС‚ РїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ СЌС‚РѕР№ РєРёСЃС‚СЊСЋ
 	inline int get_Layout(void) {return FLayout;};
 	HBRUSH FBackBrush;
 	DWORD FTextColor;
 	static DWORD FDefaultTextColor;
 	static HPEN FDefaultPen;
 	HPEN FPen;
-	virtual HWND GetWindowHandle(void); ///< Возвращает хендл окна компонента, либо окна, на котором он находится
+	virtual HWND GetWindowHandle(void); ///< Р’РѕР·РІСЂР°С‰Р°РµС‚ С…РµРЅРґР» РѕРєРЅР° РєРѕРјРїРѕРЅРµРЅС‚Р°, Р»РёР±Рѕ РѕРєРЅР°, РЅР° РєРѕС‚РѕСЂРѕРј РѕРЅ РЅР°С…РѕРґРёС‚СЃСЏ
 	__declspec(property(get=GetWindowHandle)) HWND WindowHandle;
 	__declspec(property(get=get_Layout)) int Layout;
 	bool SetSize(int Width, int Height);
@@ -122,7 +122,7 @@ public:
 	inline void SetConstraints(int MinWidth, int MinHeight, int MaxWidth = 0, int MaxHeight = 0) { RECT r = {MinWidth, MinHeight, MaxWidth, MaxHeight}; set_Constraints(r);};
 };
 
-/// Базовый класс для всех графических компонентов, позволяющих содержать внутри себя другие компоненты.
+/// Р‘Р°Р·РѕРІС‹Р№ РєР»Р°СЃСЃ РґР»СЏ РІСЃРµС… РіСЂР°С„РёС‡РµСЃРєРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ, РїРѕР·РІРѕР»СЏСЋС‰РёС… СЃРѕРґРµСЂР¶Р°С‚СЊ РІРЅСѓС‚СЂРё СЃРµР±СЏ РґСЂСѓРіРёРµ РєРѕРјРїРѕРЅРµРЅС‚С‹.
 class TParentControl: public TControl
 {
 private:
@@ -132,43 +132,43 @@ protected:
 	TControl * FFirstChild;
 	TControl * FLastChild;	
 	RECT FChildConstraints, FPartConstraints;
-	RECT FClient; ///< Область, предоставляемая дочерним компонентам.
-	RECT FBorders; ///< Толщина собственных границ компонента.
-	RECT FFreeClient; ///< Часть области, предоставляемой дочерним компонентам, не занятая в данный момент.
-	bool FClientPresent; ///< Указывает - существует ли FFreeClient.
-	virtual bool ParentSetRect(RECT * Rect); ///< Уведомление от родительских компонентов
-	virtual void ChildSetSize(TControl * Child, RECT * Rect); // Уведомление от дочерних компонентов
-	virtual void PaintChilds(PAINTSTRUCT * PaintStruct); // Уведомления об отрисовке детям
+	RECT FClient; ///< РћР±Р»Р°СЃС‚СЊ, РїСЂРµРґРѕСЃС‚Р°РІР»СЏРµРјР°СЏ РґРѕС‡РµСЂРЅРёРј РєРѕРјРїРѕРЅРµРЅС‚Р°Рј.
+	RECT FBorders; ///< РўРѕР»С‰РёРЅР° СЃРѕР±СЃС‚РІРµРЅРЅС‹С… РіСЂР°РЅРёС† РєРѕРјРїРѕРЅРµРЅС‚Р°.
+	RECT FFreeClient; ///< Р§Р°СЃС‚СЊ РѕР±Р»Р°СЃС‚Рё, РїСЂРµРґРѕСЃС‚Р°РІР»СЏРµРјРѕР№ РґРѕС‡РµСЂРЅРёРј РєРѕРјРїРѕРЅРµРЅС‚Р°Рј, РЅРµ Р·Р°РЅСЏС‚Р°СЏ РІ РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚.
+	bool FClientPresent; ///< РЈРєР°Р·С‹РІР°РµС‚ - СЃСѓС‰РµСЃС‚РІСѓРµС‚ Р»Рё FFreeClient.
+	virtual bool ParentSetRect(RECT * Rect); ///< РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ СЂРѕРґРёС‚РµР»СЊСЃРєРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
+	virtual void ChildSetSize(TControl * Child, RECT * Rect); // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ РґРѕС‡РµСЂРЅРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
+	virtual void PaintChilds(PAINTSTRUCT * PaintStruct); // РЈРІРµРґРѕРјР»РµРЅРёСЏ РѕР± РѕС‚СЂРёСЃРѕРІРєРµ РґРµС‚СЏРј
 	virtual void OnPaint(PAINTSTRUCT * PaintStruct);
-	virtual void Paint(PAINTSTRUCT * PaintStruct) {PaintChilds(PaintStruct); OnPaint(PaintStruct);}; // Уведомление об отрисовке
+	virtual void Paint(PAINTSTRUCT * PaintStruct) {PaintChilds(PaintStruct); OnPaint(PaintStruct);}; // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕР± РѕС‚СЂРёСЃРѕРІРєРµ
 	virtual void GetClientRct(RECT * Rect);
 	virtual void MouseEvent(int x, int y, int mk, UINT uMsg);
 	friend TControl;
 	virtual void AddChild(TControl * Child);
 	virtual void Invalidate(RECT * OldRect);
-	virtual TWinParentControl * GetWinParent(void) {return FWinParent;}; // Получить FWinParent для детей данного компонента
+	virtual TWinParentControl * GetWinParent(void) {return FWinParent;}; // РџРѕР»СѓС‡РёС‚СЊ FWinParent РґР»СЏ РґРµС‚РµР№ РґР°РЅРЅРѕРіРѕ РєРѕРјРїРѕРЅРµРЅС‚Р°
 	bool Align(TControl * Child, RECT * Old, bool Move);
-	void Align(TControl * Child, int Layout, bool MoveChilds, RECT * ChildRect); // Прижимает Child к краю, отсекает от FFreeClient
+	void Align(TControl * Child, int Layout, bool MoveChilds, RECT * ChildRect); // РџСЂРёР¶РёРјР°РµС‚ Child Рє РєСЂР°СЋ, РѕС‚СЃРµРєР°РµС‚ РѕС‚ FFreeClient
 	void ReAlign(TControl * First);
-	void _TParentControl(TParentControl * Parent, RECT * Rect, int Layout); ///< Псевдоконструктор. Выполняется потомками класса в конструкторе для завершения инициализации объекта.
-	TParentControl(void); ///< Первичный конструктор. Для полной инициализации объекта необходимо выполнить _TParentControl
+	void _TParentControl(TParentControl * Parent, RECT * Rect, int Layout); ///< РџСЃРµРІРґРѕРєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ. Р’С‹РїРѕР»РЅСЏРµС‚СЃСЏ РїРѕС‚РѕРјРєР°РјРё РєР»Р°СЃСЃР° РІ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂРµ РґР»СЏ Р·Р°РІРµСЂС€РµРЅРёСЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РѕР±СЉРµРєС‚Р°.
+	TParentControl(void); ///< РџРµСЂРІРёС‡РЅС‹Р№ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ. Р”Р»СЏ РїРѕР»РЅРѕР№ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РѕР±СЉРµРєС‚Р° РЅРµРѕР±С…РѕРґРёРјРѕ РІС‹РїРѕР»РЅРёС‚СЊ _TParentControl
 public:
-	/// Метод удаления дочернего компонента из клиентской области. 
-	/*!Дочерние компоненты должны уведомлять родителя о своём уничтожении с помощью этого метода, с Destroy = true,
-	если деструктор ещё не вызван.*/
-	virtual void RemoveChild(TControl * Child/*!Устраняемый дочерний компонент*/, bool Destroy/*!<Вызвать деструктор и освободить объект*/); 
+	/// РњРµС‚РѕРґ СѓРґР°Р»РµРЅРёСЏ РґРѕС‡РµСЂРЅРµРіРѕ РєРѕРјРїРѕРЅРµРЅС‚Р° РёР· РєР»РёРµРЅС‚СЃРєРѕР№ РѕР±Р»Р°СЃС‚Рё. 
+	/*!Р”РѕС‡РµСЂРЅРёРµ РєРѕРјРїРѕРЅРµРЅС‚С‹ РґРѕР»Р¶РЅС‹ СѓРІРµРґРѕРјР»СЏС‚СЊ СЂРѕРґРёС‚РµР»СЏ Рѕ СЃРІРѕС‘Рј СѓРЅРёС‡С‚РѕР¶РµРЅРёРё СЃ РїРѕРјРѕС‰СЊСЋ СЌС‚РѕРіРѕ РјРµС‚РѕРґР°, СЃ Destroy = true,
+	РµСЃР»Рё РґРµСЃС‚СЂСѓРєС‚РѕСЂ РµС‰С‘ РЅРµ РІС‹Р·РІР°РЅ.*/
+	virtual void RemoveChild(TControl * Child/*!РЈСЃС‚СЂР°РЅСЏРµРјС‹Р№ РґРѕС‡РµСЂРЅРёР№ РєРѕРјРїРѕРЅРµРЅС‚*/, bool Destroy/*!<Р’С‹Р·РІР°С‚СЊ РґРµСЃС‚СЂСѓРєС‚РѕСЂ Рё РѕСЃРІРѕР±РѕРґРёС‚СЊ РѕР±СЉРµРєС‚*/); 
 	virtual ~TParentControl(void);
 	inline bool GetFreeClient(RECT * Rect) {if(!FClientPresent) return false; *Rect = FFreeClient; return true;}
 	virtual void get_Constraints(RECT * c);
 };
 
-/// Простая панель, отрисовываемая вызовом DrawEdge, позволяющая создавать внутри себя другие компоненты.
+/// РџСЂРѕСЃС‚Р°СЏ РїР°РЅРµР»СЊ, РѕС‚СЂРёСЃРѕРІС‹РІР°РµРјР°СЏ РІС‹Р·РѕРІРѕРј DrawEdge, РїРѕР·РІРѕР»СЏСЋС‰Р°СЏ СЃРѕР·РґР°РІР°С‚СЊ РІРЅСѓС‚СЂРё СЃРµР±СЏ РґСЂСѓРіРёРµ РєРѕРјРїРѕРЅРµРЅС‚С‹.
 class TSimplePanel: public TParentControl
 {
 protected:
-	virtual void OnPaint(PAINTSTRUCT * PaintStruct); // Процедура отрисовки компонента
+	virtual void OnPaint(PAINTSTRUCT * PaintStruct); // РџСЂРѕС†РµРґСѓСЂР° РѕС‚СЂРёСЃРѕРІРєРё РєРѕРјРїРѕРЅРµРЅС‚Р°
 public:
-	UINT FEdgeType;///< Операнд процедуры DrawEdge, указывающий вид краёв панели.
+	UINT FEdgeType;///< РћРїРµСЂР°РЅРґ РїСЂРѕС†РµРґСѓСЂС‹ DrawEdge, СѓРєР°Р·С‹РІР°СЋС‰РёР№ РІРёРґ РєСЂР°С‘РІ РїР°РЅРµР»Рё.
 	TSimplePanel(TParentControl * Parent, RECT * Rect, int Layout);
 };
 
@@ -176,7 +176,7 @@ class TGroupBox: public TParentControl
 {
 private:
 	virtual void Invalidate(RECT * OldRect);
-	virtual void OnPaint(PAINTSTRUCT * PaintStruct); // Процедура отрисовки компонента
+	virtual void OnPaint(PAINTSTRUCT * PaintStruct); // РџСЂРѕС†РµРґСѓСЂР° РѕС‚СЂРёСЃРѕРІРєРё РєРѕРјРїРѕРЅРµРЅС‚Р°
 	TCHAR * FCaption;
 public:
 	static int FDefaultStyle;
@@ -189,7 +189,7 @@ class TLabel: public TControl
 {
 protected:
 	TCHAR * FCaption;
-	virtual void OnPaint(PAINTSTRUCT * PaintStruct); // Процедура отрисовки компонента
+	virtual void OnPaint(PAINTSTRUCT * PaintStruct); // РџСЂРѕС†РµРґСѓСЂР° РѕС‚СЂРёСЃРѕРІРєРё РєРѕРјРїРѕРЅРµРЅС‚Р°
 	virtual void Invalidate(RECT * OldRect);
 public:
 	TCHAR * get_Caption(void) {return FCaption;};
@@ -203,8 +203,8 @@ private:
 	bool FVertical;
 	int FPos;
 protected:
-	virtual void OnPaint(PAINTSTRUCT * PaintStruct); // Процедура отрисовки компонента
-	virtual void OnMouseEvent(int x, int y, int mk, UINT uMsg); // Процедура реакции на движение
+	virtual void OnPaint(PAINTSTRUCT * PaintStruct); // РџСЂРѕС†РµРґСѓСЂР° РѕС‚СЂРёСЃРѕРІРєРё РєРѕРјРїРѕРЅРµРЅС‚Р°
+	virtual void OnMouseEvent(int x, int y, int mk, UINT uMsg); // РџСЂРѕС†РµРґСѓСЂР° СЂРµР°РєС†РёРё РЅР° РґРІРёР¶РµРЅРёРµ
 	virtual void Invalidate(RECT * OldRect);
 public:
 	int FStyle;
@@ -221,8 +221,8 @@ private:
 	char FBitCount;
 protected:
 	int FWidth, FHeight;
-	virtual void OnPaint(PAINTSTRUCT * PaintStruct); // Процедура отрисовки компонента
-	virtual bool ParentSetRect(RECT * Rect); // Уведомление от родительских компонентов
+	virtual void OnPaint(PAINTSTRUCT * PaintStruct); // РџСЂРѕС†РµРґСѓСЂР° РѕС‚СЂРёСЃРѕРІРєРё РєРѕРјРїРѕРЅРµРЅС‚Р°
+	virtual bool ParentSetRect(RECT * Rect); // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕС‚ СЂРѕРґРёС‚РµР»СЊСЃРєРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 	virtual void Invalidate(RECT * OldRect);
 	template<class T>
 	inline T * GetPixel(T * Buffer, int x, int y)
@@ -233,16 +233,16 @@ protected:
 public:
 	void * GetPixel(int x, int y);
 	inline HDC GetBMP(void) {return FBMPDC;};
-	char AutoResize; // Способы масштабирования изображения: 0 - NoResize, 1 - NoCopy, 2 - Copy, 3 - Stretch
+	char AutoResize; // РЎРїРѕСЃРѕР±С‹ РјР°СЃС€С‚Р°Р±РёСЂРѕРІР°РЅРёСЏ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ: 0 - NoResize, 1 - NoCopy, 2 - Copy, 3 - Stretch
 	void * Bits;
 	void * TImage::SetBitMapSize(int Width, int Height, int BitCount, int Mode = 0);
 	inline int GetImageWidth(void) {return FWidth;};
 	inline int GetImageHeight(void) {return FHeight;};
-	inline void Fill(int Color) {memset(Bits, Color, (FBitCount >> 3) * FWidth * FHeight);}; //!< Залить буфер
+	inline void Fill(int Color) {memset(Bits, Color, (FBitCount >> 3) * FWidth * FHeight);}; //!< Р—Р°Р»РёС‚СЊ Р±СѓС„РµСЂ
 	TImage(TParentControl * Parent, RECT * Rect, int Layout);
 	~TImage(void) {DeleteBitMap();};
 	bool LoadFromBMP(TCHAR * FileName);
-	void Update(void); //!< Обновить из буфера
+	void Update(void); //!< РћР±РЅРѕРІРёС‚СЊ РёР· Р±СѓС„РµСЂР°
 };
 
 }

@@ -187,22 +187,22 @@ RECFIELD RF_EXPORTDIRECTORYTABLE[] = {
 {0, 0, 0}};
 
 RECFIELD RF_EXPORTEDENTRY[] = {
-	{"Имя", 4, DT_PCHAR},
-	{"Ординал", 4, DT_UNSIGNED},
-	{"Адрес входа", 4, DT_HEX},
+	{"РРјСЏ", 4, DT_PCHAR},
+	{"РћСЂРґРёРЅР°Р»", 4, DT_UNSIGNED},
+	{"РђРґСЂРµСЃ РІС…РѕРґР°", 4, DT_HEX},
 {0, 0, 0}};
 
 
 
 RECFIELD RF_IMPORTEDENTRY[] = {
-	{"Имя", 4, DT_PCHAR},
-	{"Ординал", 4, DT_UNSIGNED},
-	{"Адрес связи", 4, DT_HEX},
+	{"РРјСЏ", 4, DT_PCHAR},
+	{"РћСЂРґРёРЅР°Р»", 4, DT_UNSIGNED},
+	{"РђРґСЂРµСЃ СЃРІСЏР·Рё", 4, DT_HEX},
 	{"Library", 4, DT_PRECORD, RF_IMPORTEDLIB},
 {0, 0, 0}};
 
 RECFIELD RF_IMPORTEDLIB[] = {
-	{"Библиотека", 4, DT_PCHAR},
+	{"Р‘РёР±Р»РёРѕС‚РµРєР°", 4, DT_PCHAR},
 	{"Entries", 8, DT_PRECORD, RF_IMPORTEDENTRY},
 {0, 0, 0}};
 

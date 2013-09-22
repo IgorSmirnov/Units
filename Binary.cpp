@@ -3,7 +3,7 @@
 #include "binary.h"
 #include <stdio.h>
 
-/// Преобразование числа в шестнадцатеричную цифру
+/// РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ С‡РёСЃР»Р° РІ С€РµСЃС‚РЅР°РґС†Р°С‚РµСЂРёС‡РЅСѓСЋ С†РёС„СЂСѓ
 #define HexDigit(k) (((k) > 9) ? ((k) + 'A' - 10) : ((k) + '0'))
 
 void IntToHex(const void * Source, int Digits, char * Destination)
@@ -22,7 +22,7 @@ void IntToHex(const void * Source, int Digits, char * Destination)
 
 /************************************ TFieldDesc ****************************************/
 
-/// Базовая функция - преобразует в hex.
+/// Р‘Р°Р·РѕРІР°СЏ С„СѓРЅРєС†РёСЏ - РїСЂРµРѕР±СЂР°Р·СѓРµС‚ РІ hex.
 char * TFieldDesc::get_String(void * Value)
 {
 	char Buf[20];

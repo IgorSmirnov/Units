@@ -7,7 +7,7 @@ namespace StdGUI {
 bool WM_QUITReceived = false;
 HACCEL hAT = 0;
 
-TNotifyEvent OnWork;//!< "Êâàíò" ðàáîòû
+TNotifyEvent OnWork;//!< "ÐšÐ²Ð°Ð½Ñ‚" Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹
 
 int DefMessageLoop(HACCEL hAccelTable)
 {
